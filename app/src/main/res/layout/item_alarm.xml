@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="90dp"
+        android:background="@drawable/stroke_line"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/tv_alarm_content_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="告警时间" />
+
+        <TextView
+            android:id="@+id/tv_alarm_content_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_alarm_content_1"
+            android:text="告警设备" />
+
+
+        <TextView
+            android:id="@+id/tv_alarm_content_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_alarm_content_2"
+            android:text="告警位置" />
+
+        <TextView
+            android:id="@+id/tv_alarm_content_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_alarm_content_3"
+            android:text="告警信息" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_alarm_btn_1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#666666"
+            android:gravity="center"
+            android:text="一键诊断" />
+
+        <TextView
+            android:id="@+id/tv_alarm_btn_2"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_alarm_btn_1"
+            android:layout_marginTop="10dp"
+            android:background="#888888"
+            android:gravity="center"
+            android:text="创建任务单"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
