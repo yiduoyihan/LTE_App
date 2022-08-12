@@ -1,6 +1,7 @@
 package com.leidi.lteapp.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -31,6 +32,7 @@ public class TaskFragment extends BaseFragment {
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         viewPager = view.findViewById(R.id.task_viewpager);
         radioGroup = view.findViewById(R.id.task_rg);
+        view.findViewById(R.id.tv_task_create_form).setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateTaskActivity.class)));
 
         initRadioGroup();
         setupViewPager();

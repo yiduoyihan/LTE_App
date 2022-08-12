@@ -7,10 +7,10 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.MainActivity;
 import com.leidi.lteapp.R;
-import com.leidi.lteapp.util.KeyboardUtils;
-import com.leidi.lteapp.util.ToastUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 
     //请求登陆数据
     private void requestToLogin() {
-
         //请求成功跳转主页
         startActivity(new Intent(this, MainActivity.class));
     }

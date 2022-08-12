@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+  >
 
     <RadioGroup
         android:id="@+id/task_rg"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:orientation="horizontal">
 
         <RadioButton
@@ -40,7 +40,20 @@
 
     <com.leidi.lteapp.view.NoScrollViewPager
         android:id="@+id/task_viewpager"
+        android:layout_below="@id/task_rg"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_task_create_form"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="创建任务单"
+        android:background="#666666"
+        android:layout_width="80dp"
+        android:layout_height="40dp"/>
+
+</RelativeLayout>

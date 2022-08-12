@@ -48,8 +48,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     //列表
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
+    //工具
+    implementation 'com.blankj:utilcodex:1.31.0'
     //权限
-//    implementation 'com.permissionx.guolindev:permissionx:1.4.0'
+    implementation 'com.guolindev.permissionx:permissionx:1.6.4'
     //网络请求
     def rxhttp_version = '2.9.1'
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'

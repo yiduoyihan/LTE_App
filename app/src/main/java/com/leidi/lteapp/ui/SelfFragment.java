@@ -1,14 +1,15 @@
 package com.leidi.lteapp.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseFragment;
-import com.leidi.lteapp.util.ToastUtils;
 
 /**
  * 我的设置页面
@@ -44,7 +45,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtils.showShort("1");
                 break;
             case R.id.fm_self_item2:
-                ToastUtils.showShort("2");
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.fm_self_item3:
                 ToastUtils.showShort("3");
@@ -53,7 +54,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtils.showShort("4");
                 break;
             case R.id.fm_self_item5:
-                ToastUtils.showShort("5");
+                startActivity(new Intent(getActivity(),AboutOursActivity.class));
                 break;
             case R.id.fm_self_item6:
                 ToastUtils.showShort("6");

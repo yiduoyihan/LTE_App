@@ -32,6 +32,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.CreateTaskActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.AboutOursActivity" />
     </application>
 
 </manifest>

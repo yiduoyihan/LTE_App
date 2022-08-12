@@ -8,15 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.AlarmListAdapter;
-import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.AlarmListBean;
-import com.leidi.lteapp.bean.TaskListBean;
-import com.leidi.lteapp.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
