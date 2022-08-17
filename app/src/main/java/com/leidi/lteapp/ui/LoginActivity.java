@@ -11,19 +11,24 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.MainActivity;
 import com.leidi.lteapp.R;
+import com.leidi.lteapp.base.BaseActivity;
+import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.util.Url;
 
-public class LoginActivity extends AppCompatActivity {
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
+
+public class LoginActivity extends BaseActivity {
 
     private EditText etAccount, etPassWord;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        initView();
+    protected int getLayoutId() {
+        return R.layout.activity_login;
     }
 
-    private void initView() {
+
+    protected void initView() {
         etAccount = findViewById(R.id.et_account);
         etPassWord = findViewById(R.id.et_pwd);
         findViewById(R.id.btn_login).setOnClickListener(view -> {
@@ -32,11 +37,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         //点击根布局隐藏软键盘
-        findViewById(R.id.layout_login).setOnClickListener(KeyboardUtils::hideSoftInput);
+        controlKeyboard(R.id.layout_login);
     }
 
     //请求登陆数据
     private void requestToLogin() {
+        RxHttp.postForm(Url.login)
+                .add("", "")
+                .asClass(BaseBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getCode() == 200) {
+                    } else {
+                    }
+
+                }, throwable -> {
+                });
+
+
         //请求成功跳转主页
         startActivity(new Intent(this, MainActivity.class));
     }

@@ -35,6 +35,9 @@
         <activity android:name=".ui.CreateTaskActivity" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.AboutOursActivity" />
+        <activity android:name=".ui.CheckUpdateActivity" />
+        <activity android:name=".ui.SignActivity" />
+        <activity android:name=".ui.KnowledgeLibActivity" />
     </application>
 
 </manifest>

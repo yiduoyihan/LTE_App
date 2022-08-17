@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.leidi.lteapp.R;
 
 
@@ -61,6 +62,13 @@ public abstract class BaseActivity extends FragmentActivity {
         tvTitleLeftButton.setVisibility(left);
         tvTitleRightButton.setVisibility(right);
         tvTitleCenter.setText(str);
+    }
+
+    /**
+     * 控制键盘收起
+     * */
+    protected void controlKeyboard(int id){
+        findViewById(id).setOnClickListener(KeyboardUtils::hideSoftInput);
     }
 
     protected Bundle getSavedInstanceState() {

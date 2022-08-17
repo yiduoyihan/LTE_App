@@ -1,38 +1,34 @@
 package com.leidi.lteapp;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.os.Environment;
 import android.widget.RadioGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leidi.lteapp.adapter.MainPagerAdapter;
+import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.ui.AlarmFragment;
 import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager viewPager;
     private RadioGroup radioGroup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-        initRadioGroup();
-        setupViewPager();
-        System.out.println("======"+ Environment.getExternalStorageDirectory ());
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
 
-    private void initView() {
+    protected void initView() {
         viewPager = findViewById(R.id.vp_main);
         radioGroup = findViewById(R.id.rg_main_bottom);
         viewPager.addOnPageChangeListener(this);
+
+        initRadioGroup();
+        setupViewPager();
     }
 
     @SuppressLint("NonConstantResourceId")
