@@ -7,12 +7,19 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
+import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.util.CommonDialog;
+import com.leidi.lteapp.util.SpUtilsKey;
+import com.leidi.lteapp.util.Url;
 
 import java.util.Objects;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 /**
  * 我的设置页面
@@ -20,6 +27,7 @@ import java.util.Objects;
  * @author yan
  */
 public class SelfFragment extends BaseFragment implements View.OnClickListener {
+    CommonDialog dialog;
 
     @Override
     protected int getLayoutId() {
@@ -69,7 +77,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void showOutLoginDialog() {
-        CommonDialog dialog = new CommonDialog(getActivity(), R.layout.out_login_dialog);
+        dialog = new CommonDialog(getActivity(), R.layout.out_login_dialog);
         if (dialog.isShowing()) {
             return;
         }
@@ -79,10 +87,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 .setOnClickBottomListener(new CommonDialog.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
-                        dialog.dismiss();
-                        startActivity(new Intent(getActivity(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        requireActivity().finish();
+                        requestLoginOut();
                     }
 
                     @Override
@@ -92,5 +97,27 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 })
                 .show();
         dialog.setCanceledOnTouchOutside(true);
+    }
+
+    private void requestLoginOut() {
+        RxHttp.postForm(Url.login_out)
+                .addHeader("Authorization", "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN))
+                .asClass(BaseBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getCode() == 200) {
+                        dialog.dismiss();
+                        SPUtils.getInstance().clear();
+                        startActivity(new Intent(getActivity(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        requireActivity().finish();
+                    } else {
+                        ToastUtils.showShort(bean.getMsg());
+                    }
+
+                }, throwable -> {
+                });
+
+
     }
 }

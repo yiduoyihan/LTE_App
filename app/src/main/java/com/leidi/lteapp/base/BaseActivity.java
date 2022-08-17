@@ -1,8 +1,10 @@
 package com.leidi.lteapp.base;
 
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,9 +68,22 @@ public abstract class BaseActivity extends FragmentActivity {
 
     /**
      * 控制键盘收起
-     * */
-    protected void controlKeyboard(int id){
+     */
+    protected void controlKeyboard(int id) {
         findViewById(id).setOnClickListener(KeyboardUtils::hideSoftInput);
+    }
+
+    protected void controlStateBar() {
+        if (Build.VERSION.SDK_INT >= 21) {//21表示5.0
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else if (Build.VERSION.SDK_INT >= 19) {//19表示4.4
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //虚拟键盘也透明
+            // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     protected Bundle getSavedInstanceState() {

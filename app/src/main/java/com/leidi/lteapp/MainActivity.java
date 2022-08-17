@@ -23,6 +23,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
     protected void initView() {
+        controlStateBar();
+
         viewPager = findViewById(R.id.vp_main);
         radioGroup = findViewById(R.id.rg_main_bottom);
         viewPager.addOnPageChangeListener(this);
