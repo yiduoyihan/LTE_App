@@ -1,5 +1,6 @@
 package com.leidi.lteapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -41,6 +42,9 @@ public class TaskDoingFragment extends BaseFragment {
         adapter = new TaskListAdapter(R.layout.item_task, beanList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener((adapter1, view1, position) ->
+                startActivity(new Intent(getActivity(),TaskDetailActivity.class)));
     }
 
     public static TaskDoingFragment getInstance() {

@@ -34,6 +34,7 @@ public abstract class BaseActivity extends FragmentActivity {
         this.savedInstanceState = savedInstanceState;
         // 竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        controlStateBar();
         setContentView(getLayoutId());
         tvTitleLeftButton = findViewById(R.id.tv_title_left);
         tvTitleCenter = findViewById(R.id.tv_title_center);
@@ -74,16 +75,11 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     protected void controlStateBar() {
-        if (Build.VERSION.SDK_INT >= 21) {//21表示5.0
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        } else if (Build.VERSION.SDK_INT >= 19) {//19表示4.4
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //虚拟键盘也透明
-            // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        //21表示5.0
+        View decorView = getWindow().getDecorView();
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     protected Bundle getSavedInstanceState() {

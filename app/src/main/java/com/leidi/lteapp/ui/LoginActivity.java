@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity {
                     requestToLogin();
                 }
             });
-            controlStateBar();
+//            controlStateBar();
             //点击根布局隐藏软键盘
             controlKeyboard(R.id.layout_login);
         }

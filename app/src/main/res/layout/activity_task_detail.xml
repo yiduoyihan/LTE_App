@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/tv_task_detail_1"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="开始时间" />
+
+    <TextView
+        android:id="@+id/tv_task_detail_2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="结束时间" />
+
+    <TextView
+        android:id="@+id/tv_task_detail_3"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="任务名称" />
+
+
+    <TextView
+        android:id="@+id/tv_task_detail_4"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="任务内容" />
+
+    <TextView
+        android:id="@+id/tv_task_detail_5"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="创建人" />
+
+    <TextView
+        android:id="@+id/tv_task_detail_6"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="专业" />
+
+    <TextView
+        android:id="@+id/tv_task_detail_7"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="班组" />
+
+    <TextView
+        android:id="@+id/tv_task_detail_8"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="单位" />
+</LinearLayout>

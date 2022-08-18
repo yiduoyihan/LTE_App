@@ -39,6 +39,7 @@
         <activity android:name=".ui.CheckUpdateActivity" />
         <activity android:name=".ui.SignActivity" />
         <activity android:name=".ui.KnowledgeLibActivity" />
+        <activity android:name=".ui.TaskDetailActivity" />
     </application>
 
 </manifest>
