@@ -35,6 +35,15 @@ public class TaskListBean {
     public static class DataBean {
         private String title;
         private String name;
+        private boolean flag;
+
+        public boolean isFlag() {
+            return flag;
+        }
+
+        public void setFlag(boolean flag) {
+            this.flag = flag;
+        }
 
         public String getTitle() {
             return title;

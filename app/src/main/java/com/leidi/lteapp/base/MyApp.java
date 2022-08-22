@@ -2,6 +2,11 @@ package com.leidi.lteapp.base;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.leidi.lteapp.util.SpUtilsKey;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -12,13 +17,21 @@ import rxhttp.wrapper.param.Method;
 import rxhttp.wrapper.ssl.HttpsUtils;
 
 public class MyApp extends Application {
+
+    public static Application instance;
+
+    public static Application getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         initHttpRequest();
     }
 
-    private void initHttpRequest() {
+    protected void initHttpRequest() {
+        System.out.println("====application:onCreate");
         IConverter converter = GsonConverter.create();
         RxHttpPlugins.init(getDefaultOkHttpClient())
                 .setDebug(true)
@@ -28,8 +41,9 @@ public class MyApp extends Application {
 //                    if (method.isGet()) {     //可根据请求类型添加不同的参数
 //                    } else if (method.isPost()) {
 //                    }
-                    return param.add("versionName", "1.0.0")//添加公共参数
-                            .addHeader("deviceType", "android"); //添加公共请求头
+                    return param.add("version", AppUtils.getAppVersionName())//添加公共参数
+                            .addHeader("Authorization", "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN));
+                    //添加公共请求头
                 });
     }
 

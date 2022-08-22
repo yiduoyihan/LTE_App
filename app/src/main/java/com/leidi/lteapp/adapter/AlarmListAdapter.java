@@ -1,5 +1,7 @@
 package com.leidi.lteapp.adapter;
 
+import android.view.View;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 
@@ -29,9 +31,15 @@ public class AlarmListAdapter extends BaseQuickAdapter<AlarmListBean.DataBean, B
         holder.setText(R.id.tv_alarm_content_2, bean.getName());
         holder.setText(R.id.tv_alarm_content_3, bean.getTitle());
         holder.setText(R.id.tv_alarm_content_4, bean.getName());
-//        holder.setText(R.id.tv_home_detail, Html.fromHtml(bean.getNoticeContent()));
-//        holder.setText(R.id.tv_date,bean.getCreateTime());
-//        holder.addOnClickListener(R.id.home_item_delete);
-
+        View view = holder.getView(R.id.color_layout);
+        int color ;
+        if (bean.getColor() == 0){
+            color = R.drawable.red_conner_bg;
+        }else if (bean.getColor() == 1){
+            color = R.drawable.orange_conner_bg;
+        }else {
+            color = R.drawable.yellow_conner_bg;
+        }
+        view.setBackgroundResource(color);
     }
 }

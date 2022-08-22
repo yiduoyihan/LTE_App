@@ -1,9 +1,11 @@
 package com.leidi.lteapp;
 
 import android.annotation.SuppressLint;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.viewpager.widget.ViewPager;
+import rxhttp.RxHttpPlugins;
 
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseActivity;
@@ -21,9 +23,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         return R.layout.activity_main;
     }
 
-
     protected void initView() {
-        controlStateBar();
+//        controlStateBar();
+        stateBarTransparent();
 
         viewPager = findViewById(R.id.vp_main);
         radioGroup = findViewById(R.id.rg_main_bottom);

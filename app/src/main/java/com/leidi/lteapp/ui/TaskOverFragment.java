@@ -3,10 +3,14 @@ package com.leidi.lteapp.ui;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
@@ -37,11 +41,21 @@ public class TaskOverFragment extends BaseFragment {
             TaskListBean.DataBean bean = new TaskListBean.DataBean();
             bean.setTitle("" + i);
             bean.setName("aaaa" + i);
+            bean.setFlag(false);
             beanList.add(bean);
         }
         adapter = new TaskListAdapter(R.layout.item_task, beanList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                ToastUtils.showShort("pos" + position);
+                if (view.getId() == R.id.iv_delete_item) {
+                    ToastUtils.showShort("删除" + position);
+                }
+            }
+        });
     }
 
     public static TaskOverFragment getInstance() {

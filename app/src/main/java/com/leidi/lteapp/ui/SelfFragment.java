@@ -54,7 +54,6 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.fm_self_item1:
                 startActivity(new Intent(getActivity(), SignActivity.class));
-
                 break;
             case R.id.fm_self_item2:
                 startActivity(new Intent(getActivity(), SettingActivity.class));

@@ -35,6 +35,15 @@ public class AlarmListBean {
     public static class DataBean {
         private String title;
         private String name;
+        private int color;
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
 
         public String getTitle() {
             return title;

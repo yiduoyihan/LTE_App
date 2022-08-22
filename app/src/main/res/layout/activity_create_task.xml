@@ -1,137 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_create_task"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_create_task"
-    android:orientation="vertical">
-
-    <include layout="@layout/toolbar" />
-
-    <LinearLayout
-        android:id="@+id/layout_create_task1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/layout_toolbar"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_create_task_start_time"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-
-
-        <TextView
-            android:id="@+id/tv_create_task_person"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layout_create_task2"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/layout_create_task1"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_create_task_group"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-
-
-        <TextView
-            android:id="@+id/tv_create_task_specialized"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_create_task_company"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/layout_create_task2"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_vertical" />
-
-    <LinearLayout
-        android:id="@+id/layout_create_task3"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/tv_create_task_company"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="任务名称：" />
-
-
-        <EditText
-            android:id="@+id/et_create_task_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layout_create_task4"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/layout_create_task3"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="任务内容：" />
-
-
-        <EditText
-            android:id="@+id/et_create_task_content"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-
-    </LinearLayout>
-
+    android:background="@color/page_bg_color">
 
     <Button
         android:id="@+id/btn_create_task"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/layout_create_task4"
+        android:layout_height="45dp"
+        android:layout_below="@id/rl_create_task_con"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
-        android:background="#359BFD"
+        android:background="@drawable/create_btn_bg"
         android:gravity="center"
         android:text="创 建 任 务"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/rl_create_task_con"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_toolbar"
+        android:layout_margin="20dp"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/white_conner_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:text="开始时间："
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="2022-8-22 16:18:41"
+                android:id="@+id/tv_create_task_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:text="创建人："
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="张三李四"
+                android:id="@+id/tv_create_task_person"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:text="班组："
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="班组"
+                android:id="@+id/tv_create_task_group"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="专业："
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_create_task_specialized"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="单位："
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_create_task_company"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:text="任务名称：" />
+            <EditText
+                android:id="@+id/et_create_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:background="@drawable/stroke_line" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_create_task4"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="任务内容：" />
+
+            <EditText
+                android:id="@+id/et_create_task_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:background="@drawable/stroke_line" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/toolbar" />
 </RelativeLayout>

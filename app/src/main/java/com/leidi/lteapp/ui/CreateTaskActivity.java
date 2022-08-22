@@ -18,7 +18,7 @@ public class CreateTaskActivity extends BaseActivity {
     }
 
     protected void initView() {
-        setToolbar("创建任务单");
+        setToolbar("创建故障单");
         TextView tv1 = findViewById(R.id.tv_create_task_start_time);
         TextView tv2 = findViewById(R.id.tv_create_task_person);
         TextView tv3 = findViewById(R.id.tv_create_task_group);
@@ -27,8 +27,12 @@ public class CreateTaskActivity extends BaseActivity {
         EditText et1 = findViewById(R.id.et_create_task_name);
         EditText et2 = findViewById(R.id.et_create_task_content);
         findViewById(R.id.btn_create_task).setOnClickListener(view -> {
-            ToastUtils.showShort("创建任务");
+            createWorkForm();
         });
         controlKeyboard(R.id.rl_create_task);
+    }
+
+    private void createWorkForm(){
+
     }
 }

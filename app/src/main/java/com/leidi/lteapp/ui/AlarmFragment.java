@@ -41,6 +41,7 @@ public class AlarmFragment extends BaseFragment {
             AlarmListBean.DataBean bean = new AlarmListBean.DataBean();
             bean.setTitle("" + i);
             bean.setName("aaaa" + i);
+            bean.setColor(i%3);
             beanList.add(bean);
         }
         adapter = new AlarmListAdapter(R.layout.item_alarm, beanList);

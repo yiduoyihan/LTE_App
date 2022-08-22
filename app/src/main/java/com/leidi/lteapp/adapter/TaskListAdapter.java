@@ -18,12 +18,15 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
 
     public TaskListAdapter(@LayoutRes int layoutResId, @Nullable List<TaskListBean.DataBean> data) {
         super(layoutResId, data);
+        addChildClickViewIds(R.id.iv_delete_item);
     }
 
     @Override
     protected void convert(BaseViewHolder holder, TaskListBean.DataBean bean) {
         holder.setText(R.id.tv_task_content_1, bean.getTitle());
         holder.setText(R.id.tv_task_content_3, bean.getName());
+
+        holder.getView(R.id.tv_flag_pic).setBackgroundResource(bean.isFlag()?R.mipmap.doing_pic:R.mipmap.over_pic);
 //        holder.setText(R.id.tv_home_detail, Html.fromHtml(bean.getNoticeContent()));
 //        holder.setText(R.id.tv_date,bean.getCreateTime());
 //        holder.addOnClickListener(R.id.home_item_delete);

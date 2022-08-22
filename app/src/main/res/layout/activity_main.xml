@@ -10,13 +10,6 @@
         layout="@layout/toolbar"
         android:visibility="gone" />
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="巡检系统" />
-
     <com.leidi.lteapp.view.SelfViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
@@ -36,7 +29,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
             android:button="@null"
             android:checked="true"
             android:gravity="center"
@@ -49,7 +41,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
             android:button="@null"
             android:gravity="center"
             android:text="设备监测"
@@ -61,7 +52,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
             android:button="@null"
             android:gravity="center"
             android:text="告警展示"
@@ -73,7 +63,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
             android:button="@null"
             android:gravity="center"
             android:text="我的"
