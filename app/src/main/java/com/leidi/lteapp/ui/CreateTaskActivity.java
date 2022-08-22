@@ -29,7 +29,6 @@ public class CreateTaskActivity extends BaseActivity {
         findViewById(R.id.btn_create_task).setOnClickListener(view -> {
             ToastUtils.showShort("创建任务");
         });
-
         controlKeyboard(R.id.rl_create_task);
     }
 }

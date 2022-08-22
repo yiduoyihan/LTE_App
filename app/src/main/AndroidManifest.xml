@@ -40,7 +40,6 @@
         <activity android:name=".ui.SignActivity" />
         <activity android:name=".ui.KnowledgeLibActivity" />
         <activity android:name=".ui.TaskDetailActivity" />
-        <activity android:name=".ui.TaskRecordActivity" />
     </application>
 
 </manifest>
