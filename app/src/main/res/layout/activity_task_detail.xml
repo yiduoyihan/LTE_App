@@ -7,10 +7,10 @@
     <include layout="@layout/toolbar" />
 
     <TextView
-        android:layout_marginTop="30dp"
         android:id="@+id/tv_task_detail_1"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_marginTop="30dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="开始时间" />
@@ -71,4 +71,20 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="单位" />
+
+
+    <Button
+        android:id="@+id/btn_arrive"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="#359BFD"
+        android:gravity="center"
+        android:text="到达现场"
+        android:textColor="@color/white" />
+
+
 </LinearLayout>
