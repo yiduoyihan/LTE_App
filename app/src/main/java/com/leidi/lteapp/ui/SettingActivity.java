@@ -8,6 +8,7 @@ import com.leidi.lteapp.base.BaseActivity;
 
 /**
  * 设置（即修改密码界面）
+ * @author ygq
  */
 public class SettingActivity extends BaseActivity {
 
@@ -21,7 +22,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         setToolbar("修改密码");
-
+        controlKeyboard(R.id.layout_setting);
         etOldPwd = findViewById(R.id.et_setting_old_pwd);
         etNewPwd1 = findViewById(R.id.et_setting_new_pwd1);
         etNewPwd2 = findViewById(R.id.et_setting_new_pwd2);
@@ -38,18 +39,18 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    //发送请求修改密码
+    /**发送请求修改密码*/
     private void submitChangePwdRequest(String oldPwd, String newPwd) {
 
     }
 
 
-    //账号密码的非空验证
+    /**账号密码的非空验证*/
     private boolean verifyInputContent(EditText view) {
         return !view.getText().toString().trim().isEmpty();
     }
 
-    //验证两次输入是否一致
+    /**验证两次输入是否一致*/
     private boolean verifyTwiceInputIsSame(String str1, String str2) {
         return str1.equals(str2);
     }

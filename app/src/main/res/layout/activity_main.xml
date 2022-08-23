@@ -16,32 +16,37 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-
     <RadioGroup
         android:id="@+id/rg_main_bottom"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#eeeeee"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_main_bottom1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
             android:checked="true"
+            android:drawableTop="@drawable/main_rb1_icon_selector"
+            android:drawablePadding="5dp"
             android:gravity="center"
             android:text="我的任务"
             android:textColor="@drawable/main_rb_selector"
             android:textSize="12sp" />
 
+
         <RadioButton
             android:id="@+id/rb_main_bottom2"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
+            android:drawableTop="@drawable/main_rb2_icon_selector"
+            android:drawablePadding="5dp"
             android:gravity="center"
             android:text="设备监测"
             android:textColor="@drawable/main_rb_selector"
@@ -50,9 +55,11 @@
         <RadioButton
             android:id="@+id/rb_main_bottom3"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
+            android:drawableTop="@drawable/main_rb3_icon_selector"
+            android:drawablePadding="5dp"
             android:gravity="center"
             android:text="告警展示"
             android:textColor="@drawable/main_rb_selector"
@@ -61,9 +68,11 @@
         <RadioButton
             android:id="@+id/rb_main_bottom4"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
+            android:drawableTop="@drawable/main_rb4_icon_selector"
+            android:drawablePadding="5dp"
             android:gravity="center"
             android:text="我的"
             android:textColor="@drawable/main_rb_selector"

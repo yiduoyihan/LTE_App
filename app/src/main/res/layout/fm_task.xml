@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
   >
-
-
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
@@ -53,9 +52,9 @@
 
     <com.leidi.lteapp.view.NoScrollViewPager
         android:id="@+id/task_viewpager"
-        android:layout_below="@id/task_rg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/task_rg" />
 
     <TextView
         android:id="@+id/tv_task_create_form"
@@ -65,11 +64,12 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"
         android:background="@drawable/out_side_create_btn_bg"
-        android:gravity="center"
-        android:textColor="@color/white"
         android:drawableLeft="@mipmap/add"
+        android:drawablePadding="5dp"
+        android:gravity="center"
         android:paddingStart="15dp"
         android:paddingEnd="10dp"
-        android:text="创建故障单" />
+        android:text="创建故障单"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

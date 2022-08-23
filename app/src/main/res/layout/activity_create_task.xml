@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_bg_color">
+    
+    <include layout="@layout/toolbar" />
 
     <Button
         android:id="@+id/btn_create_task"
@@ -26,9 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_toolbar"
         android:layout_margin="20dp"
-        android:padding="16dp"
+        android:background="@drawable/white_conner_bg"
         android:orientation="vertical"
-        android:background="@drawable/white_conner_bg">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,16 +39,16 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textStyle="bold"
+                android:layout_height="wrap_content"
                 android:text="开始时间："
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:text="2022-8-22 16:18:41"
                 android:id="@+id/tv_create_task_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:text="2022-8-22 16:18:41" />
 
         </LinearLayout>
 
@@ -57,15 +59,16 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textStyle="bold"
+                android:layout_height="wrap_content"
                 android:text="创建人："
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
+
             <TextView
-                android:text="张三李四"
                 android:id="@+id/tv_create_task_person"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:text="张三李四" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,27 +78,28 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textStyle="bold"
+                android:layout_height="wrap_content"
                 android:text="班组："
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
+
             <TextView
-                android:text="班组"
                 android:id="@+id/tv_create_task_group"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:text="班组" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:text="专业："
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="专业："
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_create_task_specialized"
@@ -108,15 +112,15 @@
 
 
         <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:text="单位："
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="单位："
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_create_task_company"
@@ -133,19 +137,21 @@
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:text="任务名称：" />
+                android:text="任务名称："
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/et_create_task_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:padding="5dp"
-                android:background="@drawable/stroke_line" />
+                android:background="@drawable/stroke_line"
+                android:padding="5dp" />
 
         </LinearLayout>
 
@@ -157,22 +163,21 @@
             android:orientation="vertical">
 
             <TextView
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="任务内容：" />
+                android:text="任务内容："
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_create_task_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:padding="5dp"
-                android:background="@drawable/stroke_line" />
+                android:background="@drawable/stroke_line"
+                android:padding="5dp" />
 
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/toolbar" />
 </RelativeLayout>

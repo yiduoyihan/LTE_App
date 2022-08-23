@@ -21,8 +21,8 @@ public class AboutOursActivity extends BaseActivity {
     @SuppressLint("DefaultLocale")
     @Override
     protected void initView() {
-        setToolbar("关于我们");
+        setToolbar("关于");
         TextView tvVersion = findViewById(R.id.tv_version);
-        tvVersion.setText(String.format("%s%s", "版本号", AppUtils.getAppVersionName()));
+        tvVersion.setText(String.format("%s%s", "V.", AppUtils.getAppVersionName()));
     }
 }

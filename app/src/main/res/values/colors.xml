@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#7187FE</color>
     <color name="page_bg_color">#EEF6FF</color>
+    <color name="self_page_divider">#C9DDEC</color>
 </resources>

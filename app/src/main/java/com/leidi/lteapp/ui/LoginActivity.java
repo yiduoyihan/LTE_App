@@ -37,6 +37,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    @Override
     protected void initView() {
         stateBarTransparent();
         // 判断是否登录过

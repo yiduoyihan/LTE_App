@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -42,6 +43,8 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         view.findViewById(R.id.fm_self_item4).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item5).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item6).setOnClickListener(this);
+        TextView tvNickName = view.findViewById(R.id.tv_nickname);
+        tvNickName.setText(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME));
     }
 
     public static SelfFragment getInstance() {

@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         return R.layout.activity_main;
     }
 
+    @Override
     protected void initView() {
 //        controlStateBar();
         stateBarTransparent();

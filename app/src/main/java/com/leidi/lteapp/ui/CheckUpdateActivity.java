@@ -4,6 +4,7 @@ package com.leidi.lteapp.ui;
 import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
@@ -16,6 +17,11 @@ import com.leidi.lteapp.base.BaseActivity;
  * @author caiwu
  */
 public class CheckUpdateActivity extends BaseActivity {
+
+    ImageView noUpdate;
+    View haveUpdate;
+    Button updateBtn;
+    TextView tvNewVersion;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_check_update;
@@ -24,15 +30,16 @@ public class CheckUpdateActivity extends BaseActivity {
     @SuppressLint("DefaultLocale")
     @Override
     protected void initView() {
-        setToolbar("检查更新");
+        setToolbar("更新");
         checkUpdate();
-        TextView tvNoUpdate = findViewById(R.id.tv_check_update_1);
-        View haveUpdate = findViewById(R.id.layout_have_update);
-        TextView tvTitle = findViewById(R.id.tv_check_update_2);
-        TextView tvVersion = findViewById(R.id.tv_check_update_3);
-        Button btn = findViewById(R.id.btn_start_update);
+        noUpdate = findViewById(R.id.iv_no_update);
+        haveUpdate = findViewById(R.id.layout_have_new_version);
+        updateBtn = findViewById(R.id.btn_update_now);
+        tvNewVersion = findViewById(R.id.tv_new_version);
 
-        tvNoUpdate.setVisibility(View.VISIBLE);
+        noUpdate.setVisibility(View.VISIBLE);
+
+        checkUpdate();
     }
 
     /**

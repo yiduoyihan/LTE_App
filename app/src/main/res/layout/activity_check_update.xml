@@ -1,53 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/tv_check_update_1"
+    <ImageView
+        android:id="@+id/iv_no_update"
+        android:src="@mipmap/no_update"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="暂未检测到新版本"
-        android:visibility="gone" />
+        android:layout_height="match_parent" />
 
     <RelativeLayout
-        android:id="@+id/layout_have_update"
+        android:visibility="gone"
+        android:id="@+id/layout_have_new_version"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="180dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/white_conner_bg">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:src="@mipmap/about_logo" />
 
         <TextView
-            android:id="@+id/tv_check_update_2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="125dp"
+            android:text="新版本名称:"
+            android:textColor="#ff585858"
+            android:textSize="12sp" />
+
 
         <TextView
-            android:id="@+id/tv_check_update_3"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_new_version"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_check_update_2" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="125dp"
+            android:layout_marginEnd="16dp"
+            android:text=""
+            android:textColor="#ff585858"
+            android:textSize="12sp" />
 
-
-        <Button
-            android:id="@+id/btn_start_update"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="50dp"
-            android:background="#359BFD"
-            android:text="开始更新"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_new_version"
+            android:layout_margin="10dp"
+            android:background="#7a777777" />
 
     </RelativeLayout>
 
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btn_update_now"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/layout_have_new_version"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/create_btn_bg"
+        android:gravity="center"
+        android:text="更新"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
-</RelativeLayout>
+</LinearLayout>
