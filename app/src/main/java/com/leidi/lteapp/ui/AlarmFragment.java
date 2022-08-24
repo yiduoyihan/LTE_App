@@ -1,5 +1,6 @@
 package com.leidi.lteapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -53,9 +54,9 @@ public class AlarmFragment extends BaseFragment {
             public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ToastUtils.showShort("pos" + position);
                 if (view.getId() == R.id.tv_alarm_btn_1) {
-                    ToastUtils.showShort("诊" + position);
+                    startActivity(new Intent(getActivity(),AnalyzeResultActivity.class));
                 } else {
-                    ToastUtils.showShort("创" + position);
+                    startActivity(new Intent(getActivity(),CreateTaskActivity.class));
                 }
             }
         });
