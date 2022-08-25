@@ -11,4 +11,5 @@ public class Url {
     public static final String getInfo = "/app/getInfo";
     public static final String login_out = "logout";
     public static final String task_list = "/app/task/list";
+    public static final String knowledge = "/app/business/maintainInstruct/pageList";
 }

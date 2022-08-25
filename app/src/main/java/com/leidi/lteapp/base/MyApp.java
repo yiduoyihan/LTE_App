@@ -41,8 +41,8 @@ public class MyApp extends Application {
 //                    if (method.isGet()) {     //可根据请求类型添加不同的参数
 //                    } else if (method.isPost()) {
 //                    }
-                    return param.add("version", AppUtils.getAppVersionName())//添加公共参数
-                            .addHeader("Authorization", "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN));
+//                    .add("version", AppUtils.getAppVersionName())//添加公共参数
+                    return param.addHeader("Authorization", "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN));
                     //添加公共请求头
                 });
     }

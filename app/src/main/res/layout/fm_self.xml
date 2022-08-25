@@ -2,15 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/self_fm"
     android:background="@color/page_bg_color"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+
+    <RelativeLayout
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:layout_marginTop="60dp">
+
+        <ImageView
+            android:id="@+id/iv_head_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher_round" />
+
+
+        <ImageView
+            android:id="@+id/iv_open_camera"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/circle_button_bg"
+            android:padding="5dp"
+            android:src="@mipmap/camera_icon" />
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_nickname"

@@ -8,7 +8,7 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 
 /**
- * 创建任务单页面
+ * 创建故障单页面
  */
 public class CreateTaskActivity extends BaseActivity {
 

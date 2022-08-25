@@ -35,6 +35,7 @@ public class TaskDoingFragment extends BaseFragment {
     RecyclerView recyclerView;
     TaskListAdapter adapter;
     private List<TaskListBean.DataBean> beanList = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.fm_task_list;
@@ -43,10 +44,10 @@ public class TaskDoingFragment extends BaseFragment {
     @Override
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         recyclerView = view.findViewById(R.id.rv_task_list);
-        for (int i = 0 ;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             TaskListBean.DataBean bean = new TaskListBean.DataBean();
-            bean.setTitle(""+i);
-            bean.setName("aaaa"+i);
+            bean.setTitle("" + i);
+            bean.setName("aaaa" + i);
             bean.setFlag(true);
             beanList.add(bean);
         }
@@ -55,7 +56,7 @@ public class TaskDoingFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener((adapter1, view1, position) ->
-                startActivity(new Intent(getActivity(),TaskDetailActivity.class)));
+                startActivity(new Intent(getActivity(), TaskDetailActivity.class).putExtra("type", 1)));
 
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
@@ -70,16 +71,16 @@ public class TaskDoingFragment extends BaseFragment {
         requestTaskList();
     }
 
-    private void requestTaskList(){
+    private void requestTaskList() {
         RxHttp.get(Url.task_list)
                 .add("pageNum", 1)
                 .add("pageSize", 10)
-                .add("fileName", "klk")
+//                .add("fileName", "klk")
 //                .asClass(LoginBean.class)
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    System.out.println(bean);
+                    System.out.println("===taskList：" + bean);
 //                    if (bean.getCode() == 200) {
 //                        SPUtils.getInstance().put(SpUtilsKey.TOKEN, bean.getToken());
 //                    } else {

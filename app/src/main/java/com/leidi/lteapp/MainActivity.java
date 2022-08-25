@@ -1,22 +1,28 @@
 package com.leidi.lteapp;
 
 import android.annotation.SuppressLint;
-import android.widget.RadioButton;
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.RadioGroup;
-
-import androidx.viewpager.widget.ViewPager;
-import rxhttp.RxHttpPlugins;
 
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseActivity;
+import com.leidi.lteapp.event.PicRequest;
 import com.leidi.lteapp.ui.AlarmFragment;
 import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
+import com.zhihu.matisse.Matisse;
+
+import java.util.List;
+
+import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager viewPager;
     private RadioGroup radioGroup;
+    private PicRequest picRequest;
+    MainPagerAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -24,16 +30,24 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
-    protected void initView() {
-//        controlStateBar();
-        stateBarTransparent();
+    protected void onStart() {
+        super.onStart();
+    }
 
+    @Override
+    protected void initView() {
+        stateBarTransparent();
         viewPager = findViewById(R.id.vp_main);
         radioGroup = findViewById(R.id.rg_main_bottom);
         viewPager.addOnPageChangeListener(this);
 
         initRadioGroup();
         setupViewPager();
+        initData();
+    }
+
+    private void initData() {
+        picRequest = (SelfFragment) adapter.getItem(3);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -68,7 +82,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void setupViewPager() {
-        MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager());
+        adapter = new MainPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(TaskFragment.getInstance());
         adapter.addFragment(DeviceFragment.getInstance());
         adapter.addFragment(AlarmFragment.getInstance());
@@ -110,6 +124,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onDestroy() {
         super.onDestroy();
         viewPager.removeOnPageChangeListener(this);
-
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SelfFragment.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+
+            List<Uri> uriList = Matisse.obtainResult(data);
+            List<String> pathResult = Matisse.obtainPathResult(data);//上传图片时候的路径
+            picRequest.getPicPath(pathResult.get(0));
+        }
+    }
+
 }

@@ -6,69 +6,185 @@
 
     <include layout="@layout/toolbar" />
 
-    <TextView
-        android:layout_marginTop="30dp"
-        android:id="@+id/tv_task_detail_1"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="开始时间" />
 
-    <TextView
-        android:id="@+id/tv_task_detail_2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="结束时间" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/white_conner_bg"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_task_detail_3"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="创建时间："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_create_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="2022-8-22 16:18:41" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="结束时间："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_cover_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="2022-8-22 16:18:41" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="任务名称："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="西安雷迪信息技术有限公司" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="任务名称："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_task_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="西安雷迪信息技术有限公司，坐落于陕西省西安市雁塔器天谷七路，国家数字出版基地B座14楼。" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="创建人："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_task_person"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="张三李四" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专业："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_task_specialized"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="软件开发" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="    班组："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_task_group"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="智能运维" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单位："
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_task_company"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="西安雷迪" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_arrive_site"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="任务名称" />
+        android:layout_height="45dp"
+        android:visibility="gone"
+        android:layout_below="@id/rl_create_task_con"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/create_btn_bg"
+        android:gravity="center"
+        android:text="到达现场"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 
-    <TextView
-        android:id="@+id/tv_task_detail_4"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="任务内容" />
-
-    <TextView
-        android:id="@+id/tv_task_detail_5"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="创建人" />
-
-    <TextView
-        android:id="@+id/tv_task_detail_6"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="专业" />
-
-    <TextView
-        android:id="@+id/tv_task_detail_7"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="班组" />
-
-    <TextView
-        android:id="@+id/tv_task_detail_8"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="单位" />
 </LinearLayout>

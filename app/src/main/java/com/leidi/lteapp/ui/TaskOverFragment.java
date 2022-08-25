@@ -1,5 +1,6 @@
 package com.leidi.lteapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -56,6 +57,8 @@ public class TaskOverFragment extends BaseFragment {
                 }
             }
         });
+        adapter.setOnItemClickListener((adapter1, view1, position) ->
+                startActivity(new Intent(getActivity(), TaskDetailActivity.class).putExtra("type", 2)));
     }
 
     public static TaskOverFragment getInstance() {

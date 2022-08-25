@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.BusUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 
@@ -54,6 +55,7 @@ public class SignActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
+        BusUtils.register(this);
         return R.layout.activity_sign;
     }
 
@@ -71,6 +73,7 @@ public class SignActivity extends BaseActivity {
             public void onClick(View v) {
                 if (tvStart.getText().toString().isEmpty()) {
                     tvStart.setText(tvTime.getText().toString());
+                    BusUtils.post("time",tvTime.getText().toString());
                 }
             }
         });
@@ -90,6 +93,7 @@ public class SignActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
+        BusUtils.unregister(this);
     }
 }
 

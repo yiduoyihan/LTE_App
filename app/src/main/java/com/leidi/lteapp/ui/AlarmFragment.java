@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.AlarmListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
@@ -42,7 +43,7 @@ public class AlarmFragment extends BaseFragment {
             AlarmListBean.DataBean bean = new AlarmListBean.DataBean();
             bean.setTitle("" + i);
             bean.setName("aaaa" + i);
-            bean.setColor(i%3);
+            bean.setColor(i % 3);
             beanList.add(bean);
         }
         adapter = new AlarmListAdapter(R.layout.item_alarm, beanList);
@@ -54,13 +55,18 @@ public class AlarmFragment extends BaseFragment {
             public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ToastUtils.showShort("pos" + position);
                 if (view.getId() == R.id.tv_alarm_btn_1) {
-                    startActivity(new Intent(getActivity(),AnalyzeResultActivity.class));
+                    startActivity(new Intent(getActivity(), AnalyzeResultActivity.class));
                 } else {
-                    startActivity(new Intent(getActivity(),CreateTaskActivity.class));
+                    startActivity(new Intent(getActivity(), CreateTaskActivity.class));
                 }
             }
         });
-
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                startActivity(new Intent(getActivity(), AlarmDetailActivity.class));
+            }
+        });
     }
 
     public static AlarmFragment getInstance() {
