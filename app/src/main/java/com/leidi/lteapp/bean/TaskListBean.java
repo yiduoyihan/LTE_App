@@ -35,7 +35,16 @@ public class TaskListBean {
     public static class DataBean {
         private String title;
         private String name;
+        private int taskId;
         private boolean flag;
+
+        public int getTaskId() {
+            return taskId;
+        }
+
+        public void setTaskId(int taskId) {
+            this.taskId = taskId;
+        }
 
         public boolean isFlag() {
             return flag;

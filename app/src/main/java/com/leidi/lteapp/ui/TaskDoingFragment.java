@@ -2,6 +2,7 @@ package com.leidi.lteapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,21 +18,26 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.TaskListAdapter;
+import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.LoginBean;
 import com.leidi.lteapp.bean.TaskListBean;
+import com.leidi.lteapp.event.TaskRequest;
+import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 任务 未完成
  *
  * @author yan
  */
-public class TaskDoingFragment extends BaseFragment {
+public class TaskDoingFragment extends BaseFragment implements TaskRequest{
     RecyclerView recyclerView;
     TaskListAdapter adapter;
     private List<TaskListBean.DataBean> beanList = new ArrayList<>();
@@ -48,6 +54,7 @@ public class TaskDoingFragment extends BaseFragment {
             TaskListBean.DataBean bean = new TaskListBean.DataBean();
             bean.setTitle("" + i);
             bean.setName("aaaa" + i);
+            bean.setTaskId(i);
             bean.setFlag(true);
             beanList.add(bean);
         }
@@ -56,7 +63,9 @@ public class TaskDoingFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener((adapter1, view1, position) ->
-                startActivity(new Intent(getActivity(), TaskDetailActivity.class).putExtra("type", 1)));
+                startActivity(
+                        new Intent(getActivity(), TaskDetailActivity.class)
+                                .putExtra("type", 1)));
 
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
@@ -64,6 +73,7 @@ public class TaskDoingFragment extends BaseFragment {
                 ToastUtils.showShort("pos" + position);
                 if (view.getId() == R.id.iv_delete_item) {
                     ToastUtils.showShort("删除" + position);
+//                    toDeleteTask(beanList.get(position).getTaskId());
                 }
             }
         });
@@ -71,11 +81,37 @@ public class TaskDoingFragment extends BaseFragment {
         requestTaskList();
     }
 
+
+    /**
+     * 删除任务
+     */
+    private void toDeleteTask(int taskId) {
+        RxHttp.deleteForm(Url.task_delete)
+                .add("taskIds", 1)
+                .asClass(BaseBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                    //请求成功
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
+                    } else {
+                        ToastUtils.showShort(bean.getMsg());
+                    }
+                }, throwable -> {
+                    System.out.println(throwable.getMessage());
+                });
+
+
+    }
+
+    /**
+     * 请求故障单列表
+     */
     private void requestTaskList() {
         RxHttp.get(Url.task_list)
                 .add("pageNum", 1)
                 .add("pageSize", 10)
-//                .add("fileName", "klk")
+                .add("taskStatus", 1)
 //                .asClass(LoginBean.class)
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -95,4 +131,8 @@ public class TaskDoingFragment extends BaseFragment {
         return new TaskDoingFragment();
     }
 
+    @Override
+    public void refreshTaskList() {
+        requestTaskList();
+    }
 }

@@ -6,12 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseFragment;
+import com.leidi.lteapp.event.TaskRequest;
+import com.leidi.lteapp.util.Constant;
 
 /**
  * 我的任务
@@ -22,6 +29,18 @@ public class TaskFragment extends BaseFragment {
 
     private ViewPager viewPager;
     private RadioGroup radioGroup;
+    TaskRequest taskRequest;
+    MainPagerAdapter adapter;
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            int resultCode = result.getResultCode();
+            if (resultCode == Constant.SUCCESS_CODE){
+                taskRequest.refreshTaskList();
+            }
+        }
+    });
 
     @Override
     protected int getLayoutId() {
@@ -32,10 +51,13 @@ public class TaskFragment extends BaseFragment {
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         viewPager = view.findViewById(R.id.task_viewpager);
         radioGroup = view.findViewById(R.id.task_rg);
-        view.findViewById(R.id.tv_task_create_form).setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateTaskActivity.class)));
+        view.findViewById(R.id.tv_task_create_form).setOnClickListener(view1 ->
+                launcher.launch(new Intent(getActivity(), CreateTaskActivity.class))
+        );
 
         initRadioGroup();
         setupViewPager();
+        initTaskRequest();
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -64,6 +86,10 @@ public class TaskFragment extends BaseFragment {
         });
     }
 
+    private void initTaskRequest() {
+        taskRequest = (TaskDoingFragment) adapter.getItem(0);
+    }
+
     @SuppressLint("NonConstantResourceId")
     private void initRadioGroup() {
         viewPager.setOffscreenPageLimit(1);
@@ -86,7 +112,7 @@ public class TaskFragment extends BaseFragment {
     }
 
     private void setupViewPager() {
-        MainPagerAdapter adapter = new MainPagerAdapter(requireActivity().getSupportFragmentManager());
+        adapter = new MainPagerAdapter(requireActivity().getSupportFragmentManager());
         adapter.addFragment(TaskDoingFragment.getInstance());
         adapter.addFragment(TaskOverFragment.getInstance());
         viewPager.setAdapter(adapter);

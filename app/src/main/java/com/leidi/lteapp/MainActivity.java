@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RadioGroup;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.event.PicRequest;
@@ -12,6 +13,7 @@ import com.leidi.lteapp.ui.AlarmFragment;
 import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
+import com.leidi.lteapp.util.Constant;
 import com.zhihu.matisse.Matisse;
 
 import java.util.List;
@@ -130,10 +132,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelfFragment.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-
             List<Uri> uriList = Matisse.obtainResult(data);
             List<String> pathResult = Matisse.obtainPathResult(data);//上传图片时候的路径
             picRequest.getPicPath(pathResult.get(0));
+        }else if (requestCode == Constant.REQUEST_DOING && resultCode ==Constant.SUCCESS_CODE){
+            ToastUtils.showShort("接收到了forresult的返回值");
         }
     }
 
