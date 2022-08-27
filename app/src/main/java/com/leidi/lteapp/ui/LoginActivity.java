@@ -85,11 +85,13 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(bean -> {
                     if (bean.getCode() == 200) {
                     SPUtils.getInstance().put(SpUtilsKey.IS_LOGIN, true);
-                    SPUtils.getInstance().put(SpUtilsKey.REMARK, bean.getUser().getRemark());
                     SPUtils.getInstance().put(SpUtilsKey.USER_NAME, bean.getUser().getUserName());
                     SPUtils.getInstance().put(SpUtilsKey.NICK_NAME, bean.getUser().getNickName());
                     SPUtils.getInstance().put(SpUtilsKey.PHONE_NO, bean.getUser().getPhonenumber());
                     SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getUser().getAvatar());
+                    SPUtils.getInstance().put(SpUtilsKey.USER_ZY, bean.getUser().getDept().getDeptName());
+                    SPUtils.getInstance().put(SpUtilsKey.USER_DW, bean.getUserGroup().getDwName());
+                    SPUtils.getInstance().put(SpUtilsKey.USER_BZ, bean.getUserGroup().getBzName());
                     //请求成功跳转主页
                     startActivity(new Intent(this, MainActivity.class));
                     finish();

@@ -6,10 +6,17 @@ import java.util.List;
 
 public class UserInfoBean {
 
+    /**
+     * msg : 操作成功
+     * code : 200
+     * user : {"searchValue":null,"createBy":"admin","createTime":"2022-08-22 20:02:17","updateBy":null,"updateTime":null,"remark":null,"params":{"@type":"java.util.HashMap"},"userId":110,"deptId":207,"userName":"zyuser","nickName":"zyuser","email":"","phonenumber":"","sex":"0","isLoginWeb":"1","isLoginApp":"1","isAdmin":"1","avatar":"","password":"$2a$10$onzgo5eTkuFm6CUlx.aU8.5g5su14jFZSIvPnnJVKjgz6mHXClqga","status":"0","delFlag":"0","loginIp":"172.16.200.210","loginDate":"2022-08-27T10:42:50.000+08:00","dept":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{"@type":"java.util.HashMap"},"deptId":"207","parentId":"0","ancestors":"0","deptName":"电信","orderNum":0,"leader":null,"phone":null,"email":null,"status":"0","delFlag":null,"isSpecial":null,"level":null,"parentName":null,"children":[]},"roles":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{"@type":"java.util.HashMap"},"roleId":2,"roleName":"专业管理员","roleKey":"zyadmin","roleSort":"2","dataScope":"3","menuCheckStrictly":false,"deptCheckStrictly":false,"status":"0","delFlag":null,"flag":false,"menuIds":null,"deptIds":null,"admin":false}],"roleIds":null,"postIds":null,"roleId":null,"admin":false}
+     * userGroup : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":2,"userId":"110","ancestors":null,"deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","isSpecial":"1"}
+     */
+
     private String msg;
     private int code;
     private UserBean user;
-    private Object userGroup;
+    private UserGroupBean userGroup;
 
     public String getMsg() {
         return msg;
@@ -35,21 +42,53 @@ public class UserInfoBean {
         this.user = user;
     }
 
-    public Object getUserGroup() {
+    public UserGroupBean getUserGroup() {
         return userGroup;
     }
 
-    public void setUserGroup(Object userGroup) {
+    public void setUserGroup(UserGroupBean userGroup) {
         this.userGroup = userGroup;
     }
 
     public static class UserBean {
+        /**
+         * searchValue : null
+         * createBy : admin
+         * createTime : 2022-08-22 20:02:17
+         * updateBy : null
+         * updateTime : null
+         * remark : null
+         * params : {"@type":"java.util.HashMap"}
+         * userId : 110
+         * deptId : 207
+         * userName : zyuser
+         * nickName : zyuser
+         * email :
+         * phonenumber :
+         * sex : 0
+         * isLoginWeb : 1
+         * isLoginApp : 1
+         * isAdmin : 1
+         * avatar :
+         * password : $2a$10$onzgo5eTkuFm6CUlx.aU8.5g5su14jFZSIvPnnJVKjgz6mHXClqga
+         * status : 0
+         * delFlag : 0
+         * loginIp : 172.16.200.210
+         * loginDate : 2022-08-27T10:42:50.000+08:00
+         * dept : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{"@type":"java.util.HashMap"},"deptId":"207","parentId":"0","ancestors":"0","deptName":"电信","orderNum":0,"leader":null,"phone":null,"email":null,"status":"0","delFlag":null,"isSpecial":null,"level":null,"parentName":null,"children":[]}
+         * roles : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{"@type":"java.util.HashMap"},"roleId":2,"roleName":"专业管理员","roleKey":"zyadmin","roleSort":"2","dataScope":"3","menuCheckStrictly":false,"deptCheckStrictly":false,"status":"0","delFlag":null,"flag":false,"menuIds":null,"deptIds":null,"admin":false}]
+         * roleIds : null
+         * postIds : null
+         * roleId : null
+         * admin : false
+         */
+
         private Object searchValue;
         private String createBy;
         private String createTime;
         private Object updateBy;
         private Object updateTime;
-        private String remark;
+        private Object remark;
         private ParamsBean params;
         private int userId;
         private int deptId;
@@ -68,11 +107,11 @@ public class UserInfoBean {
         private String loginIp;
         private String loginDate;
         private DeptBean dept;
-        private List<RolesBean> roles;
         private Object roleIds;
         private Object postIds;
         private Object roleId;
         private boolean admin;
+        private List<RolesBean> roles;
 
         public Object getSearchValue() {
             return searchValue;
@@ -114,11 +153,11 @@ public class UserInfoBean {
             this.updateTime = updateTime;
         }
 
-        public String getRemark() {
+        public Object getRemark() {
             return remark;
         }
 
-        public void setRemark(String remark) {
+        public void setRemark(Object remark) {
             this.remark = remark;
         }
 
@@ -266,14 +305,6 @@ public class UserInfoBean {
             this.dept = dept;
         }
 
-        public List<RolesBean> getRoles() {
-            return roles;
-        }
-
-        public void setRoles(List<RolesBean> roles) {
-            this.roles = roles;
-        }
-
         public Object getRoleIds() {
             return roleIds;
         }
@@ -306,20 +337,52 @@ public class UserInfoBean {
             this.admin = admin;
         }
 
+        public List<RolesBean> getRoles() {
+            return roles;
+        }
+
+        public void setRoles(List<RolesBean> roles) {
+            this.roles = roles;
+        }
+
         public static class ParamsBean {
             @SerializedName("@type")
-            private String _$Type293;// FIXME check this code
+            private String _$Type80; // FIXME check this code
 
-            public String get_$Type293() {
-                return _$Type293;
+            public String get_$Type80() {
+                return _$Type80;
             }
 
-            public void set_$Type293(String _$Type293) {
-                this._$Type293 = _$Type293;
+            public void set_$Type80(String _$Type80) {
+                this._$Type80 = _$Type80;
             }
         }
 
         public static class DeptBean {
+            /**
+             * searchValue : null
+             * createBy : null
+             * createTime : null
+             * updateBy : null
+             * updateTime : null
+             * remark : null
+             * params : {"@type":"java.util.HashMap"}
+             * deptId : 207
+             * parentId : 0
+             * ancestors : 0
+             * deptName : 电信
+             * orderNum : 0
+             * leader : null
+             * phone : null
+             * email : null
+             * status : 0
+             * delFlag : null
+             * isSpecial : null
+             * level : null
+             * parentName : null
+             * children : []
+             */
+
             private Object searchValue;
             private Object createBy;
             private Object createTime;
@@ -332,7 +395,7 @@ public class UserInfoBean {
             private String ancestors;
             private String deptName;
             private int orderNum;
-            private String leader;
+            private Object leader;
             private Object phone;
             private Object email;
             private String status;
@@ -438,11 +501,11 @@ public class UserInfoBean {
                 this.orderNum = orderNum;
             }
 
-            public String getLeader() {
+            public Object getLeader() {
                 return leader;
             }
 
-            public void setLeader(String leader) {
+            public void setLeader(Object leader) {
                 this.leader = leader;
             }
 
@@ -509,22 +572,32 @@ public class UserInfoBean {
             public void setChildren(List<?> children) {
                 this.children = children;
             }
-
-            public static class ParamsBean {
-                @SerializedName("@type")
-                private String _$Type119;// FIXME check this code
-
-                public String get_$Type119() {
-                    return _$Type119;
-                }
-
-                public void set_$Type119(String _$Type119) {
-                    this._$Type119 = _$Type119;
-                }
-            }
         }
 
         public static class RolesBean {
+            /**
+             * searchValue : null
+             * createBy : null
+             * createTime : null
+             * updateBy : null
+             * updateTime : null
+             * remark : null
+             * params : {"@type":"java.util.HashMap"}
+             * roleId : 2
+             * roleName : 专业管理员
+             * roleKey : zyadmin
+             * roleSort : 2
+             * dataScope : 3
+             * menuCheckStrictly : false
+             * deptCheckStrictly : false
+             * status : 0
+             * delFlag : null
+             * flag : false
+             * menuIds : null
+             * deptIds : null
+             * admin : false
+             */
+
             private Object searchValue;
             private Object createBy;
             private Object createTime;
@@ -705,19 +778,185 @@ public class UserInfoBean {
             public void setAdmin(boolean admin) {
                 this.admin = admin;
             }
+        }
+    }
 
-            public static class ParamsBean {
-                @SerializedName("@type")
-                private String _$Type11;// FIXME check this code
+    public static class UserGroupBean {
+        /**
+         * searchValue : null
+         * createBy : null
+         * createTime : null
+         * updateBy : null
+         * updateTime : null
+         * remark : null
+         * params : {}
+         * id : 2
+         * userId : 110
+         * ancestors : null
+         * deptId : 207
+         * deptName : 电信
+         * dwId : 209
+         * dwName : 电信-单位1
+         * bzId : 210
+         * bzName : 电信-单位1-班组1
+         * isSpecial : 1
+         */
 
-                public String get_$Type11() {
-                    return _$Type11;
-                }
+        private Object searchValue;
+        private Object createBy;
+        private Object createTime;
+        private Object updateBy;
+        private Object updateTime;
+        private Object remark;
+        private ParamsBeanX params;
+        private int id;
+        private String userId;
+        private Object ancestors;
+        private String deptId;
+        private String deptName;
+        private String dwId;
+        private String dwName;
+        private String bzId;
+        private String bzName;
+        private String isSpecial;
 
-                public void set_$Type11(String _$Type11) {
-                    this._$Type11 = _$Type11;
-                }
-            }
+        public Object getSearchValue() {
+            return searchValue;
+        }
+
+        public void setSearchValue(Object searchValue) {
+            this.searchValue = searchValue;
+        }
+
+        public Object getCreateBy() {
+            return createBy;
+        }
+
+        public void setCreateBy(Object createBy) {
+            this.createBy = createBy;
+        }
+
+        public Object getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(Object createTime) {
+            this.createTime = createTime;
+        }
+
+        public Object getUpdateBy() {
+            return updateBy;
+        }
+
+        public void setUpdateBy(Object updateBy) {
+            this.updateBy = updateBy;
+        }
+
+        public Object getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(Object updateTime) {
+            this.updateTime = updateTime;
+        }
+
+        public Object getRemark() {
+            return remark;
+        }
+
+        public void setRemark(Object remark) {
+            this.remark = remark;
+        }
+
+        public ParamsBeanX getParams() {
+            return params;
+        }
+
+        public void setParams(ParamsBeanX params) {
+            this.params = params;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public Object getAncestors() {
+            return ancestors;
+        }
+
+        public void setAncestors(Object ancestors) {
+            this.ancestors = ancestors;
+        }
+
+        public String getDeptId() {
+            return deptId;
+        }
+
+        public void setDeptId(String deptId) {
+            this.deptId = deptId;
+        }
+
+        public String getDeptName() {
+            return deptName;
+        }
+
+        public void setDeptName(String deptName) {
+            this.deptName = deptName;
+        }
+
+        public String getDwId() {
+            return dwId;
+        }
+
+        public void setDwId(String dwId) {
+            this.dwId = dwId;
+        }
+
+        public String getDwName() {
+            return dwName;
+        }
+
+        public void setDwName(String dwName) {
+            this.dwName = dwName;
+        }
+
+        public String getBzId() {
+            return bzId;
+        }
+
+        public void setBzId(String bzId) {
+            this.bzId = bzId;
+        }
+
+        public String getBzName() {
+            return bzName;
+        }
+
+        public void setBzName(String bzName) {
+            this.bzName = bzName;
+        }
+
+        public String getIsSpecial() {
+            return isSpecial;
+        }
+
+        public void setIsSpecial(String isSpecial) {
+            this.isSpecial = isSpecial;
+        }
+
+        public static class ParamsBeanX {
         }
     }
 }

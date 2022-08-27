@@ -23,10 +23,14 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
 
     @Override
     protected void convert(BaseViewHolder holder, TaskListBean.DataBean bean) {
-        holder.setText(R.id.tv_task_content_1, bean.getTitle());
-        holder.setText(R.id.tv_task_content_3, bean.getName());
+        holder.setText(R.id.tv_task_content_1, bean.getCreateTime());
+        holder.setText(R.id.tv_task_content_2, bean.getBzName());
+        holder.setText(R.id.tv_task_content_3, bean.getCreateBy());
+        holder.setText(R.id.tv_task_content_4, bean.getDeptName());
+        holder.setText(R.id.tv_task_content_5, bean.getDwName());
+        holder.setText(R.id.tv_task_content_6, bean.getTaskName());
 
-        holder.getView(R.id.tv_flag_pic).setBackgroundResource(bean.isFlag()?R.mipmap.doing_pic:R.mipmap.over_pic);
+        holder.getView(R.id.tv_flag_pic).setBackgroundResource(bean.getTaskStatus().equals("0") ? R.mipmap.doing_pic : R.mipmap.over_pic);
 //        holder.setText(R.id.tv_home_detail, Html.fromHtml(bean.getNoticeContent()));
 //        holder.setText(R.id.tv_date,bean.getCreateTime());
 //        holder.addOnClickListener(R.id.home_item_delete);

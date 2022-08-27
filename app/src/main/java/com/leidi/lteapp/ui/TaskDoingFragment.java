@@ -37,7 +37,7 @@ import java.util.Objects;
  *
  * @author yan
  */
-public class TaskDoingFragment extends BaseFragment implements TaskRequest{
+public class TaskDoingFragment extends BaseFragment implements TaskRequest {
     RecyclerView recyclerView;
     TaskListAdapter adapter;
     private List<TaskListBean.DataBean> beanList = new ArrayList<>();
@@ -50,14 +50,6 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest{
     @Override
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         recyclerView = view.findViewById(R.id.rv_task_list);
-        for (int i = 0; i < 10; i++) {
-            TaskListBean.DataBean bean = new TaskListBean.DataBean();
-            bean.setTitle("" + i);
-            bean.setName("aaaa" + i);
-            bean.setTaskId(i);
-            bean.setFlag(true);
-            beanList.add(bean);
-        }
         adapter = new TaskListAdapter(R.layout.item_task, beanList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -65,6 +57,7 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest{
         adapter.setOnItemClickListener((adapter1, view1, position) ->
                 startActivity(
                         new Intent(getActivity(), TaskDetailActivity.class)
+                                .putExtra("taskId", beanList.get(position).getTaskId())
                                 .putExtra("type", 1)));
 
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
@@ -72,8 +65,7 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest{
             public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ToastUtils.showShort("pos" + position);
                 if (view.getId() == R.id.iv_delete_item) {
-                    ToastUtils.showShort("删除" + position);
-//                    toDeleteTask(beanList.get(position).getTaskId());
+                    toDeleteTask(beanList.get(position).getTaskId(), position);
                 }
             }
         });
@@ -85,15 +77,16 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest{
     /**
      * 删除任务
      */
-    private void toDeleteTask(int taskId) {
-        RxHttp.deleteForm(Url.task_delete)
-                .add("taskIds", 1)
+    private void toDeleteTask(int taskId, int position) {
+        RxHttp.deleteForm(Url.task_delete + taskId)
                 .asClass(BaseBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //请求成功
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
+                        ToastUtils.showShort(bean.getMsg());
+                        adapter.removeAt(position);
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
@@ -108,20 +101,20 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest{
      * 请求故障单列表
      */
     private void requestTaskList() {
+        //taskStatus 0 进行中，1已完成
         RxHttp.get(Url.task_list)
                 .add("pageNum", 1)
                 .add("pageSize", 10)
-                .add("taskStatus", 1)
-//                .asClass(LoginBean.class)
-                .asString()
+                .add("taskStatus", 0)
+                .asClass(TaskListBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    System.out.println("===taskList：" + bean);
-//                    if (bean.getCode() == 200) {
-//                        SPUtils.getInstance().put(SpUtilsKey.TOKEN, bean.getToken());
-//                    } else {
-//                        ToastUtils.showShort(bean.getMsg());
-//                    }
+                    if (bean.getCode() == 200) {
+                        beanList.addAll(bean.getData());
+                        adapter.setList(beanList);
+                    } else {
+                        ToastUtils.showShort(bean.getMsg());
+                    }
                 }, throwable -> {
                 });
 
@@ -133,6 +126,7 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest{
 
     @Override
     public void refreshTaskList() {
+        beanList.clear();
         requestTaskList();
     }
 }

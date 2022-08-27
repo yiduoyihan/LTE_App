@@ -1,18 +1,16 @@
 package com.leidi.lteapp.bean;
 
-import java.util.List;
-
-public class TaskListBean {
+public class TaskDetailBean {
 
     /**
      * msg : 操作成功
      * code : 200
-     * data : [{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 15:20:39","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":6,"taskNo":"1661498438676","taskName":"555555","taskContent":"66666","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}},{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 16:42:10","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":7,"taskNo":"1661503330363","taskName":"1213","taskContent":"222222","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661503330363","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}},{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 16:48:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":8,"taskNo":"1661503691708","taskName":"666666","taskContent":"888888","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661503691708","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}},{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 16:49:56","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":9,"taskNo":"1661503796053","taskName":"iioooo","taskContent":"pppppp","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661503796053","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}}]
+     * data : {"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 15:20:39","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":6,"taskNo":"1661498438676","taskName":"555555","taskContent":"66666","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}}
      */
 
     private String msg;
     private int code;
-    private List<DataBean> data;
+    private DataBean data;
 
     public String getMsg() {
         return msg;
@@ -30,11 +28,11 @@ public class TaskListBean {
         this.code = code;
     }
 
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
@@ -91,7 +89,7 @@ public class TaskListBean {
         private Object handleTimes;
         private Object arriveTime;
         private Object completeTime;
-        private Object endTime;
+        private String endTime;
         private String delFlag;
         private AppLteTaskDetailsBean appLteTaskDetails;
 
@@ -279,11 +277,11 @@ public class TaskListBean {
             this.completeTime = completeTime;
         }
 
-        public Object getEndTime() {
+        public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(Object endTime) {
+        public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 

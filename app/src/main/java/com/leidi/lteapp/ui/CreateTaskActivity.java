@@ -29,6 +29,7 @@ import rxhttp.RxHttp;
 public class CreateTaskActivity extends BaseActivity {
     EditText et1, et2;
     Intent intent;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_create_task;
@@ -52,7 +53,9 @@ public class CreateTaskActivity extends BaseActivity {
 
         tv1.setText(sysTimeStr);
         tv2.setText(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME));
-//        tv3.setText(SPUtils.getInstance().getString(SpUtilsKey.));
+        tv3.setText(SPUtils.getInstance().getString(SpUtilsKey.USER_BZ));
+        tv4.setText(SPUtils.getInstance().getString(SpUtilsKey.USER_ZY));
+        tv5.setText(SPUtils.getInstance().getString(SpUtilsKey.USER_DW));
 
         et1 = findViewById(R.id.et_create_task_name);
         et2 = findViewById(R.id.et_create_task_content);

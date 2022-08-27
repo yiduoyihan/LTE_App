@@ -22,6 +22,8 @@ import rxhttp.RxHttp;
  * @description 到达现场页面
  */
 public class ArriveSiteActivity extends BaseActivity {
+
+    private int taskId;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_arrive_site;
@@ -31,7 +33,7 @@ public class ArriveSiteActivity extends BaseActivity {
     @Override
     protected void initView() {
         setToolbar("到达现场");
-
+        taskId = getIntent().getIntExtra("taskId",0);
         findViewById(R.id.btn_task_over).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +47,11 @@ public class ArriveSiteActivity extends BaseActivity {
      * */
     private void submitTaskProcess() {
           RxHttp.postForm(Url.task_complete)
-                          .add("type", 1)
+                          .add("faultDes", 1)
+                          .add("processDes", 1)
+                          .add("deviceDes", 1)
+                          .add("taskNo", 1)
+                          .add("files", 1)
                           .asClass(BaseBean.class)
                           .observeOn(AndroidSchedulers.mainThread())
                           .to(RxLife.to(this))
