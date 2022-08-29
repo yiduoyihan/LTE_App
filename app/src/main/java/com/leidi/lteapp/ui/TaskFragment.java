@@ -13,12 +13,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.event.TaskRequest;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.SpUtilsKey;
 
 /**
  * 我的任务
@@ -36,7 +38,7 @@ public class TaskFragment extends BaseFragment {
         @Override
         public void onActivityResult(ActivityResult result) {
             int resultCode = result.getResultCode();
-            if (resultCode == Constant.SUCCESS_CODE){
+            if (resultCode == Constant.SUCCESS_CODE) {
                 taskRequest.refreshTaskList();
             }
         }
@@ -51,8 +53,10 @@ public class TaskFragment extends BaseFragment {
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         viewPager = view.findViewById(R.id.task_viewpager);
         radioGroup = view.findViewById(R.id.task_rg);
-        view.findViewById(R.id.tv_task_create_form).setOnClickListener(view1 ->
-                launcher.launch(new Intent(getActivity(), CreateTaskActivity.class))
+        view.findViewById(R.id.tv_task_create_form).setOnClickListener(view1 -> {
+                    System.out.println("======head===" + "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN));
+                    launcher.launch(new Intent(getActivity(), CreateTaskActivity.class));
+                }
         );
 
         initRadioGroup();

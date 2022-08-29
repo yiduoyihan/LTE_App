@@ -17,4 +17,8 @@ public class Url {
     public static final String task_arrive = "/app/task/arrive/";
     public static final String task_complete = "/app/task/complete";
     public static final String knowledge = "/app/business/maintainInstruct/pageList";
+    public static final String alarm_list = "/app/business/alarminfo/list";
+    public static final String device_list = "/app/business/deviceStatus/list";
+    public static final String change_pwd = "修改密码";
+    public static final String check_update = "检查更新";
 }

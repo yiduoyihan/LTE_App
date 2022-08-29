@@ -1,28 +1,18 @@
 package com.leidi.lteapp.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.MainActivity;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
-import com.leidi.lteapp.base.BaseBean;
-import com.leidi.lteapp.base.MyApp;
 import com.leidi.lteapp.bean.LoginBean;
 import com.leidi.lteapp.bean.UserInfoBean;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
+import com.rxjava.rxlife.RxLife;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -66,6 +56,7 @@ public class LoginActivity extends BaseActivity {
                 .add("password", etPassWord.getText().toString().trim())
                 .asClass(LoginBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
                 .subscribe(bean -> {
                     if (bean.getCode() == 200) {
                         SPUtils.getInstance().put(SpUtilsKey.TOKEN, bean.getToken());
@@ -82,19 +73,20 @@ public class LoginActivity extends BaseActivity {
         RxHttp.get(Url.getInfo)
                 .asClass(UserInfoBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
                 .subscribe(bean -> {
                     if (bean.getCode() == 200) {
-                    SPUtils.getInstance().put(SpUtilsKey.IS_LOGIN, true);
-                    SPUtils.getInstance().put(SpUtilsKey.USER_NAME, bean.getUser().getUserName());
-                    SPUtils.getInstance().put(SpUtilsKey.NICK_NAME, bean.getUser().getNickName());
-                    SPUtils.getInstance().put(SpUtilsKey.PHONE_NO, bean.getUser().getPhonenumber());
-                    SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getUser().getAvatar());
-                    SPUtils.getInstance().put(SpUtilsKey.USER_ZY, bean.getUser().getDept().getDeptName());
-                    SPUtils.getInstance().put(SpUtilsKey.USER_DW, bean.getUserGroup().getDwName());
-                    SPUtils.getInstance().put(SpUtilsKey.USER_BZ, bean.getUserGroup().getBzName());
-                    //请求成功跳转主页
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
+                        SPUtils.getInstance().put(SpUtilsKey.IS_LOGIN, true);
+                        SPUtils.getInstance().put(SpUtilsKey.USER_NAME, bean.getUser().getUserName());
+                        SPUtils.getInstance().put(SpUtilsKey.NICK_NAME, bean.getUser().getNickName());
+                        SPUtils.getInstance().put(SpUtilsKey.PHONE_NO, bean.getUser().getPhonenumber());
+                        SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getUser().getAvatar());
+                        SPUtils.getInstance().put(SpUtilsKey.USER_ZY, bean.getUser().getDept().getDeptName());
+                        SPUtils.getInstance().put(SpUtilsKey.USER_DW, bean.getUserGroup().getDwName());
+                        SPUtils.getInstance().put(SpUtilsKey.USER_BZ, bean.getUserGroup().getBzName());
+                        //请求成功跳转主页
+                        startActivity(new Intent(this, MainActivity.class));
+                        finish();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }

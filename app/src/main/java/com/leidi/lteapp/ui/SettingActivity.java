@@ -5,9 +5,16 @@ import android.widget.EditText;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
+import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.util.Url;
+import com.rxjava.rxlife.RxLife;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 /**
  * 设置（即修改密码界面）
+ *
  * @author ygq
  */
 public class SettingActivity extends BaseActivity {
@@ -39,18 +46,38 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    /**发送请求修改密码*/
+    /**
+     * 发送请求修改密码
+     */
     private void submitChangePwdRequest(String oldPwd, String newPwd) {
+        RxHttp.postForm(Url.change_pwd)
+                .add("", "")
+                .asClass(BaseBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                    if (bean.getCode() == 200) {
+                        ToastUtils.showShort("密码修改成功，请重新登录");
+                    } else {
+                        ToastUtils.showShort(bean.getMsg());
+                    }
+                }, throwable -> {
+                });
+
 
     }
 
 
-    /**账号密码的非空验证*/
+    /**
+     * 账号密码的非空验证
+     */
     private boolean verifyInputContent(EditText view) {
         return !view.getText().toString().trim().isEmpty();
     }
 
-    /**验证两次输入是否一致*/
+    /**
+     * 验证两次输入是否一致
+     */
     private boolean verifyTwiceInputIsSame(String str1, String str2) {
         return str1.equals(str2);
     }

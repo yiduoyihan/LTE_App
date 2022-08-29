@@ -8,8 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
+import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.util.Url;
+import com.rxjava.rxlife.RxLife;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 /**
  * 检查更新页面
@@ -22,6 +29,7 @@ public class CheckUpdateActivity extends BaseActivity {
     View haveUpdate;
     Button updateBtn;
     TextView tvNewVersion;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_check_update;
@@ -44,8 +52,24 @@ public class CheckUpdateActivity extends BaseActivity {
 
     /**
      * 检查是否有更新
-     * */
+     */
     private void checkUpdate() {
+        RxHttp.postForm(Url.check_update)
+                .asClass(BaseBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                    if (bean.getCode() == 200) {
+                        ToastUtils.showShort("有更新");
+                        noUpdate.setVisibility(View.GONE);
+                        haveUpdate.setVisibility(View.VISIBLE);
+                        updateBtn.setVisibility(View.VISIBLE);
+                    } else {
+                        ToastUtils.showShort(bean.getMsg());
+                    }
+
+                }, throwable -> {
+                });
 
     }
 }

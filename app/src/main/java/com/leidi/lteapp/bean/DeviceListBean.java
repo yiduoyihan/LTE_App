@@ -4,16 +4,25 @@ import java.util.List;
 
 public class DeviceListBean {
 
-    private String msg;
-    private int code;
-    private List<DataBean> data;
 
-    public String getMsg() {
-        return msg;
+    /**
+     * total : 1
+     * rows : [{"id":1,"equipName":"短号","deviceIp":"192.168.1.1","deviceType":"1","devLocation":"设备位置1","connectStatus":"0"}]
+     * code : 200
+     * msg : 查询成功
+     */
+
+    private int total;
+    private int code;
+    private String msg;
+    private List<RowsBean> rows;
+
+    public int getTotal() {
+        return total;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public int getCode() {
@@ -24,68 +33,85 @@ public class DeviceListBean {
         this.code = code;
     }
 
-    public List<DataBean> getData() {
-        return data;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setData(List<DataBean> data) {
-        this.data = data;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public static class DataBean {
-        private String number;
-        private String d_number;
-        private String ip;
-        private String address;
-        private String name;
-        private String state;
+    public List<RowsBean> getRows() {
+        return rows;
+    }
 
-        public String getNumber() {
-            return number;
+    public void setRows(List<RowsBean> rows) {
+        this.rows = rows;
+    }
+
+    public static class RowsBean {
+        /**
+         * id : 1
+         * equipName : 短号
+         * deviceIp : 192.168.1.1
+         * deviceType : 1
+         * devLocation : 设备位置1
+         * connectStatus : 0
+         */
+
+        private int id;
+        private String equipName;
+        private String deviceIp;
+        private String deviceType;
+        private String devLocation;
+        private String connectStatus;
+
+        public int getId() {
+            return id;
         }
 
-        public void setNumber(String number) {
-            this.number = number;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public String getD_number() {
-            return d_number;
+        public String getEquipName() {
+            return equipName;
         }
 
-        public void setD_number(String d_number) {
-            this.d_number = d_number;
+        public void setEquipName(String equipName) {
+            this.equipName = equipName;
         }
 
-        public String getIp() {
-            return ip;
+        public String getDeviceIp() {
+            return deviceIp;
         }
 
-        public void setIp(String ip) {
-            this.ip = ip;
+        public void setDeviceIp(String deviceIp) {
+            this.deviceIp = deviceIp;
         }
 
-        public String getAddress() {
-            return address;
+        public String getDeviceType() {
+            return deviceType;
         }
 
-        public void setAddress(String address) {
-            this.address = address;
+        public void setDeviceType(String deviceType) {
+            this.deviceType = deviceType;
         }
 
-        public String getName() {
-            return name;
+        public String getDevLocation() {
+            return devLocation;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setDevLocation(String devLocation) {
+            this.devLocation = devLocation;
         }
 
-        public String getState() {
-            return state;
+        public String getConnectStatus() {
+            return connectStatus;
         }
 
-        public void setState(String state) {
-            this.state = state;
+        public void setConnectStatus(String connectStatus) {
+            this.connectStatus = connectStatus;
         }
     }
 }

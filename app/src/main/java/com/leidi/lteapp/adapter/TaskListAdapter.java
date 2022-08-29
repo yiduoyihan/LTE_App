@@ -1,23 +1,19 @@
 package com.leidi.lteapp.adapter;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.bean.TaskListBean;
-
-import java.util.List;
 
 /**
  * @author yan
  * @description 首页列表适配器
  */
-public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, BaseViewHolder> {
+public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, BaseViewHolder> implements LoadMoreModule {
 
-    public TaskListAdapter(@LayoutRes int layoutResId, @Nullable List<TaskListBean.DataBean> data) {
-        super(layoutResId, data);
+    public TaskListAdapter() {
+        super(R.layout.item_task);
         addChildClickViewIds(R.id.iv_delete_item);
     }
 
@@ -31,8 +27,5 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
         holder.setText(R.id.tv_task_content_6, bean.getTaskName());
 
         holder.getView(R.id.tv_flag_pic).setBackgroundResource(bean.getTaskStatus().equals("0") ? R.mipmap.doing_pic : R.mipmap.over_pic);
-//        holder.setText(R.id.tv_home_detail, Html.fromHtml(bean.getNoticeContent()));
-//        holder.setText(R.id.tv_date,bean.getCreateTime());
-//        holder.addOnClickListener(R.id.home_item_delete);
     }
 }

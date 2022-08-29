@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/page_bg_color"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="74dp"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:paddingTop="24dp"
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"
-        android:text="告警展示" />
+        android:textSize="20sp"
+        android:text="告警展示"
+        android:textColor="@color/white" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_alarm_list"
-        android:layout_below="@id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include layout="@layout/recyclerview_layout" />
 
-</RelativeLayout>
+
+</LinearLayout>

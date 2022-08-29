@@ -27,6 +27,7 @@ import com.permissionx.guolindev.callback.ForwardToSettingsCallback;
 import com.permissionx.guolindev.callback.RequestCallback;
 import com.permissionx.guolindev.request.ExplainScope;
 import com.permissionx.guolindev.request.ForwardScope;
+import com.rxjava.rxlife.RxLife;
 import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -198,6 +199,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener, 
                 .addHeader("Authorization", "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN))
                 .asClass(BaseBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
                 .subscribe(bean -> {
                     if (bean.getCode() == 200) {
                         dialog.dismiss();

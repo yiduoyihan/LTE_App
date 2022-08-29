@@ -15,19 +15,19 @@ import androidx.annotation.Nullable;
  * @author yan
  * @description 首页列表适配器
  */
-public class DeviceListAdapter extends BaseQuickAdapter<DeviceListBean.DataBean, BaseViewHolder> {
+public class DeviceListAdapter extends BaseQuickAdapter<DeviceListBean.RowsBean, BaseViewHolder> {
 
-    public DeviceListAdapter(@LayoutRes int layoutResId, @Nullable List<DeviceListBean.DataBean> data) {
-        super(layoutResId, data);
+    public DeviceListAdapter() {
+        super(R.layout.item_device);
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, DeviceListBean.DataBean bean) {
-       holder.setText(R.id.tv_device_number,bean.getNumber());
-       holder.setText(R.id.tv_device_d_number,bean.getD_number());
-       holder.setText(R.id.tv_device_ip,bean.getIp());
-       holder.setText(R.id.tv_device_address,bean.getAddress());
-       holder.setText(R.id.tv_device_name,bean.getName());
-       holder.setText(R.id.tv_device_state,bean.getState());
+    protected void convert(BaseViewHolder holder, DeviceListBean.RowsBean bean) {
+       holder.setText(R.id.tv_device_number,bean.getId());
+//       holder.setText(R.id.tv_device_d_number,bean.getD_number());
+       holder.setText(R.id.tv_device_ip,bean.getDeviceIp());
+       holder.setText(R.id.tv_device_address,bean.getDevLocation());
+       holder.setText(R.id.tv_device_name,bean.getEquipName());
+       holder.setText(R.id.tv_device_state,bean.getConnectStatus());
     }
 }
