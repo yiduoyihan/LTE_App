@@ -1,11 +1,14 @@
 package com.leidi.lteapp.ui;
 
+import android.content.Intent;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
@@ -50,14 +53,19 @@ public class SettingActivity extends BaseActivity {
      * 发送请求修改密码
      */
     private void submitChangePwdRequest(String oldPwd, String newPwd) {
-        RxHttp.postForm(Url.change_pwd)
-                .add("", "")
+        RxHttp.putForm(Url.change_pwd)
+                .add("oldPassword", oldPwd)
+                .add("newPassword", newPwd)
                 .asClass(BaseBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == 200) {
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         ToastUtils.showShort("密码修改成功，请重新登录");
+                        SPUtils.getInstance().clear();
+                        startActivity(new Intent(this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        finish();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }

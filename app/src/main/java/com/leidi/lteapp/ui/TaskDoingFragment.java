@@ -16,12 +16,16 @@ import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
-import com.leidi.lteapp.event.TaskRequest;
+import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.PageInfoUtil;
 import com.leidi.lteapp.util.Url;
 import com.leidi.lteapp.view.CustomLoadMoreView;
 import com.rxjava.rxlife.RxLife;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -31,7 +35,7 @@ import rxhttp.RxHttp;
  *
  * @author yan
  */
-public class TaskDoingFragment extends BaseFragment implements TaskRequest {
+public class TaskDoingFragment extends BaseFragment{
     RecyclerView recyclerView;
     TaskListAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -46,6 +50,7 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest {
 
     @Override
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
+        EventBus.getDefault().register(this);
         //下拉刷新控件
         swipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(15, 80, 153));
@@ -152,7 +157,7 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest {
                     //停掉刷新的圈圈
                     swipeRefreshLayout.setRefreshing(false);
                     adapter.getLoadMoreModule().setEnableLoadMore(true);
-                    if (bean.getCode() == 200) {
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         if (pageInfoUtil.isFirstPage()) {
                             //如果是加载的第一页数据，用 setData()
                             adapter.setList(bean.getData());
@@ -167,15 +172,12 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest {
                         } else {
                             adapter.getLoadMoreModule().loadMoreComplete();
                         }
-
                         // page加一
                         pageInfoUtil.nextPage();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    swipeRefreshLayout.setRefreshing(false);
-                });
+                }, throwable -> swipeRefreshLayout.setRefreshing(false));
 
     }
 
@@ -184,7 +186,13 @@ public class TaskDoingFragment extends BaseFragment implements TaskRequest {
     }
 
     @Override
-    public void refreshTaskList() {
-        requestTaskList();
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onListShouldRefresh(RefreshTaskDoingEvent event) {
+        refresh();
     }
 }

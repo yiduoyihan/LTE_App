@@ -1,6 +1,5 @@
 package com.leidi.lteapp.ui;
 
-import android.content.Intent;
 import android.text.format.DateFormat;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,11 +11,13 @@ import com.google.gson.JsonElement;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,10 +26,10 @@ import rxhttp.RxHttp;
 
 /**
  * 创建故障单页面
+ * @author 阎
  */
 public class CreateTaskActivity extends BaseActivity {
     EditText et1, et2;
-    Intent intent;
 
     @Override
     protected int getLayoutId() {
@@ -37,11 +38,6 @@ public class CreateTaskActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        //默认
-        intent = getIntent();
-        intent.setAction("关闭");
-        setResult(Constant.REQUEST_DOING, intent);
-
         long sysTime = System.currentTimeMillis();
         CharSequence sysTimeStr = DateFormat.format("yyyy-MM-dd HH:mm:ss", sysTime);
         setToolbar("创建故障单");
@@ -59,9 +55,7 @@ public class CreateTaskActivity extends BaseActivity {
 
         et1 = findViewById(R.id.et_create_task_name);
         et2 = findViewById(R.id.et_create_task_content);
-        findViewById(R.id.btn_create_task).setOnClickListener(view -> {
-            createWorkForm();
-        });
+        findViewById(R.id.btn_create_task).setOnClickListener(view -> createWorkForm());
         controlKeyboard(R.id.rl_create_task);
     }
 
@@ -88,16 +82,12 @@ public class CreateTaskActivity extends BaseActivity {
                     //请求成功
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         //创建成功关闭页面
-                        Intent intent = getIntent();
-                        intent.setAction("刷新");
-                        setResult(Constant.SUCCESS_CODE, intent);
+                        EventBus.getDefault().post(new RefreshTaskDoingEvent());
                         finish();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    System.out.println(throwable.getMessage());
-                });
+                }, throwable -> System.out.println(throwable.getMessage()));
 
     }
 

@@ -2,28 +2,24 @@ package com.leidi.lteapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.widget.RadioGroup;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseActivity;
-import com.leidi.lteapp.event.PicRequest;
+import com.leidi.lteapp.event.ChangeHeadPicEvent;
 import com.leidi.lteapp.ui.AlarmFragment;
 import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
-import com.leidi.lteapp.util.Constant;
 import com.zhihu.matisse.Matisse;
 
-import java.util.List;
-
 import androidx.viewpager.widget.ViewPager;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private ViewPager viewPager;
     private RadioGroup radioGroup;
-    private PicRequest picRequest;
     MainPagerAdapter adapter;
 
     @Override
@@ -45,11 +41,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initRadioGroup();
         setupViewPager();
-        initData();
-    }
-
-    private void initData() {
-        picRequest = (SelfFragment) adapter.getItem(3);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -128,15 +119,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         viewPager.removeOnPageChangeListener(this);
     }
 
+    /**
+     * 这里用来接收selfFragment中换图像时候选择头像的结果信息，然后再将结果信息发送回到SelfFragment中去加载图片，显示在imageview中
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelfFragment.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> uriList = Matisse.obtainResult(data);
-            List<String> pathResult = Matisse.obtainPathResult(data);//上传图片时候的路径
-            picRequest.getPicPath(pathResult.get(0));
-        }else if (requestCode == Constant.REQUEST_DOING && resultCode ==Constant.SUCCESS_CODE){
-            ToastUtils.showShort("接收到了forresult的返回值");
+            EventBus.getDefault().post(new ChangeHeadPicEvent(Matisse.obtainPathResult(data).get(0)));
         }
     }
 

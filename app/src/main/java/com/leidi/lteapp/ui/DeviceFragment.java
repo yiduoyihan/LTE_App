@@ -14,20 +14,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.DeviceListAdapter;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.DeviceListBean;
+import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
 /**
- * 我的设置页面
+ * 我的设备页面
  *
  * @author yan
  */
@@ -36,7 +33,6 @@ public class DeviceFragment extends BaseFragment {
     private RadioGroup radioGroup;
     RecyclerView recyclerView;
     DeviceListAdapter adapter;
-//    List<DeviceListBean.RowsBean> dataList = new ArrayList<>();
     int requestFlag = 1;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -101,7 +97,7 @@ public class DeviceFragment extends BaseFragment {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     swipeRefreshLayout.setRefreshing(false);
-                    if (bean.getCode() == 200) {
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         adapter.setList(bean.getRows());
                     } else {
                         ToastUtils.showShort(bean.getMsg());

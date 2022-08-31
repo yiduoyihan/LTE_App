@@ -7,11 +7,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
@@ -59,7 +59,7 @@ public class CheckUpdateActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == 200) {
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         ToastUtils.showShort("有更新");
                         noUpdate.setVisibility(View.GONE);
                         haveUpdate.setVisibility(View.VISIBLE);

@@ -2,7 +2,6 @@ package com.leidi.lteapp.ui;
 
 
 import android.annotation.SuppressLint;
-import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;

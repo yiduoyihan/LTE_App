@@ -4,8 +4,8 @@ import rxhttp.wrapper.annotation.DefaultDomain;
 
 public class Url {
     @DefaultDomain() //设置为默认域名
-    public static String baseUrl = "http://shenhaitao.top:8910";
-//    public static String baseUrl = "http://172.16.200.50:7080";
+//    public static String baseUrl = "http://shenhaitao.top:8910";
+    public static String baseUrl = "http://192.168.8.26:7080";
 
     public static final String login = "/app/login";
     public static final String getInfo = "/app/getInfo";
@@ -19,6 +19,6 @@ public class Url {
     public static final String knowledge = "/app/business/maintainInstruct/pageList";
     public static final String alarm_list = "/app/business/alarminfo/list";
     public static final String device_list = "/app/business/deviceStatus/list";
-    public static final String change_pwd = "修改密码";
+    public static final String change_pwd = "/app/updatePwd";
     public static final String check_update = "检查更新";
 }

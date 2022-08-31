@@ -2,15 +2,12 @@ package com.leidi.lteapp.ui;
 
 
 import android.annotation.SuppressLint;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
-import com.leidi.lteapp.base.BaseBean;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 

@@ -17,6 +17,10 @@ import com.rxjava.rxlife.RxLife;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
+/**
+ * 任务详情页面
+ * @author 阎
+ */
 public class TaskDetailActivity extends BaseActivity {
 
     private int taskId;
@@ -48,12 +52,7 @@ public class TaskDetailActivity extends BaseActivity {
         } else {
             btn.setVisibility(View.GONE);
         }
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitArrive();
-            }
-        });
+        btn.setOnClickListener(v -> submitArrive());
         initData();
     }
 
@@ -74,9 +73,7 @@ public class TaskDetailActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    System.out.println(throwable.getMessage());
-                });
+                }, throwable -> System.out.println(throwable.getMessage()));
 
     }
 
@@ -94,9 +91,7 @@ public class TaskDetailActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    System.out.println(throwable.getMessage());
-                });
+                }, throwable -> System.out.println(throwable.getMessage()));
 
 
     }

@@ -10,6 +10,7 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.LoginBean;
 import com.leidi.lteapp.bean.UserInfoBean;
+import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
@@ -17,6 +18,9 @@ import com.rxjava.rxlife.RxLife;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
+/**
+ * @author 阎
+ */
 public class LoginActivity extends BaseActivity {
 
     private EditText etAccount, etPassWord;
@@ -48,7 +52,9 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    //请求登陆数据
+    /**
+     * 请求登陆数据
+     */
     private void requestToLogin() {
         RxHttp.postForm(Url.login)
                 .setAssemblyEnabled(false)
@@ -58,7 +64,7 @@ public class LoginActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == 200) {
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         SPUtils.getInstance().put(SpUtilsKey.TOKEN, bean.getToken());
                         //获取用户信息
                         getUserInfo();
@@ -75,7 +81,7 @@ public class LoginActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == 200) {
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         SPUtils.getInstance().put(SpUtilsKey.IS_LOGIN, true);
                         SPUtils.getInstance().put(SpUtilsKey.USER_NAME, bean.getUser().getUserName());
                         SPUtils.getInstance().put(SpUtilsKey.NICK_NAME, bean.getUser().getNickName());
@@ -95,7 +101,9 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    //账号密码的非空验证
+    /**
+     * 账号密码的非空验证
+     */
     private boolean verifyInputContent(EditText view) {
         if (view.getText().toString().trim().isEmpty()) {
             ToastUtils.showShort("账号密码不能为空");
