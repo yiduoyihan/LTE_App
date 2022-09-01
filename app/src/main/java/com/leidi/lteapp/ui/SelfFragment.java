@@ -17,6 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
+import com.leidi.lteapp.base.UploadHeadPicBean;
 import com.leidi.lteapp.event.ChangeHeadPicEvent;
 import com.leidi.lteapp.util.CommonDialog;
 import com.leidi.lteapp.util.Constant;
@@ -64,6 +65,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         EventBus.getDefault().register(this);
         ivHead = view.findViewById(R.id.iv_head_pic);
+        Picasso.with(getActivity()).load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC)).into(ivHead);
         view.findViewById(R.id.fm_self_item1).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item2).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item3).setOnClickListener(this);
@@ -175,7 +177,6 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
 
     private void requestLoginOut() {
         RxHttp.postForm(Url.login_out)
-                .addHeader("Authorization", "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN))
                 .asClass(BaseBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -205,7 +206,25 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     public void onHeadPicChange(ChangeHeadPicEvent event) {
         //先上传头像到服务器，然后同时本地加载显示头像
         File newFile = CompressHelper.getDefault(getActivity()).compressToFile(new File(event.getHeadPicPath()));
-        Picasso.with(getActivity()).load(newFile).into(ivHead);
+        upLoadPic(newFile);
+    }
 
+    private void upLoadPic(File newFile) {
+        RxHttp.postForm(Url.upload_pic)
+                .addFile("avatarfile", newFile)
+                .asClass(UploadHeadPicBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                    if (bean.getCode() == 200) {
+                        ToastUtils.showShort("上传成功");
+                        SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getImgUrl());
+                        Picasso.with(getActivity()).load(newFile).into(ivHead);
+                    } else {
+                        ToastUtils.showShort(bean.getMsg());
+                    }
+
+                }, throwable -> {
+                });
     }
 }

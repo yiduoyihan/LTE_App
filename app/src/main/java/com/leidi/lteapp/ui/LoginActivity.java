@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity {
      * 请求登陆数据
      */
     private void requestToLogin() {
+        loadingDialog.show();
         RxHttp.postForm(Url.login)
                 .setAssemblyEnabled(false)
                 .add("username", etAccount.getText().toString().trim())
@@ -81,6 +82,7 @@ public class LoginActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
+                    loadingDialog.loadSuccess();
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         SPUtils.getInstance().put(SpUtilsKey.IS_LOGIN, true);
                         SPUtils.getInstance().put(SpUtilsKey.USER_NAME, bean.getUser().getUserName());
@@ -90,6 +92,7 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.getInstance().put(SpUtilsKey.USER_ZY, bean.getUser().getDept().getDeptName());
                         SPUtils.getInstance().put(SpUtilsKey.USER_DW, bean.getUserGroup().getDwName());
                         SPUtils.getInstance().put(SpUtilsKey.USER_BZ, bean.getUserGroup().getBzName());
+                        SPUtils.getInstance().put(SpUtilsKey.IS_TSZY, bean.getUserGroup().getIsSpecial());
                         //请求成功跳转主页
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
@@ -97,6 +100,7 @@ public class LoginActivity extends BaseActivity {
                         ToastUtils.showShort(bean.getMsg());
                     }
                 }, throwable -> {
+                    loadingDialog.loadFailed();
                 });
 
     }

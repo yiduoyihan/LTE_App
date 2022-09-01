@@ -66,12 +66,12 @@ public class TaskDetailBean {
          * appLteTaskDetails : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}
          */
 
-        private Object searchValue;
+        private String searchValue;
         private String createBy;
         private String createTime;
-        private Object updateBy;
-        private Object updateTime;
-        private Object remark;
+        private String updateBy;
+        private String updateTime;
+        private String remark;
         private ParamsBean params;
         private int taskId;
         private String taskNo;
@@ -85,19 +85,19 @@ public class TaskDetailBean {
         private String bzName;
         private String createUserId;
         private String taskStatus;
-        private Object responseTimes;
-        private Object handleTimes;
-        private Object arriveTime;
-        private Object completeTime;
+        private String responseTimes;
+        private String handleTimes;
+        private String arriveTime;
+        private String completeTime;
         private String endTime;
         private String delFlag;
         private AppLteTaskDetailsBean appLteTaskDetails;
 
-        public Object getSearchValue() {
+        public String getSearchValue() {
             return searchValue;
         }
 
-        public void setSearchValue(Object searchValue) {
+        public void setSearchValue(String searchValue) {
             this.searchValue = searchValue;
         }
 
@@ -117,27 +117,27 @@ public class TaskDetailBean {
             this.createTime = createTime;
         }
 
-        public Object getUpdateBy() {
+        public String getUpdateBy() {
             return updateBy;
         }
 
-        public void setUpdateBy(Object updateBy) {
+        public void setUpdateBy(String updateBy) {
             this.updateBy = updateBy;
         }
 
-        public Object getUpdateTime() {
+        public String getUpdateTime() {
             return updateTime;
         }
 
-        public void setUpdateTime(Object updateTime) {
+        public void setUpdateTime(String updateTime) {
             this.updateTime = updateTime;
         }
 
-        public Object getRemark() {
+        public String getRemark() {
             return remark;
         }
 
-        public void setRemark(Object remark) {
+        public void setRemark(String remark) {
             this.remark = remark;
         }
 
@@ -245,35 +245,35 @@ public class TaskDetailBean {
             this.taskStatus = taskStatus;
         }
 
-        public Object getResponseTimes() {
+        public String getResponseTimes() {
             return responseTimes;
         }
 
-        public void setResponseTimes(Object responseTimes) {
+        public void setResponseTimes(String responseTimes) {
             this.responseTimes = responseTimes;
         }
 
-        public Object getHandleTimes() {
+        public String getHandleTimes() {
             return handleTimes;
         }
 
-        public void setHandleTimes(Object handleTimes) {
+        public void setHandleTimes(String handleTimes) {
             this.handleTimes = handleTimes;
         }
 
-        public Object getArriveTime() {
+        public String getArriveTime() {
             return arriveTime;
         }
 
-        public void setArriveTime(Object arriveTime) {
+        public void setArriveTime(String arriveTime) {
             this.arriveTime = arriveTime;
         }
 
-        public Object getCompleteTime() {
+        public String getCompleteTime() {
             return completeTime;
         }
 
-        public void setCompleteTime(Object completeTime) {
+        public void setCompleteTime(String completeTime) {
             this.completeTime = completeTime;
         }
 
@@ -329,73 +329,74 @@ public class TaskDetailBean {
              * lteTaskDetailsPics : null
              */
 
-            private Object searchValue;
-            private Object createBy;
-            private Object createTime;
-            private Object updateBy;
-            private Object updateTime;
-            private Object remark;
+            private String searchValue;
+            private String createBy;
+            private String createTime;
+            private String updateBy;
+            private String updateTime;
+            private String remark;
             private ParamsBeanX params;
-            private Object id;
+            private String id;
             private String taskNo;
-            private Object arrivePosition;
-            private Object arriveTime;
-            private Object responseTimes;
-            private Object completeTime;
-            private Object handleTimes;
-            private Object userId;
-            private Object userName;
-            private Object faultDes;
-            private Object processDes;
-            private Object deviceDes;
-            private Object status;
-            private Object lteTaskDetailsPics;
+            private String arrivePosition;
+            private String arriveTime;
+            private String responseTimes;
+            private String completeTime;
+            private String handleTimes;
+            private String userId;
+            private String userName;
+            private String faultDes;
+            private String processDes;
+            private String deviceDes;
+            // status 1标示点过了到达现场
+            private String status;
+            private String lteTaskDetailsPics;
 
-            public Object getSearchValue() {
+            public String getSearchValue() {
                 return searchValue;
             }
 
-            public void setSearchValue(Object searchValue) {
+            public void setSearchValue(String searchValue) {
                 this.searchValue = searchValue;
             }
 
-            public Object getCreateBy() {
+            public String getCreateBy() {
                 return createBy;
             }
 
-            public void setCreateBy(Object createBy) {
+            public void setCreateBy(String createBy) {
                 this.createBy = createBy;
             }
 
-            public Object getCreateTime() {
+            public String getCreateTime() {
                 return createTime;
             }
 
-            public void setCreateTime(Object createTime) {
+            public void setCreateTime(String createTime) {
                 this.createTime = createTime;
             }
 
-            public Object getUpdateBy() {
+            public String getUpdateBy() {
                 return updateBy;
             }
 
-            public void setUpdateBy(Object updateBy) {
+            public void setUpdateBy(String updateBy) {
                 this.updateBy = updateBy;
             }
 
-            public Object getUpdateTime() {
+            public String getUpdateTime() {
                 return updateTime;
             }
 
-            public void setUpdateTime(Object updateTime) {
+            public void setUpdateTime(String updateTime) {
                 this.updateTime = updateTime;
             }
 
-            public Object getRemark() {
+            public String getRemark() {
                 return remark;
             }
 
-            public void setRemark(Object remark) {
+            public void setRemark(String remark) {
                 this.remark = remark;
             }
 
@@ -407,11 +408,11 @@ public class TaskDetailBean {
                 this.params = params;
             }
 
-            public Object getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(Object id) {
+            public void setId(String id) {
                 this.id = id;
             }
 
@@ -423,99 +424,99 @@ public class TaskDetailBean {
                 this.taskNo = taskNo;
             }
 
-            public Object getArrivePosition() {
+            public String getArrivePosition() {
                 return arrivePosition;
             }
 
-            public void setArrivePosition(Object arrivePosition) {
+            public void setArrivePosition(String arrivePosition) {
                 this.arrivePosition = arrivePosition;
             }
 
-            public Object getArriveTime() {
+            public String getArriveTime() {
                 return arriveTime;
             }
 
-            public void setArriveTime(Object arriveTime) {
+            public void setArriveTime(String arriveTime) {
                 this.arriveTime = arriveTime;
             }
 
-            public Object getResponseTimes() {
+            public String getResponseTimes() {
                 return responseTimes;
             }
 
-            public void setResponseTimes(Object responseTimes) {
+            public void setResponseTimes(String responseTimes) {
                 this.responseTimes = responseTimes;
             }
 
-            public Object getCompleteTime() {
+            public String getCompleteTime() {
                 return completeTime;
             }
 
-            public void setCompleteTime(Object completeTime) {
+            public void setCompleteTime(String completeTime) {
                 this.completeTime = completeTime;
             }
 
-            public Object getHandleTimes() {
+            public String getHandleTimes() {
                 return handleTimes;
             }
 
-            public void setHandleTimes(Object handleTimes) {
+            public void setHandleTimes(String handleTimes) {
                 this.handleTimes = handleTimes;
             }
 
-            public Object getUserId() {
+            public String getUserId() {
                 return userId;
             }
 
-            public void setUserId(Object userId) {
+            public void setUserId(String userId) {
                 this.userId = userId;
             }
 
-            public Object getUserName() {
+            public String getUserName() {
                 return userName;
             }
 
-            public void setUserName(Object userName) {
+            public void setUserName(String userName) {
                 this.userName = userName;
             }
 
-            public Object getFaultDes() {
+            public String getFaultDes() {
                 return faultDes;
             }
 
-            public void setFaultDes(Object faultDes) {
+            public void setFaultDes(String faultDes) {
                 this.faultDes = faultDes;
             }
 
-            public Object getProcessDes() {
+            public String getProcessDes() {
                 return processDes;
             }
 
-            public void setProcessDes(Object processDes) {
+            public void setProcessDes(String processDes) {
                 this.processDes = processDes;
             }
 
-            public Object getDeviceDes() {
+            public String getDeviceDes() {
                 return deviceDes;
             }
 
-            public void setDeviceDes(Object deviceDes) {
+            public void setDeviceDes(String deviceDes) {
                 this.deviceDes = deviceDes;
             }
 
-            public Object getStatus() {
+            public String getStatus() {
                 return status;
             }
 
-            public void setStatus(Object status) {
+            public void setStatus(String status) {
                 this.status = status;
             }
 
-            public Object getLteTaskDetailsPics() {
+            public String getLteTaskDetailsPics() {
                 return lteTaskDetailsPics;
             }
 
-            public void setLteTaskDetailsPics(Object lteTaskDetailsPics) {
+            public void setLteTaskDetailsPics(String lteTaskDetailsPics) {
                 this.lteTaskDetailsPics = lteTaskDetailsPics;
             }
 

@@ -63,6 +63,7 @@ public class CreateTaskActivity extends BaseActivity {
      * 新增故障单
      */
     private void createWorkForm() {
+        System.out.println("=====token:Bearer "+SPUtils.getInstance().getString(SpUtilsKey.TOKEN));;
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("taskName", et1.getText().toString().trim());

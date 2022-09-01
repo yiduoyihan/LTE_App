@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.leidi.lteapp.R;
+import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
 
 /**
@@ -29,6 +30,7 @@ public abstract class BaseActivity extends FragmentActivity {
     Bundle savedInstanceState;
     TextView tvNetDisconnection;
     public LinearLayout toolbar;
+    protected LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,11 @@ public abstract class BaseActivity extends FragmentActivity {
         this.savedInstanceState = savedInstanceState;
         // 竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.setLoadingText("加载中")
+//                .setSuccessText("加载成功")//显示加载成功时的文字
+                .setFailedText("加载失败")
+                .setLoadSpeed(LoadingDialog.Speed.SPEED_TWO);
 //        controlStateBar();
         setContentView(getLayoutId());
         tvTitleLeftButton = findViewById(R.id.tv_title_left);
@@ -84,7 +91,7 @@ public abstract class BaseActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
-    protected void stateBarTransparent(){
+    protected void stateBarTransparent() {
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);

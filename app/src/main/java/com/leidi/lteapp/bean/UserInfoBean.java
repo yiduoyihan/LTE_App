@@ -799,7 +799,7 @@ public class UserInfoBean {
          * dwName : 电信-单位1
          * bzId : 210
          * bzName : 电信-单位1-班组1
-         * isSpecial : 1
+         * isSpecial : 1是（4个tab），0否（没有中间2个）
          */
 
         private Object searchValue;

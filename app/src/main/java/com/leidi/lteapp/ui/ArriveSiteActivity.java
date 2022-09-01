@@ -50,7 +50,7 @@ import rxhttp.RxHttp;
  */
 public class ArriveSiteActivity extends BaseActivity {
 
-    private int taskId;
+    private String taskNo;
     /**
      * 图片真实路径
      */
@@ -58,7 +58,7 @@ public class ArriveSiteActivity extends BaseActivity {
     /**
      * 上传服务器时候的文件列表
      */
-    protected List<File> files = new ArrayList<>();
+    List<File> files = new ArrayList<>();
     /**
      * 选择图片之后展示图片的adapter
      */
@@ -74,9 +74,6 @@ public class ArriveSiteActivity extends BaseActivity {
     private EditText et1, et2, et3;
     TextView tvAddress;
 
-    public LocationClient mLocationClient = null;
-    private final MyLocationListener myListener = new MyLocationListener();
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_arrive_site;
@@ -89,54 +86,11 @@ public class ArriveSiteActivity extends BaseActivity {
         controlKeyboard(R.id.arrive_site_page);
         initDefaultData();
         initGridView();
-        initBdLocation();
-        requestLocationPermission();
 
         findViewById(R.id.btn_task_over).setOnClickListener(v -> submitTaskProcess());
 
-        taskId = getIntent().getIntExtra("taskId", 0);
-    }
+        taskNo = getIntent().getStringExtra("taskNo");
 
-    /**
-     * 请求定位相关的权限
-     */
-    private void requestLocationPermission() {
-        PermissionX.init(this)
-                .permissions(Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-                .request((allGranted, grantedList, deniedList) -> {
-                    if (allGranted) {
-                        mLocationClient.start();
-                    } else {
-                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-                    }
-                });
-
-    }
-
-    /**
-     * 百度定位
-     */
-    private void initBdLocation() {
-        mLocationClient = new LocationClient(getApplicationContext());
-        //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
-
-        LocationClientOption option = new LocationClientOption();
-        option.setIsNeedAddress(true);
-        //可选，是否需要地址信息，默认为不需要，即参数为false
-        //如果开发者需要获得当前点的地址信息，此处必须为true
-        option.setNeedNewVersionRgc(true);
-        option.setScanSpan(5000);
-        //可选，设置是否需要最新版本的地址信息。默认需要，即参数为true
-        mLocationClient.setLocOption(option);
-        //mLocationClient为第二步初始化过的LocationClient对象
-        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-        //更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
     }
 
     private void initDefaultData() {
@@ -233,8 +187,8 @@ public class ArriveSiteActivity extends BaseActivity {
                 .add("faultDes", et1.getText().toString())
                 .add("processDes", et2.getText().toString())
                 .add("deviceDes", et3.getText().toString())
-                .add("taskNo", taskId)
-                .add("files", files)
+                .add("taskNo", taskNo)
+                .addFiles("files", files)
                 .asClass(BaseBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -245,6 +199,7 @@ public class ArriveSiteActivity extends BaseActivity {
                         //任务完成同时刷新已完成列表和进行中列表
                         EventBus.getDefault().post(new RefreshTaskDoingEvent());
                         EventBus.getDefault().post(new RefreshTaskOverEvent());
+                        finish();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
@@ -265,12 +220,5 @@ public class ArriveSiteActivity extends BaseActivity {
         }
     }
 
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            //获取详细地址信息
-            String address = location.getAddrStr();
-            tvAddress.setText(address.replace("中国", ""));
-        }
-    }
+
 }

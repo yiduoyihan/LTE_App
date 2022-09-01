@@ -2,8 +2,10 @@ package com.leidi.lteapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RadioGroup;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.event.ChangeHeadPicEvent;
@@ -11,6 +13,7 @@ import com.leidi.lteapp.ui.AlarmFragment;
 import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
+import com.leidi.lteapp.util.SpUtilsKey;
 import com.zhihu.matisse.Matisse;
 
 import androidx.viewpager.widget.ViewPager;
@@ -45,6 +48,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @SuppressLint("NonConstantResourceId")
     private void initRadioGroup() {
+        //由于不同的人进来的是不同的页面，因此在首页里面进行了相应的判断，即特殊专业（值为1）才有底部的四个tab，其他的只有2个
+        if (!SPUtils.getInstance().getString(SpUtilsKey.IS_TSZY).equals("1")) {
+            findViewById(R.id.rb_main_bottom2).setVisibility(View.GONE);
+            findViewById(R.id.rb_main_bottom3).setVisibility(View.GONE);
+        }
         viewPager.setOffscreenPageLimit(3);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
@@ -77,8 +85,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void setupViewPager() {
         adapter = new MainPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(TaskFragment.getInstance());
-        adapter.addFragment(DeviceFragment.getInstance());
-        adapter.addFragment(AlarmFragment.getInstance());
+        if (SPUtils.getInstance().getString(SpUtilsKey.IS_TSZY).equals("1")) {
+            adapter.addFragment(DeviceFragment.getInstance());
+            adapter.addFragment(AlarmFragment.getInstance());
+        }
         adapter.addFragment(SelfFragment.getInstance());
         viewPager.setAdapter(adapter);
     }
@@ -95,7 +105,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 radioGroup.check(R.id.rb_main_bottom1);
                 break;
             case 1:
-                radioGroup.check(R.id.rb_main_bottom2);
+                if (SPUtils.getInstance().getString(SpUtilsKey.IS_TSZY).equals("1")) {
+                    radioGroup.check(R.id.rb_main_bottom2);
+                } else {
+                    radioGroup.check(R.id.rb_main_bottom4);
+                }
                 break;
             case 2:
                 radioGroup.check(R.id.rb_main_bottom3);

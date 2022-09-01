@@ -18,5 +18,7 @@ public class SpUtilsKey {
     public static final String PHONE_NO = "phone_no";
     //头像
     public static final String HEAD_PIC = "head_pic";
+    //是否特殊专业
+    public static final String IS_TSZY = "is_tszy";
 
 }
