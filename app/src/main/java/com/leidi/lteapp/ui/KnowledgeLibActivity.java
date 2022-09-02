@@ -2,16 +2,20 @@ package com.leidi.lteapp.ui;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.KnowledgeListAdapter;
-import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.KnowledgeLibBean;
 import com.leidi.lteapp.util.Constant;
@@ -55,6 +59,14 @@ public class KnowledgeLibActivity extends BaseActivity {
                 ToastUtils.showShort("请输入您想要查询的内容");
             } else {
                 requestToSearch();
+            }
+        });
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                startActivity(new Intent(KnowledgeLibActivity.this, KnowledgeDetailActivity.class)
+                        .putExtra("url", ((KnowledgeLibBean.RowsBean) adapter.getData().get(position)).getFileUrl()));
+
             }
         });
     }

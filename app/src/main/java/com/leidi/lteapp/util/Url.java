@@ -20,7 +20,7 @@ public class Url {
     public static final String alarm_list = "/app/business/alarminfo/list";
     public static final String device_list = "/app/business/deviceStatus/list";
     public static final String change_pwd = "/app/updatePwd";
-    public static final String check_update = "检查更新";
+    public static final String check_update = "app/appset";
     public static final String sign_start = "/app/business/sgin";
     public static final String sign_end = "/app/business/sgin";
     public static final String sign_last = "/app/business/sgin/getLimit";
