@@ -71,8 +71,10 @@ public class LoginActivity extends BaseActivity {
                         getUserInfo();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
+                        loadingDialog.loadFailed();
                     }
                 }, throwable -> {
+                    loadingDialog.loadFailed();
                 });
     }
 

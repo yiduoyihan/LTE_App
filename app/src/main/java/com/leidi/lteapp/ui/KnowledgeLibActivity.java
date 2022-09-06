@@ -53,7 +53,7 @@ public class KnowledgeLibActivity extends BaseActivity {
         adapter = new KnowledgeListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
+        requestToSearch();
         btnSearch.setOnClickListener(v -> {
             if (etInput.getText().toString().trim().isEmpty()) {
                 ToastUtils.showShort("请输入您想要查询的内容");

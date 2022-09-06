@@ -16,6 +16,7 @@ public class Url {
     public static final String task_create = "/app/task";
     public static final String task_arrive = "/app/task/arrive/";
     public static final String task_complete = "/app/task/complete";
+    public static final String task_end = "/app/task/end/";
     public static final String knowledge = "/app/business/maintainInstruct/pageList";
     public static final String alarm_list = "/app/business/alarminfo/list";
     public static final String device_list = "/app/business/deviceStatus/list";
@@ -25,4 +26,5 @@ public class Url {
     public static final String sign_end = "/app/business/sgin";
     public static final String sign_last = "/app/business/sgin/getLimit";
     public static final String upload_pic = "/app/avatar";
+    public static final String word_to_pdf = "/app/business/maintainInstruct/getDetail";
 }

@@ -65,7 +65,9 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         EventBus.getDefault().register(this);
         ivHead = view.findViewById(R.id.iv_head_pic);
-        Picasso.with(getActivity()).load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC)).into(ivHead);
+        if (SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC).length() > 0) {
+            Picasso.with(getActivity()).load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC)).into(ivHead);
+        }
         view.findViewById(R.id.fm_self_item1).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item2).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item3).setOnClickListener(this);

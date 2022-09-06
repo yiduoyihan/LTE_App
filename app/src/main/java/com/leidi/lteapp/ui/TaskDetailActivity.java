@@ -10,15 +10,20 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.bean.TaskDetailBean;
+import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -36,6 +41,7 @@ public class TaskDetailActivity extends BaseActivity {
     private final MyLocationListener myListener = new MyLocationListener();
     String address;
     private String taskNo;
+    private Button btnComplete;
 
     @Override
     protected int getLayoutId() {
@@ -57,7 +63,8 @@ public class TaskDetailActivity extends BaseActivity {
         tvBz = findViewById(R.id.tv_task_group);
         tvDw = findViewById(R.id.tv_task_company);
         Button btn = findViewById(R.id.btn_arrive_site);
-
+        btnComplete = findViewById(R.id.btn_complete_task);
+        btnComplete.setOnClickListener(v -> completeTask());
         if (type == 1) {
             btn.setVisibility(View.VISIBLE);
         } else {
@@ -68,6 +75,22 @@ public class TaskDetailActivity extends BaseActivity {
 
         initBdLocation();
         requestLocationPermission();
+    }
+
+    private void completeTask() {
+        RxHttp.postForm(Url.task_end+taskId)
+//                .add("taskId", taskId)
+                .asClass(BaseBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                    ToastUtils.showShort(bean.getMsg());
+                    if (bean.getCode() == 200) {
+                        EventBus.getDefault().post(new RefreshTaskDoingEvent());
+                        finish();
+                    }
+                }, throwable -> {
+                });
     }
 
     /**
@@ -117,7 +140,7 @@ public class TaskDetailActivity extends BaseActivity {
      */
     private void submitArrive() {
         RxHttp.postForm(Url.task_arrive + taskId)
-                .add("arrivePosition", address.replace("中国",""))
+                .add("arrivePosition", address.replace("中国", ""))
                 .asClass(BaseBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -154,6 +177,11 @@ public class TaskDetailActivity extends BaseActivity {
     }
 
     private void upDatePageContent(TaskDetailBean bean) {
+        if (bean.getData().getCreateBy().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))) {
+            btnComplete.setVisibility(View.VISIBLE);
+        } else {
+            btnComplete.setVisibility(View.GONE);
+        }
         tvCreateTime.setText(bean.getData().getCreateTime());
         tvOverTime.setText(bean.getData().getEndTime());
         tvTaskName.setText(bean.getData().getTaskName());
@@ -163,8 +191,8 @@ public class TaskDetailActivity extends BaseActivity {
         tvBz.setText(bean.getData().getBzName());
         tvDw.setText(bean.getData().getDwName());
         taskNo = bean.getData().getTaskNo();
-        if (null != bean.getData().getAppLteTaskDetails().getStatus()){
-            if (bean.getData().getAppLteTaskDetails().getStatus().equals("1")){
+        if (null != bean.getData().getAppLteTaskDetails().getStatus()) {
+            if (bean.getData().getAppLteTaskDetails().getStatus().equals("1")) {
                 startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
                         .putExtra("taskNo", taskNo));
                 finish();
