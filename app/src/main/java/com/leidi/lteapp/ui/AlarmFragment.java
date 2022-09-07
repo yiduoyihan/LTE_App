@@ -70,25 +70,17 @@ public class AlarmFragment extends BaseFragment {
 
     private void initItemClick() {
         //item 本身的点击事件
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startActivity(new Intent(getActivity(), AlarmDetailActivity.class));
-            }
-        });
+        adapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getActivity(), AlarmDetailActivity.class)));
     }
 
     private void initItemChildClick() {
         //item 后面的按钮点击事件
-        adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                ToastUtils.showShort("pos" + position);
-                if (view.getId() == R.id.tv_alarm_btn_1) {
-                    startActivity(new Intent(getActivity(), AnalyzeResultActivity.class));
-                } else {
-                    startActivity(new Intent(getActivity(), CreateTaskActivity.class));
-                }
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            ToastUtils.showShort("pos" + position);
+            if (view.getId() == R.id.tv_alarm_btn_1) {
+                startActivity(new Intent(getActivity(), AnalyzeResultActivity.class));
+            } else {
+                startActivity(new Intent(getActivity(), CreateTaskActivity.class));
             }
         });
     }

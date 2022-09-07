@@ -35,7 +35,7 @@ import rxhttp.RxHttp;
  *
  * @author yan
  */
-public class TaskDoingFragment extends BaseFragment{
+public class TaskDoingFragment extends BaseFragment {
     RecyclerView recyclerView;
     TaskListAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -96,9 +96,7 @@ public class TaskDoingFragment extends BaseFragment{
                 startActivity(
                         new Intent(getActivity(), TaskDetailActivity.class)
                                 .putExtra("taskId", ((TaskListBean.DataBean) adapter.getData().get(position)).getTaskId())
-                                .putExtra("type", 1))
-
-        );
+                                .putExtra("type", 1)));
     }
 
     /**
@@ -172,7 +170,7 @@ public class TaskDoingFragment extends BaseFragment{
                             adapter.getLoadMoreModule().loadMoreComplete();
                         }
                         //如果数据为0，展示空布局
-                        if (bean.getData().size() == 0){
+                        if (bean.getData().size() == 0) {
                             adapter.setEmptyView(R.layout.empty_view);
                         }
                         // page加一

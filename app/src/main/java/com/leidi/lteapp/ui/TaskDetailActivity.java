@@ -42,7 +42,7 @@ public class TaskDetailActivity extends BaseActivity {
     String address;
     private String taskNo;
     private Button btnComplete;
-
+    int type;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_task_detail;
@@ -51,7 +51,7 @@ public class TaskDetailActivity extends BaseActivity {
     @Override
     protected void initView() {
         setToolbar("任务详情");
-        int type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("type", 0);
         taskId = getIntent().getIntExtra("taskId", 0);
 
         tvCreateTime = findViewById(R.id.tv_create_time);
@@ -177,7 +177,8 @@ public class TaskDetailActivity extends BaseActivity {
     }
 
     private void upDatePageContent(TaskDetailBean bean) {
-        if (bean.getData().getCreateBy().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))) {
+        if (bean.getData().getCreateBy().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))
+                && type ==1) {
             btnComplete.setVisibility(View.VISIBLE);
         } else {
             btnComplete.setVisibility(View.GONE);

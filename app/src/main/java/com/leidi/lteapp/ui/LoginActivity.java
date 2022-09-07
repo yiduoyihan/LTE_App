@@ -73,9 +73,7 @@ public class LoginActivity extends BaseActivity {
                         loadingDialog.closeFailedAnim().loadFailed();
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    loadingDialog.loadFailed();
-                });
+                }, throwable -> loadingDialog.loadFailed());
     }
 
     private void getUserInfo() {
@@ -101,9 +99,7 @@ public class LoginActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    loadingDialog.loadFailed();
-                });
+                }, throwable -> loadingDialog.loadFailed());
 
     }
 

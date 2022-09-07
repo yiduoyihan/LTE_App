@@ -225,7 +225,6 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-
                 }, throwable -> {
                 });
     }

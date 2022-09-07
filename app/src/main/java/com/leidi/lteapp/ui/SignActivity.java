@@ -3,10 +3,6 @@ package com.leidi.lteapp.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateFormat;
@@ -17,8 +13,6 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.BusUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -34,13 +28,8 @@ import com.rxjava.rxlife.RxLife;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -65,13 +54,11 @@ public class SignActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    long sysTime = System.currentTimeMillis();
-                    CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
-                    tvTimeEnd.setText(sysTimeStr); //更新时间
-                    tvTimeStart.setText(sysTimeStr); //更新时间
-                    break;
+            if (msg.what == 1) {
+                long sysTime = System.currentTimeMillis();
+                CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
+                tvTimeEnd.setText(sysTimeStr); //更新时间
+                tvTimeStart.setText(sysTimeStr); //更新时间
             }
         }
     };
@@ -95,19 +82,9 @@ public class SignActivity extends BaseActivity {
         tvTimeStart = findViewById(R.id.tv_show_start_time);
         tvSignEnd = findViewById(R.id.tv_sign_end_btn);
         tvTimeEnd = findViewById(R.id.tv_show_end_time);
-        tvSignStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestSignStart(tvTimeStart.getText().toString());
-            }
-        });
+        tvSignStart.setOnClickListener(v -> requestSignStart());
 
-        tvSignEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestSignEnd(tvTimeEnd.getText().toString());
-            }
-        });
+        tvSignEnd.setOnClickListener(v -> requestSignEnd());
 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -144,7 +121,7 @@ public class SignActivity extends BaseActivity {
     /**
      * 上班签到
      */
-    private void requestSignStart(String toString) {
+    private void requestSignStart() {
         if (address.isEmpty()) {
             ToastUtils.showShort("没有获取到位置信息，不能签到");
             return;
@@ -173,7 +150,7 @@ public class SignActivity extends BaseActivity {
     /**
      * 下班签到
      */
-    private void requestSignEnd(String toString) {
+    private void requestSignEnd() {
         if (address.isEmpty()) {
             ToastUtils.showShort("没有获取到位置信息，不能签到");
             return;

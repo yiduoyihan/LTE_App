@@ -103,9 +103,7 @@ public class DeviceFragment extends BaseFragment {
                         ToastUtils.showShort(bean.getMsg());
                     }
 
-                }, throwable -> {
-                    swipeRefreshLayout.setRefreshing(false);
-                });
+                }, throwable -> swipeRefreshLayout.setRefreshing(false));
 
 
     }

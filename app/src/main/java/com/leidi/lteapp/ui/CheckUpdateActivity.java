@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateFormat;
@@ -76,7 +77,6 @@ public class CheckUpdateActivity extends BaseActivity {
         haveUpdate = findViewById(R.id.layout_have_new_version);
         updateBtn = findViewById(R.id.btn_update_now);
         tvNewVersion = findViewById(R.id.tv_new_version);
-        noUpdate.setVisibility(View.VISIBLE);
 
         checkUpdate();
         updateBtn.setOnClickListener(view -> showDownloadDialog());
@@ -85,16 +85,17 @@ public class CheckUpdateActivity extends BaseActivity {
     private void downLoadNewApk() {
         //开始下载的时候弹出对话框禁止操作并展示下载进度#24
         showDownloadDialog();
-
-        String destPath = getExternalCacheDir() + "/" + "lte.apk";
+        String destPath= Environment.getExternalStorageDirectory()+"/Download/html/lte.apk";
         RxHttp.get(newApkUrl)
                 .asAppendDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
                     //下载进度回调,0-100，仅在进度有更新时才会回调
                     int currentProgress = progress.getProgress(); //当前进度 0-100
                     long currentSize = progress.getCurrentSize(); //当前已下载的字节大小
                     long totalSize = progress.getTotalSize();     //要下载的总字节大小
+                    progressBar.setProgress(currentProgress);
                 }) //指定主线程回调
                 .subscribe(s -> { //s为String类型
+
                     //下载成功，处理相关逻辑
                     //打开apk并提示安装
                     startInstall(destPath);
@@ -167,14 +168,17 @@ public class CheckUpdateActivity extends BaseActivity {
      * 检查是否有更新
      */
     private void checkUpdate() {
+        loadingDialog.show();
         RxHttp.get(Url.check_update)
                 .asClass(UpdataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
+                    loadingDialog.closeSuccessAnim().loadSuccess();
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         if (bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
                             //版本号一致，无更新
+                            noUpdate.setVisibility(View.VISIBLE);
                         } else {
                             noUpdate.setVisibility(View.GONE);
                             haveUpdate.setVisibility(View.VISIBLE);
@@ -183,10 +187,12 @@ public class CheckUpdateActivity extends BaseActivity {
                             newApkUrl = bean.getData().getUrl();
                         }
                     } else {
+                        loadingDialog.closeFailedAnim().loadFailed();
                         ToastUtils.showShort(bean.getMsg());
                     }
 
                 }, throwable -> {
+                    loadingDialog.closeFailedAnim().loadFailed();
                 });
 
     }

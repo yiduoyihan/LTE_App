@@ -9,18 +9,18 @@
 
     <ImageView
         android:id="@+id/iv_no_update"
-        android:src="@mipmap/no_update"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:src="@mipmap/no_update"
+        android:visibility="gone" />
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/layout_have_new_version"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_margin="16dp"
-        android:background="@drawable/white_conner_bg">
+        android:background="@drawable/white_conner_bg"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="55dp"
@@ -60,7 +60,6 @@
     </RelativeLayout>
 
     <Button
-        android:visibility="gone"
         android:id="@+id/btn_update_now"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -73,6 +72,7 @@
         android:gravity="center"
         android:text="更新"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 </LinearLayout>
