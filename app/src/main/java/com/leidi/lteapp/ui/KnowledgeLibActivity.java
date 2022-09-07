@@ -66,7 +66,6 @@ public class KnowledgeLibActivity extends BaseActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 startActivity(new Intent(KnowledgeLibActivity.this, KnowledgeDetailActivity.class)
                         .putExtra("url", ((KnowledgeLibBean.RowsBean) adapter.getData().get(position)).getFileUrl()));
-
             }
         });
     }

@@ -67,7 +67,7 @@ public class KnowledgeDetailActivity extends BaseActivity {
             });
             mWebView.loadUrl("file:///android_asset/index.html?" + url);
         } else {
-            //默认为word文件。在新线程中将word保存到本地，然后通过将word转为html，通过webView查看。
+            //默认为word文件。在新线程中将word保存到本地，然后将word转为html，通过webView查看。
             new Thread(() -> {
                 File file = new WordUtil().getNetUrlHttp(url);
                 WordUtil wu = new WordUtil(file.getAbsolutePath());

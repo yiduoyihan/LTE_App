@@ -70,8 +70,8 @@ public class LoginActivity extends BaseActivity {
                         //获取用户信息
                         getUserInfo();
                     } else {
+                        loadingDialog.closeFailedAnim().loadFailed();
                         ToastUtils.showShort(bean.getMsg());
-                        loadingDialog.loadFailed();
                     }
                 }, throwable -> {
                     loadingDialog.loadFailed();

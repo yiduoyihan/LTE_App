@@ -113,8 +113,9 @@ public class TaskOverFragment extends BaseFragment {
 
     private void initItemClick() {
         adapter.setOnItemClickListener((adapter1, view1, position) ->
-                startActivity(new Intent(getActivity(), TaskDetailActivity.class).putExtra("type", 2)));
-
+                startActivity(new Intent(getActivity(), TaskDetailActivity.class)
+                        .putExtra("taskId", ((TaskListBean.DataBean) adapter.getData().get(position)).getTaskId())
+                        .putExtra("type", 2)));
     }
 
     /**
