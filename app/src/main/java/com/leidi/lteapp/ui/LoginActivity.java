@@ -11,9 +11,12 @@ import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.LoginBean;
 import com.leidi.lteapp.bean.UserInfoBean;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -73,7 +76,10 @@ public class LoginActivity extends BaseActivity {
                         loadingDialog.closeFailedAnim().loadFailed();
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> loadingDialog.loadFailed());
+                }, throwable -> {
+                    loadingDialog.loadFailed();
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                });
     }
 
     private void getUserInfo() {
@@ -99,7 +105,10 @@ public class LoginActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> loadingDialog.loadFailed());
+                }, throwable -> {
+                    loadingDialog.loadFailed();
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                });
 
     }
 

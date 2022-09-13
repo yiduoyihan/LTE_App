@@ -17,8 +17,11 @@ import com.leidi.lteapp.adapter.DeviceListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.DeviceListBean;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -96,14 +99,19 @@ public class DeviceFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    swipeRefreshLayout.setRefreshing(false);
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        adapter.setList(bean.getRows());
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
+                            swipeRefreshLayout.setRefreshing(false);
+                            if (bean.getCode() == Constant.SUCCESS_CODE) {
+                                adapter.setList(bean.getRows());
+                            } else {
+                                ToastUtils.showShort(bean.getMsg());
+                            }
 
-                }, throwable -> swipeRefreshLayout.setRefreshing(false));
+                        }, throwable -> {
+                            swipeRefreshLayout.setRefreshing(false);
+                            ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                        }
+
+                );
 
 
     }

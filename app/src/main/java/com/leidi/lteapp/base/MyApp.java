@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +28,8 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "54a947a2bc", false);
+        CrashReport.setDeviceId(getApplicationContext(), DeviceUtils.getUniqueDeviceId());
         initHttpRequest();
     }
 

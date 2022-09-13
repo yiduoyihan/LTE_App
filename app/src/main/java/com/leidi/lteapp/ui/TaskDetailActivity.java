@@ -18,12 +18,15 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -90,6 +93,7 @@ public class TaskDetailActivity extends BaseActivity {
                         finish();
                     }
                 }, throwable -> {
+                        ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
     }
 
@@ -154,7 +158,9 @@ public class TaskDetailActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> System.out.println(throwable.getMessage()));
+                }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                });
 
     }
 
@@ -172,7 +178,9 @@ public class TaskDetailActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> System.out.println(throwable.getMessage()));
+                }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                });
 
 
     }

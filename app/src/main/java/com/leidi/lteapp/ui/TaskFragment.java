@@ -14,6 +14,7 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.util.SpUtilsKey;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * 我的任务

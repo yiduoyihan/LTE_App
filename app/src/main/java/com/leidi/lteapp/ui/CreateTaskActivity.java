@@ -13,6 +13,7 @@ import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
@@ -21,11 +22,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
 /**
  * 创建故障单页面
+ *
  * @author 阎
  */
 public class CreateTaskActivity extends BaseActivity {
@@ -63,7 +67,6 @@ public class CreateTaskActivity extends BaseActivity {
      * 新增故障单
      */
     private void createWorkForm() {
-        System.out.println("=====token:Bearer "+SPUtils.getInstance().getString(SpUtilsKey.TOKEN));
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("taskName", et1.getText().toString().trim());
@@ -83,12 +86,13 @@ public class CreateTaskActivity extends BaseActivity {
                     //请求成功
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         //创建成功关闭页面
+                        ToastUtils.showShort("创建成功");
                         EventBus.getDefault().post(new RefreshTaskDoingEvent());
                         finish();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> System.out.println(throwable.getMessage()));
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 

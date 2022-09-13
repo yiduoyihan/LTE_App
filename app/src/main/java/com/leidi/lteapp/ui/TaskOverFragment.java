@@ -18,6 +18,7 @@ import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.PageInfoUtil;
 import com.leidi.lteapp.util.Url;
 import com.leidi.lteapp.view.CustomLoadMoreView;
@@ -26,6 +27,8 @@ import com.rxjava.rxlife.RxLife;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -159,6 +162,7 @@ public class TaskOverFragment extends BaseFragment {
                         ToastUtils.showShort(bean.getMsg());
                     }
                 }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
 
     }
@@ -180,7 +184,7 @@ public class TaskOverFragment extends BaseFragment {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> System.out.println(throwable.getMessage()));
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
     }
 
 

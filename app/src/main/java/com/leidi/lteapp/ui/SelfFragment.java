@@ -21,6 +21,7 @@ import com.leidi.lteapp.base.UploadHeadPicBean;
 import com.leidi.lteapp.event.ChangeHeadPicEvent;
 import com.leidi.lteapp.util.CommonDialog;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
@@ -39,6 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -194,6 +196,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     }
 
                 }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
 
     }
@@ -226,6 +229,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                         ToastUtils.showShort(bean.getMsg());
                     }
                 }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
     }
 }

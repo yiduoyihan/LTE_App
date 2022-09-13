@@ -20,9 +20,12 @@ import com.leidi.lteapp.adapter.AlarmListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.AlarmListBean;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.leidi.lteapp.view.CustomLoadMoreView;
 import com.rxjava.rxlife.RxLife;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -101,15 +104,20 @@ public class AlarmFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    //停掉刷新的圈圈
-                    swipeRefreshLayout.setRefreshing(false);
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        adapter.setList(bean.getRows());
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
+                            //停掉刷新的圈圈
+                            swipeRefreshLayout.setRefreshing(false);
+                            if (bean.getCode() == Constant.SUCCESS_CODE) {
+                                adapter.setList(bean.getRows());
+                            } else {
+                                ToastUtils.showShort(bean.getMsg());
+                            }
 
-                }, throwable -> swipeRefreshLayout.setRefreshing(false));
+                        }, throwable -> {
+                            swipeRefreshLayout.setRefreshing(false);
+                            ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                        }
+
+                );
 
 
     }

@@ -19,6 +19,7 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.event.RefreshTaskOverEvent;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
@@ -36,6 +37,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -201,7 +203,9 @@ public class ArriveSiteActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> System.out.println(throwable.getMessage()));
+                }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                });
 
     }
 

@@ -22,6 +22,7 @@ import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
@@ -31,6 +32,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -173,6 +176,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         }
                     }
                 }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
 
     }
@@ -216,6 +220,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 }, throwable -> {
                     //下载失败，处理相关逻辑
                     dialog.dismiss();
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
     }
 

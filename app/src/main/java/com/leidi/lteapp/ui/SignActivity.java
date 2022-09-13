@@ -21,6 +21,7 @@ import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.SignMsgBean;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
@@ -28,6 +29,7 @@ import com.rxjava.rxlife.RxLife;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -115,6 +117,7 @@ public class SignActivity extends BaseActivity {
                         ToastUtils.showShort(bean.getMsg());
                     }
                 }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
     }
 
@@ -141,6 +144,7 @@ public class SignActivity extends BaseActivity {
                     }
 
                 }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
 
 
@@ -168,11 +172,7 @@ public class SignActivity extends BaseActivity {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-
-                }, throwable -> {
-
-                });
-
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 

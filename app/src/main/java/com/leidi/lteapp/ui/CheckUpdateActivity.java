@@ -25,10 +25,12 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.UpdataBean;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
 import java.io.File;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -101,8 +103,8 @@ public class CheckUpdateActivity extends BaseActivity {
                     startInstall(destPath);
                 }, throwable -> {
                     //下载失败，处理相关逻辑
-                    ToastUtils.showShort("下载失败");
                     dialog.dismiss();
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
     }
 
@@ -169,6 +171,7 @@ public class CheckUpdateActivity extends BaseActivity {
 
                 }, throwable -> {
                     loadingDialog.closeFailedAnim().loadFailed();
+                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
 
     }
