@@ -92,6 +92,8 @@ public class ArriveSiteActivity extends BaseActivity {
     private void initDefaultData() {
         TextView arriveTime = findViewById(R.id.tv_arrive_time);
         tvAddress = findViewById(R.id.tv_address);
+        String address = getIntent().getStringExtra("address");
+        tvAddress.setText(address);
         TextView tvTaskPerson = findViewById(R.id.tv_task_person);
 
         et1 = findViewById(R.id.et_question_description);
@@ -109,7 +111,7 @@ public class ArriveSiteActivity extends BaseActivity {
      */
     private void initGridView() {
         pathList.add("占位图");
-        GridView gridView = (GridView) findViewById(R.id.gv_image_choose);
+        GridView gridView = findViewById(R.id.gv_image_choose);
         mAdapter = new ChoosePicAdapter(this);
         mAdapter.setData(pathList);
         gridView.setAdapter(mAdapter);
@@ -144,7 +146,7 @@ public class ArriveSiteActivity extends BaseActivity {
                 .countable(true)
                 .capture(true)
                 .captureStrategy(
-                        new CaptureStrategy(true, "com.leidi.trainalarm.fileprovider", "test"))
+                        new CaptureStrategy(true, "com.leidi.lteapp.fileprovider", "test"))
                 .maxSelectable(CAN_CHOOSE_PIC_NUM)
                 .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                 .gridExpectedSize(

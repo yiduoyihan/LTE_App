@@ -24,4 +24,15 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_start_download"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/blue_conner_bg"
+        android:gravity="center"
+        android:text="开始更新"
+        android:textColor="@color/white"
+        android:visibility="gone" />
 </LinearLayout>

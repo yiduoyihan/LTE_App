@@ -42,6 +42,7 @@ public class KnowledgeLibActivity extends BaseActivity {
     @Override
     protected void initView() {
         setToolbar("知识库");
+        controlKeyboard(R.id.page_knowledge);
         etInput = findViewById(R.id.et_knowledge_search);
         btnSearch = findViewById(R.id.btn_knowledge_search);
         recyclerView = findViewById(R.id.rv_knowledge);
@@ -49,7 +50,7 @@ public class KnowledgeLibActivity extends BaseActivity {
         adapter = new KnowledgeListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        requestToSearch();
+//        requestToSearch();
         btnSearch.setOnClickListener(v -> {
             if (etInput.getText().toString().trim().isEmpty()) {
                 ToastUtils.showShort("请输入您想要查询的内容");

@@ -42,7 +42,7 @@ public class TaskDetailActivity extends BaseActivity {
     String address;
     private String taskNo;
     private Button btnComplete;
-    int type;
+    int type;//1表示从未完成页面而来，2标示从已完成页面来。
     @Override
     protected int getLayoutId() {
         return R.layout.activity_task_detail;
@@ -148,6 +148,7 @@ public class TaskDetailActivity extends BaseActivity {
                     //请求成功
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
+                                .putExtra("address",address.replace("中国", ""))
                                 .putExtra("taskNo", taskNo));
                         finish();
                     } else {
@@ -192,9 +193,12 @@ public class TaskDetailActivity extends BaseActivity {
         tvBz.setText(bean.getData().getBzName());
         tvDw.setText(bean.getData().getDwName());
         taskNo = bean.getData().getTaskNo();
+
+        //如果状态为1，标示此任务已经被点过了到达现场
         if (null != bean.getData().getAppLteTaskDetails().getStatus()) {
             if (bean.getData().getAppLteTaskDetails().getStatus().equals("1")) {
                 startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
+                        .putExtra("address",bean.getData().getAppLteTaskDetails().getArrivePosition())
                         .putExtra("taskNo", taskNo));
                 finish();
             }
