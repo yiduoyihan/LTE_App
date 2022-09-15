@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +52,7 @@ public class CheckUpdateActivity extends BaseActivity {
     //下载中的进度条
     ProgressBar progressBar;
     //下载中的提示文字
-    TextView tvDwonloadNum;
+    TextView tvDownloadNum;
     //显示下载中的dialog
     Dialog dialog;
 
@@ -83,15 +81,23 @@ public class CheckUpdateActivity extends BaseActivity {
         showDownloadDialog();
         String destPath = Environment.getExternalStorageDirectory() + "/Download/html/lte_gz.apk";
 //        RxHttp.get("http://t.xiazaicc.com/001/3177")
+        //默认为word文件。在新线程中将word保存到本地，然后将word转为html，通过webView查看。
+//        new Thread(() -> {
+//            File file = new WordUtil().getNetUrlHttp(newApkUrl);
+//            //webView 的加载必须在和他初始化的线程相同
+//            runOnUiThread(() -> {
+//                dialog.dismiss();
+//                startInstall(file.getAbsolutePath());
+//            });
+//        }).start();
 
         RxHttp.get(newApkUrl)
-                .asAppendDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
+//        RxHttp.get("http://t.xiazaicc.com/001/3177")
+                .asDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
                     //下载进度回调,0-100，仅在进度有更新时才会回调
                     int currentProgress = progress.getProgress(); //当前进度 0-100
-                    long currentSize = progress.getCurrentSize(); //当前已下载的字节大小
-                    long totalSize = progress.getTotalSize();     //要下载的总字节大小
                     progressBar.setProgress(currentProgress);
-                    tvDwonloadNum.setText("正在下载" + currentProgress + "%,请耐心等待");
+                    tvDownloadNum.setText("正在下载" + currentProgress + "%,请耐心等待");
                     if (currentProgress == 100) {
                         dialog.dismiss();
                     }
@@ -116,7 +122,7 @@ public class CheckUpdateActivity extends BaseActivity {
         dialog.setContentView(dialogView);
         //初始化控件
         progressBar = dialogView.findViewById(R.id.progressBar);
-        tvDwonloadNum = dialogView.findViewById(R.id.tv_download_num);
+        tvDownloadNum = dialogView.findViewById(R.id.tv_download_num);
         dialog.setCanceledOnTouchOutside(false);
     }
 
@@ -137,7 +143,7 @@ public class CheckUpdateActivity extends BaseActivity {
             Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "com.leidi.lteapp.fileprovider", apkfile);
             intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
         } else {
-            intent.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
+            intent.setDataAndType(Uri.parse("file://" + apkfile), "application/vnd.android.package-archive");
         }
         startActivity(intent);
     }
@@ -152,9 +158,9 @@ public class CheckUpdateActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    loadingDialog.closeSuccessAnim().loadSuccess();
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        if (bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                        loadingDialog.closeSuccessAnim().loadSuccess();
+                        if (null == bean.getData() || bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
                             //版本号一致，无更新
                             noUpdate.setVisibility(View.VISIBLE);
                         } else {
@@ -173,6 +179,5 @@ public class CheckUpdateActivity extends BaseActivity {
                     loadingDialog.closeFailedAnim().loadFailed();
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
-
     }
 }

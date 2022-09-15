@@ -7,7 +7,7 @@ public class ErrorUtils {
         } else if (error.equals("Unauthorized")){
             return "该资源无法下载";
         }else {
-            return "";
+            return error;
         }
     }
 }

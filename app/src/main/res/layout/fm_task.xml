@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:paddingTop="24dp"
-        android:text="巡检系统"
+        android:text="通信设备维护管理系统"
         android:textSize="20sp"
         android:textColor="@color/white" />
 

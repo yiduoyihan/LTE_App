@@ -40,10 +40,8 @@ public abstract class BaseActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         loadingDialog = new LoadingDialog(this);
         loadingDialog.setLoadingText("加载中")
-//                .setSuccessText("加载成功")//显示加载成功时的文字
-                .setFailedText("加载失败")
-                .setLoadSpeed(LoadingDialog.Speed.SPEED_TWO);
-//        controlStateBar();
+                .setSuccessText("加载成功")//显示加载成功时的文字
+                .setFailedText("加载失败");
         setContentView(getLayoutId());
         tvTitleLeftButton = findViewById(R.id.tv_title_left);
         tvTitleCenter = findViewById(R.id.tv_title_center);

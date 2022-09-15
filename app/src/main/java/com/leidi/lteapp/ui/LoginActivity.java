@@ -73,6 +73,7 @@ public class LoginActivity extends BaseActivity {
                         //获取用户信息
                         getUserInfo();
                     } else {
+                        loadingDialog.setFailedText("");
                         loadingDialog.closeFailedAnim().loadFailed();
                         ToastUtils.showShort(bean.getMsg());
                     }
@@ -106,8 +107,8 @@ public class LoginActivity extends BaseActivity {
                         ToastUtils.showShort(bean.getMsg());
                     }
                 }, throwable -> {
-                    loadingDialog.loadFailed();
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+                    loadingDialog.closeFailedAnim().loadFailed();
+                    throwable.printStackTrace();
                 });
 
     }

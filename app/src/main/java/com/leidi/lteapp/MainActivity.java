@@ -167,12 +167,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        if (!bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
-                            //1为强制更新 版本号一致，无更新
-                            if (bean.getData().getIssueType().equals("1")) {
-                                newApkUrl = bean.getData().getUrl();
-                                showDownloadDialog();
-                            }
+                        //data不为空，同时服务器版本与本身版本不一致，同时type为1的时候，才强制更新
+                        if (null != bean.getData()
+                                && bean.getData().getIssueType().equals("1")
+                                && !bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                            newApkUrl = bean.getData().getUrl();
+                            showDownloadDialog();
                         }
                     }
                 }, throwable -> {
@@ -220,6 +220,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 }, throwable -> {
                     //下载失败，处理相关逻辑
                     dialog.dismiss();
+                    System.out.println(throwable.getMessage());
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
     }
