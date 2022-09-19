@@ -53,7 +53,7 @@ public class KnowledgeLibActivity extends BaseActivity {
         adapter = new KnowledgeListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-//        requestToSearch();
+        requestToSearch();
         btnSearch.setOnClickListener(v -> {
             if (etInput.getText().toString().trim().isEmpty()) {
                 ToastUtils.showShort("请输入您想要查询的内容");
@@ -78,6 +78,9 @@ public class KnowledgeLibActivity extends BaseActivity {
                     //请求成功
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         adapter.setList(bean.getRows());
+                        if (bean.getRows().size()<=0){
+                            adapter.setEmptyView(R.layout.empty_view);
+                        }
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }

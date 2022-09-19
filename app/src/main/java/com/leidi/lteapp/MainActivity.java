@@ -22,6 +22,7 @@ import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     String newApkUrl;
     //开始下载的按钮
     TextView tvButton;
+    private boolean isInterceptSystemBack;
 
     @Override
     protected int getLayoutId() {
@@ -192,39 +194,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         tvDwonloadNum = dialogView.findViewById(R.id.tv_download_num);
         tvButton = dialogView.findViewById(R.id.tv_start_download);
         tvButton.setVisibility(View.VISIBLE);
-        tvButton.setOnClickListener(v -> downLoadNewApk());
+        tvButton.setOnClickListener(v -> DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, loadingDialog));
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
     }
-
-    @SuppressLint("SetTextI18n")
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void downLoadNewApk() {
-        tvButton.setVisibility(View.GONE);
-        //开始下载的时候弹出对话框禁止操作并展示下载进度#24
-        String destPath = Environment.getExternalStorageDirectory() + "/Download/html/lte_gz.apk";
-//        RxHttp.get("http://t.xiazaicc.com/001/3177")
-        RxHttp.get(newApkUrl)
-                .asAppendDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
-                    //下载进度回调,0-100，仅在进度有更新时才会回调
-                    int currentProgress = progress.getProgress(); //当前进度 0-100
-                    progressBar.setProgress(currentProgress);
-                    tvDwonloadNum.setText("正在下载" + currentProgress + "%,请耐心等待");
-                    if (currentProgress == 100) {
-                        dialog.dismiss();
-                    }
-                }) //指定主线程回调
-                .subscribe(s -> { //s为String类型
-                    //下载成功，处理相关逻辑
-                    //打开apk并提示安装
-                    AppUtils.installApp(destPath);
-                }, throwable -> {
-                    //下载失败，处理相关逻辑
-                    dialog.dismiss();
-                    System.out.println(throwable.getMessage());
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
-    }
-
 
     @Override
     protected void onDestroy() {

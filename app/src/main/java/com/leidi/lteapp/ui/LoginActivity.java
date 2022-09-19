@@ -93,6 +93,7 @@ public class LoginActivity extends BaseActivity {
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         SPUtils.getInstance().put(SpUtilsKey.IS_LOGIN, true);
                         SPUtils.getInstance().put(SpUtilsKey.USER_NAME, bean.getUser().getUserName());
+                        SPUtils.getInstance().put(SpUtilsKey.USER_ID, bean.getUser().getUserId());
                         SPUtils.getInstance().put(SpUtilsKey.NICK_NAME, bean.getUser().getNickName());
                         SPUtils.getInstance().put(SpUtilsKey.PHONE_NO, bean.getUser().getPhonenumber());
                         SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getUser().getAvatar());

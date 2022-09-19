@@ -99,6 +99,7 @@ public class TaskDoingFragment extends BaseFragment {
                 startActivity(
                         new Intent(getActivity(), TaskDetailActivity.class)
                                 .putExtra("taskId", adapter.getData().get(position).getTaskId())
+                                .putExtra("taskNo", adapter.getData().get(position).getTaskNo())
                                 .putExtra("type", 1)));
     }
 

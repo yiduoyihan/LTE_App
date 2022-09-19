@@ -90,8 +90,8 @@ public class UserInfoBean {
         private Object updateTime;
         private Object remark;
         private ParamsBean params;
-        private int userId;
-        private int deptId;
+        private String userId;
+        private String deptId;
         private String userName;
         private String nickName;
         private String email;
@@ -169,19 +169,19 @@ public class UserInfoBean {
             this.params = params;
         }
 
-        public int getUserId() {
+        public String getUserId() {
             return userId;
         }
 
-        public void setUserId(int userId) {
+        public void setUserId(String userId) {
             this.userId = userId;
         }
 
-        public int getDeptId() {
+        public String getDeptId() {
             return deptId;
         }
 
-        public void setDeptId(int deptId) {
+        public void setDeptId(String deptId) {
             this.deptId = deptId;
         }
 

@@ -21,4 +21,6 @@ public class SpUtilsKey {
     //是否特殊专业
     public static final String IS_TSZY = "is_tszy";
 
+    public static final String USER_ID = "user_id";
+
 }

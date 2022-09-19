@@ -9,9 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.leidi.lteapp.R;
+import com.nanchen.compresshelper.CompressHelper;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -63,7 +65,8 @@ public class ChoosePicAdapter extends BaseAdapter {
         if ("占位图".equals(mPaths.get(position))) {
             Picasso.with(context).load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
         } else {
-            Picasso.with(context).load("file://" + mPaths.get(position)).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
+            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position)));
+            Picasso.with(context).load(newFile).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
         }
         return view;
     }

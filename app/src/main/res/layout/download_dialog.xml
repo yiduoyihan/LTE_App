@@ -8,28 +8,22 @@
     android:orientation="vertical"
     android:paddingTop="16dp">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:indeterminateOnly="false"
-        android:max="100"
-        android:progressDrawable="@drawable/progress_bar_states" />
 
     <TextView
         android:id="@+id/tv_download_num"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="有新版本请您立即更新" />
 
     <TextView
         android:id="@+id/tv_start_download"
         android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/blue_conner_bg"
         android:gravity="center"
         android:text="开始更新"

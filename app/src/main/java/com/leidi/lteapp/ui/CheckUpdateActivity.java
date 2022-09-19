@@ -1,12 +1,15 @@
 package com.leidi.lteapp.ui;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.blankj.utilcode.util.AppUtils;
@@ -23,14 +28,20 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.UpdataBean;
 import com.leidi.lteapp.util.Constant;
+import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import rxhttp.RxHttp;
 
 /**
@@ -55,6 +66,7 @@ public class CheckUpdateActivity extends BaseActivity {
     TextView tvDownloadNum;
     //显示下载中的dialog
     Dialog dialog;
+    String TAG = "TEST";
 
     @Override
     protected int getLayoutId() {
@@ -78,40 +90,29 @@ public class CheckUpdateActivity extends BaseActivity {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void downLoadNewApk() {
         //开始下载的时候弹出对话框禁止操作并展示下载进度#24
-        showDownloadDialog();
-        String destPath = Environment.getExternalStorageDirectory() + "/Download/html/lte_gz.apk";
-//        RxHttp.get("http://t.xiazaicc.com/001/3177")
-        //默认为word文件。在新线程中将word保存到本地，然后将word转为html，通过webView查看。
-//        new Thread(() -> {
-//            File file = new WordUtil().getNetUrlHttp(newApkUrl);
-//            //webView 的加载必须在和他初始化的线程相同
-//            runOnUiThread(() -> {
-//                dialog.dismiss();
-//                startInstall(file.getAbsolutePath());
-//            });
-//        }).start();
-
-        RxHttp.get(newApkUrl)
-//        RxHttp.get("http://t.xiazaicc.com/001/3177")
-                .asDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
-                    //下载进度回调,0-100，仅在进度有更新时才会回调
-                    int currentProgress = progress.getProgress(); //当前进度 0-100
-                    progressBar.setProgress(currentProgress);
-                    tvDownloadNum.setText("正在下载" + currentProgress + "%,请耐心等待");
-                    if (currentProgress == 100) {
-                        dialog.dismiss();
-                    }
-                }) //指定主线程回调
-                .subscribe(s -> { //s为String类型
-                    //下载成功，处理相关逻辑
-                    //打开apk并提示安装
-                    System.out.println();
-                    startInstall(destPath);
-                }, throwable -> {
-                    //下载失败，处理相关逻辑
-                    dialog.dismiss();
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+//        showDownloadDialog();
+//        sendRequestWithOkHttp(newApkUrl, destPath);
+        DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, loadingDialog);
+//        RxHttp.get(newApkUrl)
+//                .asDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
+//                    //下载进度回调,0-100，仅在进度有更新时才会回调
+//                    int currentProgress = progress.getProgress(); //当前进度 0-100
+//                    progressBar.setProgress(currentProgress);
+//                    tvDownloadNum.setText("正在下载" + currentProgress + "%,请耐心等待");
+//                    if (currentProgress == 100) {
+//                        dialog.dismiss();
+//                    }
+//                }) //指定主线程回调
+//                .subscribe(s -> { //s为String类型
+//                    //下载成功，处理相关逻辑
+//                    //打开apk并提示安装
+//                    ToastUtils.showShort("下载完成");
+//                    startInstall(destPath);
+//                }, throwable -> {
+//                    //下载失败，处理相关逻辑
+//                    dialog.dismiss();
+//                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
+//                });
     }
 
     private void showDownloadDialog() {
@@ -179,5 +180,48 @@ public class CheckUpdateActivity extends BaseActivity {
                     loadingDialog.closeFailedAnim().loadFailed();
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
+    }
+
+
+//---------------------------------------------------------------------------------
+
+
+    private void sendRequestWithOkHttp(String url, String destPath) {
+        new Thread(() -> {
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(url).build();
+                Response response = client.newCall(request).execute();
+                if (ContextCompat.checkSelfPermission(CheckUpdateActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "request permission");
+                    ActivityCompat.requestPermissions(CheckUpdateActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                } else {
+                    Log.d(TAG, "has permission");
+                }
+                File file = new File(destPath);
+                if (file.exists()) {
+                    Log.d(TAG, "file exist");
+                }
+                InputStream inputStream;
+                inputStream = response.body().byteStream();
+                Log.d(TAG, "write start2 ");
+                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+                randomAccessFile.seek(0);
+                byte[] buf = new byte[1024];
+                int len = 0;
+                Log.d(TAG, "write start ");
+                while ((len = inputStream.read(buf)) != -1) {
+                    Log.d(TAG, "write len " + len);
+                    randomAccessFile.write(buf, 0, len);
+                }
+                response.body().close();
+                randomAccessFile.close();
+                runOnUiThread(() -> loadingDialog.closeSuccessAnim().loadSuccess());
+                AppUtils.installApp(destPath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
