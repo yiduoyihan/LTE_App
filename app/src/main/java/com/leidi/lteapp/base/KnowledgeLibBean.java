@@ -17,7 +17,7 @@ public class KnowledgeLibBean {
     private int total;
     private int code;
     private String msg;
-    private List<RowsBean> rows;
+    private List<RowsBean> data;
 
     public int getTotal() {
         return total;
@@ -44,11 +44,11 @@ public class KnowledgeLibBean {
     }
 
     public List<RowsBean> getRows() {
-        return rows;
+        return data;
     }
 
     public void setRows(List<RowsBean> rows) {
-        this.rows = rows;
+        this.data = rows;
     }
 
     public static class RowsBean {

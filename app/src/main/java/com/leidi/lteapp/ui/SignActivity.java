@@ -104,21 +104,15 @@ public class SignActivity extends BaseActivity {
      */
     private void getLastSignTime() {
         RxHttp.get(Url.sign_last)
-                .asClass(SignMsgBean.class)
+                .asResponse(SignMsgBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        if (null != bean.getData()) {
-                            //没有数据 证明是一次新的打卡流程
-                            tvStart.setText(bean.getData().getWorkStartTime()); //更新时间
-                        }
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
+                    if (null != bean) {
+                        //没有数据 证明是一次新的打卡流程
+                        tvStart.setText(bean.getWorkStartTime()); //更新时间
                     }
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
     }
 
     /**
@@ -143,10 +137,7 @@ public class SignActivity extends BaseActivity {
                         ToastUtils.showShort(bean.getMsg());
                     }
 
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
-
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 
@@ -161,17 +152,13 @@ public class SignActivity extends BaseActivity {
         }
         RxHttp.putBody(Url.sign_end)
                 .setBody(getEndElement())
-                .asClass(BaseBean.class)
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        long sysTime = System.currentTimeMillis();
-                        CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
-                        tvEnd.setText(sysTimeStr); //更新时间
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
+                    long sysTime = System.currentTimeMillis();
+                    CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
+                    tvEnd.setText(sysTimeStr); //更新时间
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }

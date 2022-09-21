@@ -10,9 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
@@ -61,6 +59,9 @@ public class CreateTaskActivity extends BaseActivity {
         et2 = findViewById(R.id.et_create_task_content);
         findViewById(R.id.btn_create_task).setOnClickListener(view -> createWorkForm());
         controlKeyboard(R.id.rl_create_task);
+
+        et1.setText(getIntent().getStringExtra("title"));
+        et2.setText(getIntent().getStringExtra("content"));
     }
 
     /**
@@ -79,19 +80,14 @@ public class CreateTaskActivity extends BaseActivity {
         JsonElement element = gson.fromJson(String.valueOf(jsonObject), JsonElement.class);
         RxHttp.postBody(Url.task_create)
                 .setBody(element)
-                .asClass(BaseBean.class)
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    //请求成功
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        //创建成功关闭页面
-                        ToastUtils.showShort("创建成功");
-                        EventBus.getDefault().post(new RefreshTaskDoingEvent());
-                        finish();
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
+                    //创建成功关闭页面
+                    ToastUtils.showShort("创建成功");
+                    EventBus.getDefault().post(new RefreshTaskDoingEvent());
+                    finish();
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }

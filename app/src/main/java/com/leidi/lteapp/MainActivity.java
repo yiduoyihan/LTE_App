@@ -17,8 +17,10 @@ import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.UpdataBean;
 import com.leidi.lteapp.event.ChangeHeadPicEvent;
+import com.leidi.lteapp.event.TokenInvalidEvent;
 import com.leidi.lteapp.ui.AlarmFragment;
 import com.leidi.lteapp.ui.DeviceFragment;
+import com.leidi.lteapp.ui.LoginActivity;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
 import com.leidi.lteapp.util.Constant;
@@ -26,6 +28,7 @@ import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
+import com.nanchen.compresshelper.CompressHelper;
 import com.rxjava.rxlife.RxLife;
 import com.zhihu.matisse.Matisse;
 
@@ -33,7 +36,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -53,10 +59,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     String newApkUrl;
     //开始下载的按钮
     TextView tvButton;
-    private boolean isInterceptSystemBack;
 
     @Override
     protected int getLayoutId() {
+        EventBus.getDefault().register(this);
         return R.layout.activity_main;
     }
 
@@ -164,18 +170,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      */
     private void checkUpdate() {
         RxHttp.get(Url.check_update)
-                .asClass(UpdataBean.class)
+                .asResponse(UpdataBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        //data不为空，同时服务器版本与本身版本不一致，同时type为1的时候，才强制更新
-                        if (null != bean.getData()
-                                && bean.getData().getIssueType().equals("1")
-                                && !bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
-                            newApkUrl = bean.getData().getUrl();
-                            showDownloadDialog();
-                        }
+                    //data不为空，同时服务器版本与本身版本不一致，同时type为1的时候，才强制更新
+                    if (null != bean && bean.getIssueType().equals("1")
+                            && !bean.getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                        newApkUrl = bean.getUrl();
+                        showDownloadDialog();
                     }
                 }, throwable -> {
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
@@ -203,6 +206,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onDestroy() {
         super.onDestroy();
         viewPager.removeOnPageChangeListener(this);
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -214,6 +218,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         if (requestCode == SelfFragment.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             EventBus.getDefault().post(new ChangeHeadPicEvent(Matisse.obtainPathResult(data).get(0)));
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onExitApp(TokenInvalidEvent event) {
+        //token过期，退出登录
+        ToastUtils.showShort(event.getMsg());
+        SPUtils.getInstance().clear();
+        startActivity(new Intent(this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
     }
 
 }

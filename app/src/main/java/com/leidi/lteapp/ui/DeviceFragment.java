@@ -95,25 +95,17 @@ public class DeviceFragment extends BaseFragment {
     private void requestData(int type) {
         RxHttp.get(Url.device_list)
                 .add("deviceType", type)
-                .asClass(DeviceListBean.class)
+                .asResponseList(DeviceListBean.RowsBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                             swipeRefreshLayout.setRefreshing(false);
-                            if (bean.getCode() == Constant.SUCCESS_CODE) {
-                                adapter.setList(bean.getRows());
-                            } else {
-                                ToastUtils.showShort(bean.getMsg());
-                            }
-
+                            adapter.setList(bean);
                         }, throwable -> {
                             swipeRefreshLayout.setRefreshing(false);
                             ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                         }
-
                 );
-
-
     }
 
 

@@ -46,20 +46,19 @@ public class KnowledgeLibActivity extends BaseActivity {
     protected void initView() {
         setToolbar("知识库");
         controlKeyboard(R.id.page_knowledge);
+
+        String str = getIntent().getStringExtra("一键诊断");
         etInput = findViewById(R.id.et_knowledge_search);
+        etInput.setText(str);
         btnSearch = findViewById(R.id.btn_knowledge_search);
         recyclerView = findViewById(R.id.rv_knowledge);
         //数据适配器
         adapter = new KnowledgeListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        requestToSearch();
+        requestToSearch(str);
         btnSearch.setOnClickListener(v -> {
-            if (etInput.getText().toString().trim().isEmpty()) {
-                ToastUtils.showShort("请输入您想要查询的内容");
-            } else {
-                requestToSearch();
-            }
+            requestToSearch(etInput.getText().toString().trim());
         });
         adapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(KnowledgeLibActivity.this, KnowledgeDetailActivity.class)
                 .putExtra("url", ((KnowledgeLibBean.RowsBean) adapter.getData().get(position)).getFileUrl())));
@@ -68,22 +67,23 @@ public class KnowledgeLibActivity extends BaseActivity {
     /**
      * 请求服务器查询搜索内容
      */
-    private void requestToSearch() {
+    private void requestToSearch(String searchContent) {
         RxHttp.get(Url.knowledge)
-                .add("fileName", etInput.getText().toString().trim())
-                .asClass(KnowledgeLibBean.class)
+                .add("fileName", searchContent)
+//                .asClass(KnowledgeLibBean.class)
+                .asResponseList(KnowledgeLibBean.RowsBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //请求成功
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        adapter.setList(bean.getRows());
-                        if (bean.getRows().size()<=0){
-                            adapter.setEmptyView(R.layout.empty_view);
-                        }
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
+//                    if (bean.getCode() == Constant.SUCCESS_CODE) {
+                    adapter.setList(bean);
+                    if (bean.size() == 0) {
+                        adapter.setEmptyView(R.layout.empty_view);
                     }
+//                    } else {
+//                        ToastUtils.showShort(bean.getMsg());
+//                    }
                 }, throwable -> {
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });

@@ -19,6 +19,7 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.AlarmListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.AlarmListBean;
+import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
@@ -40,6 +41,7 @@ public class AlarmFragment extends BaseFragment {
     RecyclerView recyclerView;
     AlarmListAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    String strTaskName;
 
     @Override
     protected int getLayoutId() {
@@ -79,11 +81,19 @@ public class AlarmFragment extends BaseFragment {
     private void initItemChildClick() {
         //item 后面的按钮点击事件
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            ToastUtils.showShort("pos" + position);
             if (view.getId() == R.id.tv_alarm_btn_1) {
-                startActivity(new Intent(getActivity(), AnalyzeResultActivity.class));
+                String alarmCause = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getAlarmCause();
+                startActivity(new Intent(getActivity(), KnowledgeLibActivity.class)
+                        .putExtra("一键诊断", alarmCause));
             } else {
-                startActivity(new Intent(getActivity(), CreateTaskActivity.class));
+                String deviceName = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getDeviceName();
+                String devLocation = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getDevLocation();
+                String alarmLv = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getAlarmLevel();
+                strTaskName = deviceName + "  " + devLocation + " 级别：" + alarmLv;
+                String alarmCause = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getAlarmCause();
+                startActivity(new Intent(getActivity(), CreateTaskActivity.class)
+                        .putExtra("title", strTaskName).putExtra("content", alarmCause)
+                );
             }
         });
     }
@@ -100,17 +110,18 @@ public class AlarmFragment extends BaseFragment {
      */
     private void request() {
         RxHttp.get(Url.alarm_list)
-                .asClass(AlarmListBean.class)
+                .asResponseList(AlarmListBean.RowsBean.class)
+//                .asClass(AlarmListBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                             //停掉刷新的圈圈
                             swipeRefreshLayout.setRefreshing(false);
-                            if (bean.getCode() == Constant.SUCCESS_CODE) {
-                                adapter.setList(bean.getRows());
-                            } else {
-                                ToastUtils.showShort(bean.getMsg());
-                            }
+//                            if (bean.getCode() == Constant.SUCCESS_CODE) {
+                            adapter.setList(bean);
+//                            } else {
+//                                ToastUtils.showShort(bean.getMsg());
+//                            }
 
                         }, throwable -> {
                             swipeRefreshLayout.setRefreshing(false);

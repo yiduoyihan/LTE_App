@@ -189,20 +189,16 @@ public class ArriveSiteActivity extends BaseActivity {
                 .add("deviceDes", et3.getText().toString())
                 .add("taskNo", taskNo)
                 .addFiles("files", files)
-                .asClass(BaseBean.class)
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    //请求成功
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        ToastUtils.showShort("任务完成");
-                        //任务完成同时刷新已完成列表和进行中列表
-                        EventBus.getDefault().post(new RefreshTaskDoingEvent());
-                        EventBus.getDefault().post(new RefreshTaskOverEvent());
-                        finish();
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
+                    ToastUtils.showShort("任务完成");
+                    //任务完成同时刷新已完成列表和进行中列表
+                    EventBus.getDefault().post(new RefreshTaskDoingEvent());
+                    EventBus.getDefault().post(new RefreshTaskOverEvent());
+                    finish();
+
                 }, throwable -> {
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });

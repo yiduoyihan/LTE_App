@@ -62,7 +62,6 @@ public class AlarmListBean {
          * confirmTime : 2022-08-27 13:48:18
          */
 
-        private int id;
         private String occurTime;
         private String deviceName;
         private String alarmLevel;
@@ -72,14 +71,6 @@ public class AlarmListBean {
         private String restoreTime;
         private String alarmConfirm;
         private String confirmTime;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
 
         public String getOccurTime() {
             return occurTime;

@@ -13,11 +13,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.TaskListAdapter;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.PageInfoUtil;
 import com.leidi.lteapp.util.Url;
@@ -126,20 +124,14 @@ public class TaskDoingFragment extends BaseFragment {
      */
     private void toDeleteTask(int taskId, int position) {
         RxHttp.deleteForm(Url.task_delete + taskId)
-                .asClass(BaseBean.class)
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
+                    ToastUtils.showShort(bean);
                     //请求成功
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        ToastUtils.showShort(bean.getMsg());
-                        adapter.removeAt(position);
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
+                    adapter.removeAt(position);
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
-
-
     }
 
     /**
@@ -151,37 +143,33 @@ public class TaskDoingFragment extends BaseFragment {
                 .add("pageNum", pageInfoUtil.page)
                 .add("pageSize", PAGE_SIZE)
                 .add("taskStatus", 0)
-                .asClass(TaskListBean.class)
+                .asResponseList(TaskListBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //停掉刷新的圈圈
                     swipeRefreshLayout.setRefreshing(false);
                     adapter.getLoadMoreModule().setEnableLoadMore(true);
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        if (pageInfoUtil.isFirstPage()) {
-                            //如果是加载的第一页数据，用 setData()
-                            adapter.setList(bean.getData());
-                        } else {
-                            //不是第一页，则用add
-                            adapter.addData(bean.getData());
-                        }
-
-                        if (bean.getData().size() < PAGE_SIZE) {
-                            //如果不够一页,显示没有更多数据布局
-                            adapter.getLoadMoreModule().loadMoreEnd();
-                        } else {
-                            adapter.getLoadMoreModule().loadMoreComplete();
-                        }
-                        //如果数据为0，展示空布局
-                        if (bean.getData().size() == 0) {
-                            adapter.setEmptyView(R.layout.empty_view);
-                        }
-                        // page加一
-                        pageInfoUtil.nextPage();
+                    if (pageInfoUtil.isFirstPage()) {
+                        //如果是加载的第一页数据，用 setData()
+                        adapter.setList(bean);
                     } else {
-                        ToastUtils.showShort(bean.getMsg());
+                        //不是第一页，则用add
+                        adapter.addData(bean);
                     }
+
+                    if (bean.size() < PAGE_SIZE) {
+                        //如果不够一页,显示没有更多数据布局
+                        adapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        adapter.getLoadMoreModule().loadMoreComplete();
+                    }
+                    //如果数据为0，展示空布局
+                    if (bean.size() == 0) {
+                        adapter.setEmptyView(R.layout.empty_view);
+                    }
+                    // page加一
+                    pageInfoUtil.nextPage();
                 }, throwable -> {
                     swipeRefreshLayout.setRefreshing(false);
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));

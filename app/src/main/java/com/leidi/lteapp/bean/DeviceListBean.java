@@ -57,22 +57,15 @@ public class DeviceListBean {
          * deviceType : 1
          * devLocation : 设备位置1
          * connectStatus : 0
+         * (0 下线， 1上线)
          */
 
-        private int id;
+
         private String equipName;
         private String deviceIp;
         private String deviceType;
         private String devLocation;
         private String connectStatus;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
 
         public String getEquipName() {
             return equipName;

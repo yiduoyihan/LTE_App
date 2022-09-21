@@ -19,6 +19,8 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.base.UploadHeadPicBean;
 import com.leidi.lteapp.event.ChangeHeadPicEvent;
+import com.leidi.lteapp.event.TokenInvalidEvent;
+import com.leidi.lteapp.util.CircleTransform;
 import com.leidi.lteapp.util.CommonDialog;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
@@ -68,7 +70,10 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         EventBus.getDefault().register(this);
         ivHead = view.findViewById(R.id.iv_head_pic);
         if (SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC).length() > 0) {
-            Picasso.with(getActivity()).load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC)).into(ivHead);
+            Picasso.with(getActivity())
+                    .load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC))
+                    .transform(new CircleTransform())
+                    .into(ivHead);
         }
         view.findViewById(R.id.fm_self_item1).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item2).setOnClickListener(this);
@@ -181,23 +186,13 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
 
     private void requestLoginOut() {
         RxHttp.postForm(Url.login_out)
-                .asClass(BaseBean.class)
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        dialog.dismiss();
-                        SPUtils.getInstance().clear();
-                        startActivity(new Intent(getActivity(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        requireActivity().finish();
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
-
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                    dialog.dismiss();
+                    EventBus.getDefault().post(new TokenInvalidEvent("退出登录成功"));
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 
@@ -224,7 +219,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     if (bean.getCode() == 200) {
                         ToastUtils.showShort("上传成功");
                         SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getImgUrl());
-                        Picasso.with(getActivity()).load(newFile).into(ivHead);
+                        Picasso.with(getActivity()).load(newFile).transform(new CircleTransform()).into(ivHead);
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }

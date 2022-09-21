@@ -14,10 +14,8 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
@@ -45,7 +43,7 @@ public class TaskDetailActivity extends BaseActivity {
     String address;
     private String taskNo;
     private Button btnComplete;
-    private  Button btnArrive;
+    private Button btnArrive;
     int type;//1表示从未完成页面而来，2标示从已完成页面来。
 
     @Override
@@ -84,18 +82,14 @@ public class TaskDetailActivity extends BaseActivity {
 
     private void completeTask() {
         RxHttp.postForm(Url.task_end + taskId)
-                .asClass(BaseBean.class)
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    ToastUtils.showShort(bean.getMsg());
-                    if (bean.getCode() == 200) {
-                        EventBus.getDefault().post(new RefreshTaskDoingEvent());
-                        finish();
-                    }
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                    ToastUtils.showShort(bean);
+                    EventBus.getDefault().post(new RefreshTaskDoingEvent());
+                    finish();
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
     }
 
     /**
@@ -146,59 +140,46 @@ public class TaskDetailActivity extends BaseActivity {
     private void submitArrive() {
         RxHttp.postForm(Url.task_arrive + taskId)
                 .add("arrivePosition", address.replace("中国", ""))
-                .add("taskNo",getIntent().getStringExtra("taskNo"))
-                .asClass(BaseBean.class)
+                .add("taskNo", getIntent().getStringExtra("taskNo"))
+                .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //请求成功
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
-                                .putExtra("address", address.replace("中国", ""))
-                                .putExtra("taskNo", taskNo));
-                        finish();
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                    startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
+                            .putExtra("address", address.replace("中国", ""))
+                            .putExtra("taskNo", taskNo));
+                    finish();
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 
     private void initData() {
         //请求任务详情数据
+
         RxHttp.get(Url.task_detail + taskId)
-                .asClass(TaskDetailBean.class)
+                .asResponse(TaskDetailBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
-                .subscribe(bean -> {
-                    //请求成功
-                    if (bean.getCode() == Constant.SUCCESS_CODE) {
-                        //将数据放到页面中
-                        upDatePageContent(bean);
-                    } else {
-                        ToastUtils.showShort(bean.getMsg());
-                    }
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
-
+                .subscribe(this::upDatePageContent, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 
-    private void upDatePageContent(TaskDetailBean bean) {
-        tvCreateTime.setText(bean.getData().getCreateTime());
-        tvOverTime.setText(bean.getData().getEndTime());
-        tvTaskName.setText(bean.getData().getTaskName());
-        tvTaskContent.setText(bean.getData().getTaskContent());
-        tvCreateBy.setText(bean.getData().getCreateBy());
-        tvZy.setText(bean.getData().getDeptName());
-        tvBz.setText(bean.getData().getBzName());
-        tvDw.setText(bean.getData().getDwName());
-        taskNo = bean.getData().getTaskNo();
+    /**
+     * 将数据放到页面中
+     */
+    private void upDatePageContent(TaskDetailBean.DataBean bean) {
+        tvCreateTime.setText(bean.getCreateTime());
+        tvOverTime.setText(bean.getEndTime());
+        tvTaskName.setText(bean.getTaskName());
+        tvTaskContent.setText(bean.getTaskContent());
+        tvCreateBy.setText(bean.getCreateBy());
+        tvZy.setText(bean.getDeptName());
+        tvBz.setText(bean.getBzName());
+        tvDw.setText(bean.getDwName());
+        taskNo = bean.getTaskNo();
 
-        if (bean.getData().getCreateUserId().equals(String.valueOf(SPUtils.getInstance().getString(SpUtilsKey.USER_ID)))
+        if (bean.getCreateUserId().equals(String.valueOf(SPUtils.getInstance().getString(SpUtilsKey.USER_ID)))
                 && type == 1) {
             btnComplete.setVisibility(View.VISIBLE);
         } else {
@@ -206,13 +187,13 @@ public class TaskDetailActivity extends BaseActivity {
         }
 
         //如果状态为1，标示此任务已经被点过了到达现场
-        if (null != bean.getData().getAppLteTaskDetails() && null != bean.getData().getAppLteTaskDetails().getStatus()) {
-            if (bean.getData().getAppLteTaskDetails().getStatus().equals("1")) {
+        if (null != bean.getAppLteTaskDetails() && null != bean.getAppLteTaskDetails().getStatus()) {
+            if (bean.getAppLteTaskDetails().getStatus().equals("1")) {
                 startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
-                        .putExtra("address", bean.getData().getAppLteTaskDetails().getArrivePosition())
+                        .putExtra("address", bean.getAppLteTaskDetails().getArrivePosition())
                         .putExtra("taskNo", taskNo));
                 finish();
-            }else {
+            } else {
                 btnArrive.setVisibility(View.GONE);
             }
         }
