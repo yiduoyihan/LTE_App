@@ -6,7 +6,9 @@ public class ErrorUtils {
             return "无法连接到服务器";
         } else if (error.equals("Unauthorized")){
             return "该资源无法下载";
-        }else {
+        }else if (error.contains("认证失败")){
+            return "Token过期，请重新登录";
+        }else{
             return error;
         }
     }

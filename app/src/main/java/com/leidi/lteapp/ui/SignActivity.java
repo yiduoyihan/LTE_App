@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,6 +35,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import lte.trunk.telephony.CellEx;
+import lte.trunk.telephony.TelephonyManagerEx;
+import lte.trunk.telephony.TmoPhoneStateListenerEx;
 import rxhttp.RxHttp;
 
 /**
@@ -48,6 +52,8 @@ public class SignActivity extends BaseActivity {
     public LocationClient mLocationClient = null;
     private final MyLocationListener myListener = new MyLocationListener();
     String address;
+    TextView tvTest;
+    private TelephonyManagerEx telephonyManagerEx;
 
     //在主线程里面处理消息并更新UI界面
     @SuppressLint("HandlerLeak")
@@ -85,6 +91,7 @@ public class SignActivity extends BaseActivity {
         tvSignEnd = findViewById(R.id.tv_sign_end_btn);
         tvTimeEnd = findViewById(R.id.tv_show_end_time);
         tvSignStart.setOnClickListener(v -> requestSignStart());
+        tvTest = findViewById(R.id.tvTest);
 
         tvSignEnd.setOnClickListener(v -> requestSignEnd());
 
@@ -97,20 +104,42 @@ public class SignActivity extends BaseActivity {
             }
         }, 1, 1000);
 
+//        telephonyManagerEx = TelephonyManagerEx.getDefault();
+//        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+//        //获取小区位置信息
+//        telephonyManagerEx.requestCellInfo();
     }
+
+//    private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx(){
+//        @Override
+//        public void onCellInfoChanged(CellEx cellEx) {
+//            super.onCellInfoChanged(cellEx);
+//            tvTest.setText("CellId: " + cellEx.getCellId() +
+//                    " Freq: " + cellEx.getFreq() +
+//                    " Rsrp: " + cellEx.getRsrp() +
+//                    " GpcchBler: " + cellEx.getGpcchBler() +
+//                    " GtchBler: " + cellEx.getGtchBler() +
+//                    " Rsrq: " + cellEx.getRsrq() +
+//                    " Rssi: " + cellEx.getRssi() +
+//                    " Sinr: " + cellEx.getSinr()
+//            );
+//        }
+//    };
 
     /**
      * 获取最后一次签到
      */
     private void getLastSignTime() {
         RxHttp.get(Url.sign_last)
-                .asResponse(SignMsgBean.DataBean.class)
+                .asClass(SignMsgBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (null != bean) {
-                        //没有数据 证明是一次新的打卡流程
-                        tvStart.setText(bean.getWorkStartTime()); //更新时间
+                    if (bean.getCode() == Constant.SUCCESS_CODE){
+                        if (null != bean.getData()) {
+                            //没有数据 证明是一次新的打卡流程
+                            tvStart.setText(bean.getData().getWorkStartTime()); //更新时间
+                        }
                     }
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
     }

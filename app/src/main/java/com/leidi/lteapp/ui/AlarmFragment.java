@@ -111,18 +111,12 @@ public class AlarmFragment extends BaseFragment {
     private void request() {
         RxHttp.get(Url.alarm_list)
                 .asResponseList(AlarmListBean.RowsBean.class)
-//                .asClass(AlarmListBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                             //停掉刷新的圈圈
                             swipeRefreshLayout.setRefreshing(false);
-//                            if (bean.getCode() == Constant.SUCCESS_CODE) {
                             adapter.setList(bean);
-//                            } else {
-//                                ToastUtils.showShort(bean.getMsg());
-//                            }
-
                         }, throwable -> {
                             swipeRefreshLayout.setRefreshing(false);
                             ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));

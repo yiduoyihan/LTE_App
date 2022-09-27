@@ -30,8 +30,12 @@ public class DeviceListAdapter extends BaseQuickAdapter<DeviceListBean.RowsBean,
         holder.setText(R.id.tv_device_name, bean.getEquipName());
         if (null == bean.getConnectStatus()) {
             holder.setText(R.id.tv_device_state, "下线");
-        } else if (bean.getConnectStatus().equals(1)) {
+        } else if (bean.getConnectStatus().equals("1")) {
             holder.setText(R.id.tv_device_state, "上线");
+        } else if (bean.getConnectStatus().equals("0")) {
+            holder.setText(R.id.tv_device_state, "下线");
         }
+
+
     }
 }

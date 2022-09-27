@@ -1,13 +1,15 @@
 package com.leidi.lteapp.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -28,6 +30,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        closeAndroidPDialog();
         CrashReport.initCrashReport(getApplicationContext(), "54a947a2bc", false);
         CrashReport.setDeviceId(getApplicationContext(), DeviceUtils.getUniqueDeviceId());
         initHttpRequest();
@@ -60,6 +63,31 @@ public class MyApp extends Application {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
+    }
+
+    /**
+     * 适配P targetSdkVersion<28 会在最新安卓版本P等都会出现该弹窗提示。调用这个方法消除弹窗
+     */
+    @SuppressLint("PrivateApi")
+    private static void closeAndroidPDialog(){
+        try {
+            Class<?> aClass = Class.forName("android.content.pm.PackageParser$Package");
+            Constructor<?> declaredConstructor = aClass.getDeclaredConstructor(String.class);
+            declaredConstructor.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Class<?> cls = Class.forName("android.app.ActivityThread");
+            java.lang.reflect.Method declaredMethod = cls.getDeclaredMethod("currentActivityThread");
+            declaredMethod.setAccessible(true);
+            Object activityThread = declaredMethod.invoke(null);
+            Field mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown");
+            mHiddenApiWarningShown.setAccessible(true);
+            mHiddenApiWarningShown.setBoolean(activityThread, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

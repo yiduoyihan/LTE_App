@@ -170,14 +170,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      */
     private void checkUpdate() {
         RxHttp.get(Url.check_update)
-                .asResponse(UpdataBean.DataBean.class)
+                .asClass(UpdataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //data不为空，同时服务器版本与本身版本不一致，同时type为1的时候，才强制更新
-                    if (null != bean && bean.getIssueType().equals("1")
-                            && !bean.getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
-                        newApkUrl = bean.getUrl();
+                    if (null != bean.getData() && bean.getData().getIssueType().equals("1")
+                            && !bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                        newApkUrl = bean.getData().getUrl();
                         showDownloadDialog();
                     }
                 }, throwable -> {
@@ -224,7 +224,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onExitApp(TokenInvalidEvent event) {
         //token过期，退出登录
-        ToastUtils.showShort(event.getMsg());
+//        ToastUtils.showShort(event.getMsg());
         SPUtils.getInstance().clear();
         startActivity(new Intent(this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK));

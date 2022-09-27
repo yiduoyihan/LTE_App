@@ -40,7 +40,7 @@ public class TaskDetailActivity extends BaseActivity {
     private TextView tvCreateTime, tvOverTime, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
     public LocationClient mLocationClient = null;
     private final MyLocationListener myListener = new MyLocationListener();
-    String address;
+    String address="";
     private String taskNo;
     private Button btnComplete;
     private Button btnArrive;
@@ -139,7 +139,7 @@ public class TaskDetailActivity extends BaseActivity {
      */
     private void submitArrive() {
         RxHttp.postForm(Url.task_arrive + taskId)
-                .add("arrivePosition", address.replace("中国", ""))
+                .add("arrivePosition", address.length() > 0 ? address.replace("中国", "") : "位置未知")
                 .add("taskNo", getIntent().getStringExtra("taskNo"))
                 .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -204,6 +204,7 @@ public class TaskDetailActivity extends BaseActivity {
         @Override
         public void onReceiveLocation(BDLocation location) {
             //获取详细地址信息
+            System.out.println("========" + address);
             address = location.getAddrStr();
         }
     }

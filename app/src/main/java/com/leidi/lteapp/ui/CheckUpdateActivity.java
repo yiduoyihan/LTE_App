@@ -90,64 +90,9 @@ public class CheckUpdateActivity extends BaseActivity {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void downLoadNewApk() {
         //开始下载的时候弹出对话框禁止操作并展示下载进度#24
-//        showDownloadDialog();
-//        sendRequestWithOkHttp(newApkUrl, destPath);
         DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, loadingDialog);
-//        RxHttp.get(newApkUrl)
-//                .asDownload(destPath, AndroidSchedulers.mainThread(), progress -> {
-//                    //下载进度回调,0-100，仅在进度有更新时才会回调
-//                    int currentProgress = progress.getProgress(); //当前进度 0-100
-//                    progressBar.setProgress(currentProgress);
-//                    tvDownloadNum.setText("正在下载" + currentProgress + "%,请耐心等待");
-//                    if (currentProgress == 100) {
-//                        dialog.dismiss();
-//                    }
-//                }) //指定主线程回调
-//                .subscribe(s -> { //s为String类型
-//                    //下载成功，处理相关逻辑
-//                    //打开apk并提示安装
-//                    ToastUtils.showShort("下载完成");
-//                    startInstall(destPath);
-//                }, throwable -> {
-//                    //下载失败，处理相关逻辑
-//                    dialog.dismiss();
-//                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-//                });
     }
 
-//    private void showDownloadDialog() {
-//        @SuppressLint("InflateParams")
-//        View dialogView = LayoutInflater.from(this).inflate(R.layout.download_dialog, null);//解析我们自己写的布局
-//        dialog = new AlertDialog.Builder(this).create();//创建一个dialog
-//        dialog.show();//此处dialog应该先show然后再加载布局，否则会报错
-//        dialog.setContentView(dialogView);
-//        //初始化控件
-//        progressBar = dialogView.findViewById(R.id.progressBar);
-//        tvDownloadNum = dialogView.findViewById(R.id.tv_download_num);
-//        dialog.setCanceledOnTouchOutside(false);
-//    }
-
-    /**
-     * 开始安装apk
-     */
-//    private void startInstall(String filePath) {
-//        //分别进行7.0以上和7.0以下的尝试
-//        File apkfile = new File(filePath);
-//        if (!apkfile.exists()) {
-//            return;
-//        }
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            //7.0以上
-//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "com.leidi.lteapp.fileprovider", apkfile);
-//            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
-//        } else {
-//            intent.setDataAndType(Uri.parse("file://" + apkfile), "application/vnd.android.package-archive");
-//        }
-//        startActivity(intent);
-//    }
 
     /**
      * 检查是否有更新
@@ -155,20 +100,20 @@ public class CheckUpdateActivity extends BaseActivity {
     private void checkUpdate() {
         loadingDialog.show();
         RxHttp.get(Url.check_update)
-                .asResponse(UpdataBean.DataBean.class)
+                .asClass(UpdataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     loadingDialog.closeSuccessAnim().loadSuccess();
-                    if (null == bean || bean.getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                    if (null == bean.getData() || bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
                         //版本号一致，无更新
                         noUpdate.setVisibility(View.VISIBLE);
                     } else {
                         noUpdate.setVisibility(View.GONE);
                         haveUpdate.setVisibility(View.VISIBLE);
                         updateBtn.setVisibility(View.VISIBLE);
-                        tvNewVersion.setText(bean.getVersion());
-                        newApkUrl = bean.getUrl();
+                        tvNewVersion.setText(bean.getData().getVersion());
+                        newApkUrl = bean.getData().getUrl();
                     }
 
                 }, throwable -> {
@@ -177,46 +122,4 @@ public class CheckUpdateActivity extends BaseActivity {
                 });
     }
 
-
-//---------------------------------------------------------------------------------
-
-
-//    private void sendRequestWithOkHttp(String url, String destPath) {
-//        new Thread(() -> {
-//            try {
-//                OkHttpClient client = new OkHttpClient();
-//                Request request = new Request.Builder().url(url).build();
-//                Response response = client.newCall(request).execute();
-//                if (ContextCompat.checkSelfPermission(CheckUpdateActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//                    Log.d(TAG, "request permission");
-//                    ActivityCompat.requestPermissions(CheckUpdateActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-//                } else {
-//                    Log.d(TAG, "has permission");
-//                }
-//                File file = new File(destPath);
-//                if (file.exists()) {
-//                    Log.d(TAG, "file exist");
-//                }
-//                InputStream inputStream;
-//                inputStream = response.body().byteStream();
-//                Log.d(TAG, "write start2 ");
-//                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
-//                randomAccessFile.seek(0);
-//                byte[] buf = new byte[1024];
-//                int len = 0;
-//                Log.d(TAG, "write start ");
-//                while ((len = inputStream.read(buf)) != -1) {
-//                    Log.d(TAG, "write len " + len);
-//                    randomAccessFile.write(buf, 0, len);
-//                }
-//                response.body().close();
-//                randomAccessFile.close();
-//                runOnUiThread(() -> loadingDialog.closeSuccessAnim().loadSuccess());
-//                AppUtils.installApp(destPath);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-//    }
 }

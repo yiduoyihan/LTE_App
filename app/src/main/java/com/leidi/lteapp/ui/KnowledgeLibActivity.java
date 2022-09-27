@@ -76,14 +76,11 @@ public class KnowledgeLibActivity extends BaseActivity {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //请求成功
-//                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                     adapter.setList(bean);
                     if (bean.size() == 0) {
                         adapter.setEmptyView(R.layout.empty_view);
+                        ToastUtils.showShort("未查询到搜索的内容");
                     }
-//                    } else {
-//                        ToastUtils.showShort(bean.getMsg());
-//                    }
                 }, throwable -> {
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });

@@ -198,7 +198,6 @@ public class ArriveSiteActivity extends BaseActivity {
                     EventBus.getDefault().post(new RefreshTaskDoingEvent());
                     EventBus.getDefault().post(new RefreshTaskOverEvent());
                     finish();
-
                 }, throwable -> {
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
