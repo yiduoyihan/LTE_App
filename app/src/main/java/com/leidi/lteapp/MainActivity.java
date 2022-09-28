@@ -175,8 +175,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //data不为空，同时服务器版本与本身版本不一致，同时type为1的时候，才强制更新
+                    System.out.println("真假："+bean.getData().getVersion().equals(AppUtils.getAppVersionName()));
                     if (null != bean.getData() && bean.getData().getIssueType().equals("1")
-                            && !bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                            && !bean.getData().getVersion().equals(AppUtils.getAppVersionName())) {
                         newApkUrl = bean.getData().getUrl();
                         showDownloadDialog();
                     }

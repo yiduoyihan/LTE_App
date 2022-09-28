@@ -105,7 +105,7 @@ public class CheckUpdateActivity extends BaseActivity {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     loadingDialog.closeSuccessAnim().loadSuccess();
-                    if (null == bean.getData() || bean.getData().getVersion().equals(String.valueOf(AppUtils.getAppVersionCode()))) {
+                    if (null == bean.getData() || bean.getData().getVersion().equals(AppUtils.getAppVersionName())) {
                         //版本号一致，无更新
                         noUpdate.setVisibility(View.VISIBLE);
                     } else {

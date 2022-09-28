@@ -104,27 +104,27 @@ public class SignActivity extends BaseActivity {
             }
         }, 1, 1000);
 
-//        telephonyManagerEx = TelephonyManagerEx.getDefault();
-//        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-//        //获取小区位置信息
-//        telephonyManagerEx.requestCellInfo();
+        telephonyManagerEx = TelephonyManagerEx.getDefault();
+        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+        //获取小区位置信息
+        telephonyManagerEx.requestCellInfo();
     }
 
-//    private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx(){
-//        @Override
-//        public void onCellInfoChanged(CellEx cellEx) {
-//            super.onCellInfoChanged(cellEx);
-//            tvTest.setText("CellId: " + cellEx.getCellId() +
-//                    " Freq: " + cellEx.getFreq() +
-//                    " Rsrp: " + cellEx.getRsrp() +
-//                    " GpcchBler: " + cellEx.getGpcchBler() +
-//                    " GtchBler: " + cellEx.getGtchBler() +
-//                    " Rsrq: " + cellEx.getRsrq() +
-//                    " Rssi: " + cellEx.getRssi() +
-//                    " Sinr: " + cellEx.getSinr()
-//            );
-//        }
-//    };
+    private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx(){
+        @Override
+        public void onCellInfoChanged(CellEx cellEx) {
+            super.onCellInfoChanged(cellEx);
+            tvTest.setText("CellId: " + cellEx.getCellId() +
+                    " Freq: " + cellEx.getFreq() +
+                    " Rsrp: " + cellEx.getRsrp() +
+                    " GpcchBler: " + cellEx.getGpcchBler() +
+                    " GtchBler: " + cellEx.getGtchBler() +
+                    " Rsrq: " + cellEx.getRsrq() +
+                    " Rssi: " + cellEx.getRssi() +
+                    " Sinr: " + cellEx.getSinr()
+            );
+        }
+    };
 
     /**
      * 获取最后一次签到

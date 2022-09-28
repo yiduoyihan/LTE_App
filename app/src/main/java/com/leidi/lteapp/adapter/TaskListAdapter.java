@@ -1,5 +1,7 @@
 package com.leidi.lteapp.adapter;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -27,5 +29,8 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
         holder.setText(R.id.tv_task_content_6, bean.getTaskName());
 
         holder.getView(R.id.tv_flag_pic).setBackgroundResource(bean.getTaskStatus().equals("0") ? R.mipmap.doing_pic : R.mipmap.over_pic);
+        if (bean.getTaskStatus().equals("1")){
+            holder.getView(R.id.iv_delete_item).setVisibility(View.GONE);
+        }
     }
 }

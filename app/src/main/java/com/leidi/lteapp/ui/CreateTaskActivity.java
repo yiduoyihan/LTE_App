@@ -3,6 +3,7 @@ package com.leidi.lteapp.ui;
 import android.text.format.DateFormat;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -68,6 +69,10 @@ public class CreateTaskActivity extends BaseActivity {
      * 新增故障单
      */
     private void createWorkForm() {
+        if( et1.getText().toString().trim().length()==0 || et2.getText().toString().trim().length() ==0){
+            ToastUtils.showShort("请填写完名称和内容再尝试提交");
+            return;
+        }
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("taskName", et1.getText().toString().trim());

@@ -26,6 +26,8 @@ import com.leidi.lteapp.util.Url;
 import com.leidi.lteapp.view.CustomLoadMoreView;
 import com.rxjava.rxlife.RxLife;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -75,7 +77,11 @@ public class AlarmFragment extends BaseFragment {
 
     private void initItemClick() {
         //item 本身的点击事件
-        adapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getActivity(), AlarmDetailActivity.class)));
+
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            EventBus.getDefault().postSticky(adapter.getData().get(position));
+            startActivity(new Intent(getActivity(), AlarmDetailActivity.class));
+        });
     }
 
     private void initItemChildClick() {

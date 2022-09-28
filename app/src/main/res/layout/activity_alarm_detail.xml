@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="2022-8-22 16:18:41" />
+              />
 
         </LinearLayout>
 
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="手持设备" />
+                 />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="一般" />
+                 />
         </LinearLayout>
 
         <LinearLayout
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="awsdsaeXXXXXXXXXXXXXXXXXX" />
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="告警类型："
+                android:text="告警内容："
                 android:textStyle="bold" />
 
             <TextView
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="XXXXXXXXX" />
+                />
         </LinearLayout>
 
 
