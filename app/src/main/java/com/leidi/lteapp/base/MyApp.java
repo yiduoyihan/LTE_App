@@ -2,9 +2,12 @@ package com.leidi.lteapp.base;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.leidi.lteapp.bean.DaoMaster;
+import com.leidi.lteapp.bean.DaoSession;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -22,6 +25,8 @@ import rxhttp.wrapper.ssl.HttpsUtils;
 public class MyApp extends Application {
 
     public static Application instance;
+    private static final String DB_NAME = "lte_app.db";
+    private static DaoSession mDaoSession;
 
     public static Application getInstance() {
         return instance;
@@ -34,6 +39,18 @@ public class MyApp extends Application {
         CrashReport.initCrashReport(getApplicationContext(), "54a947a2bc", false);
         CrashReport.setDeviceId(getApplicationContext(), DeviceUtils.getUniqueDeviceId());
         initHttpRequest();
+        initGreenDao();
+    }
+
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, DB_NAME);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        mDaoSession = daoMaster.newSession();
+    }
+
+    public static DaoSession getmDaoSession() {
+        return mDaoSession;
     }
 
     protected void initHttpRequest() {
@@ -69,7 +86,7 @@ public class MyApp extends Application {
      * 适配P targetSdkVersion<28 会在最新安卓版本P等都会出现该弹窗提示。调用这个方法消除弹窗
      */
     @SuppressLint("PrivateApi")
-    private static void closeAndroidPDialog(){
+    private static void closeAndroidPDialog() {
         try {
             Class<?> aClass = Class.forName("android.content.pm.PackageParser$Package");
             Constructor<?> declaredConstructor = aClass.getDeclaredConstructor(String.class);

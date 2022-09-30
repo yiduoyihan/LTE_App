@@ -10,12 +10,16 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.ChoosePicAdapter;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.base.BaseBean;
+import com.leidi.lteapp.base.MyApp;
+import com.leidi.lteapp.bean.SaveMsgDao;
+import com.leidi.lteapp.bean.SaveMsgDaoDao;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.event.RefreshTaskOverEvent;
 import com.leidi.lteapp.util.Constant;
@@ -36,8 +40,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -69,6 +76,8 @@ public class ArriveSiteActivity extends BaseActivity {
      * 上传图片时最多可选数量
      */
     private static final int CAN_CHOOSE_PIC_NUM = 10;
+    //保存的数据
+    List<SaveMsgDao> datas = new ArrayList<>();
     private EditText et1, et2, et3;
     TextView tvAddress;
 
@@ -88,7 +97,7 @@ public class ArriveSiteActivity extends BaseActivity {
         findViewById(R.id.btn_task_over).setOnClickListener(v -> submitTaskProcess());
 
         taskNo = getIntent().getStringExtra("taskNo");
-
+        greenDaoQuery();
     }
 
     private void initDefaultData() {
@@ -174,7 +183,7 @@ public class ArriveSiteActivity extends BaseActivity {
             if (pathList.get(i).endsWith(".mp4")) {
                 files.add(new File(pathList.get(i)));
             } else {
-                File newFile = CompressHelper.getDefault(this).compressToFile(new File(pathList.get(i)));
+                File newFile = CompressHelper.getDefault(this).compressToFile(new File(pathList.get(i).trim()));
                 files.add(newFile);
             }
         }
@@ -194,15 +203,72 @@ public class ArriveSiteActivity extends BaseActivity {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     ToastUtils.showShort("任务完成");
+                    //如果本地数据库有数据，则删除那一条，没有就不处理
+                    if (datas.size() > 0) {
+                        MyApp.getmDaoSession().getSaveMsgDaoDao().delete(datas.get(0));
+                    }
                     //任务完成同时刷新已完成列表和进行中列表
                     EventBus.getDefault().post(new RefreshTaskDoingEvent());
                     EventBus.getDefault().post(new RefreshTaskOverEvent());
                     finish();
                 }, throwable -> {
+                    //如果提交失败，保存提交数据到本地数据库
+                    saveData(et1.getText().toString(), et2.getText().toString(),
+                            et3.getText().toString(), taskNo, pathList);
                     ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
                 });
 
     }
+
+    //保存数据到greenDao
+    private void saveData(String toString, String toString1, String toString2, String taskNo, List<String> pathList) {
+        if (datas.size() > 0) {
+            //表示之前有。现在可以更新
+            SaveMsgDao saveMsgDao = datas.get(0);
+            saveMsgDao.setTaskId(taskNo);
+            saveMsgDao.setText1(toString);
+            saveMsgDao.setText2(toString1);
+            saveMsgDao.setText3(toString2);
+            saveMsgDao.setPicUrl(pathList.toString());
+            MyApp.getmDaoSession().getSaveMsgDaoDao().update(saveMsgDao);
+        } else {
+            //之前没有，直接新增
+            SaveMsgDao saveMsgDao = new SaveMsgDao();
+            saveMsgDao.setTaskId(taskNo);
+            saveMsgDao.setText1(toString);
+            saveMsgDao.setText2(toString1);
+            saveMsgDao.setText3(toString2);
+            saveMsgDao.setPicUrl(pathList.toString());
+            MyApp.getmDaoSession().getSaveMsgDaoDao().insertOrReplace(saveMsgDao);
+        }
+
+    }
+
+
+    /**
+     * 查询数据
+     */
+    public void greenDaoQuery() {
+        datas = MyApp
+                .getmDaoSession()
+                .getSaveMsgDaoDao()
+                .queryBuilder()
+                .where(SaveMsgDaoDao.Properties.TaskId.eq(taskNo))
+                .list();
+        System.out.println("=========data.size= " + datas.size());
+        if (datas.size() > 0) {
+            KeyboardUtils.hideSoftInput(this);
+            et1.setText(datas.get(0).getText1());
+            et2.setText(datas.get(0).getText2());
+            et3.setText(datas.get(0).getText3());
+            pathList.clear();
+            pathList.addAll(Arrays.asList(datas.get(0).getPicUrl()
+                    .substring(1, datas.get(0).getPicUrl().length() - 1)
+                    .split(",")));
+            mAdapter.setData(pathList);
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -213,6 +279,7 @@ public class ArriveSiteActivity extends BaseActivity {
             if (pathList.size() < CAN_CHOOSE_PIC_NUM) {
                 pathList.add("占位图");
             }
+            System.out.println("======选择之后的图：" + pathList.get(0));
             mAdapter.setData(pathList);
         }
     }

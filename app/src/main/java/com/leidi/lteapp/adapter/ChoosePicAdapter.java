@@ -62,10 +62,10 @@ public class ChoosePicAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.itemImage = (ImageView) view.findViewById(R.id.item_grid_image);
-        if ("占位图".equals(mPaths.get(position))) {
+        if ("占位图".equals(mPaths.get(position).trim())) {
             Picasso.with(context).load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
         } else {
-            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position)));
+            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
             Picasso.with(context).load(newFile).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
         }
         return view;

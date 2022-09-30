@@ -3,7 +3,9 @@ package com.leidi.lteapp.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -13,10 +15,13 @@ import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
+import com.leidi.lteapp.adapter.ChoosePicAdapter;
+import com.leidi.lteapp.adapter.ShowPicAdapter;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.ErrorUtils;
+import com.leidi.lteapp.util.GridViewUtil;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.permissionx.guolindev.PermissionX;
@@ -24,6 +29,9 @@ import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -40,7 +48,7 @@ public class TaskDetailActivity extends BaseActivity {
     private TextView tvCreateTime, tvOverTime, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
     public LocationClient mLocationClient = null;
     private final MyLocationListener myListener = new MyLocationListener();
-    String address="";
+    String address = "";
     private String taskNo;
     private Button btnComplete;
     private Button btnArrive;
@@ -156,7 +164,6 @@ public class TaskDetailActivity extends BaseActivity {
 
     private void initData() {
         //请求任务详情数据
-
         RxHttp.get(Url.task_detail + taskId)
                 .asResponse(TaskDetailBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -195,6 +202,44 @@ public class TaskDetailActivity extends BaseActivity {
                 finish();
             } else {
                 btnArrive.setVisibility(View.GONE);
+            }
+        }
+        if (null != bean.getAppLteTaskDetails()) {
+            //不为空，有数据标示这个任务有人完成过。将完成的内容显示出来
+            findViewById(R.id.layout_submit_content).setVisibility(View.VISIBLE);
+            TextView text1 = findViewById(R.id.tv_arrive_time);
+            text1.setText(bean.getAppLteTaskDetails().getArriveTime());
+            TextView text2 = findViewById(R.id.tv_address);
+            text2.setText(bean.getAppLteTaskDetails().getArrivePosition());
+            TextView text3 = findViewById(R.id.tv_complete_person);
+            text3.setText(bean.getAppLteTaskDetails().getUserName());
+            TextView text4 = findViewById(R.id.tv_question_description);
+            text4.setText(bean.getAppLteTaskDetails().getFaultDes());
+            TextView text5 = findViewById(R.id.tv_gc);
+            text5.setText(bean.getAppLteTaskDetails().getProcessDes());
+            TextView text6 = findViewById(R.id.tv_use_tools);
+            text6.setText(bean.getAppLteTaskDetails().getDeviceDes());
+
+            if (null != bean.getAppLteTaskDetails().getLteTaskDetailsPics()) {
+                //如果有图片，把图片显示出来
+                List<String> pathList = new ArrayList<>();
+                for (int i = 0; i < bean.getAppLteTaskDetails().getLteTaskDetailsPics().size(); i++) {
+                    pathList.add(bean.getAppLteTaskDetails().getLteTaskDetailsPics().get(0).getUrl());
+                }
+                ShowPicAdapter mAdapter = new ShowPicAdapter(this);
+                GridView gridView = findViewById(R.id.gv_image_choose);
+                mAdapter.setData(pathList);
+                gridView.setAdapter(mAdapter);
+                gridView.setLayoutParams(GridViewUtil.setGridViewHeightBasedOnChildren(gridView, 4));
+
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        startActivity(new Intent(TaskDetailActivity.this, PreviewActivity.class)
+                                .putExtra("position", position)
+                                .putExtra("data", (Serializable) pathList));
+                    }
+                });
             }
         }
     }

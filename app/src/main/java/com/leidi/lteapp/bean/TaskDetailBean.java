@@ -1,5 +1,7 @@
 package com.leidi.lteapp.bean;
 
+import java.util.List;
+
 public class TaskDetailBean {
 
     /**
@@ -350,7 +352,15 @@ public class TaskDetailBean {
             private String deviceDes;
             // status 1标示点过了到达现场
             private String status;
-            private String lteTaskDetailsPics;
+            private List<PictureData> lteTaskDetailsPics;
+
+            public List<PictureData> getLteTaskDetailsPics() {
+                return lteTaskDetailsPics;
+            }
+
+            public void setLteTaskDetailsPics(List<PictureData> lteTaskDetailsPics) {
+                this.lteTaskDetailsPics = lteTaskDetailsPics;
+            }
 
             public String getSearchValue() {
                 return searchValue;
@@ -512,15 +522,138 @@ public class TaskDetailBean {
                 this.status = status;
             }
 
-            public String getLteTaskDetailsPics() {
-                return lteTaskDetailsPics;
-            }
-
-            public void setLteTaskDetailsPics(String lteTaskDetailsPics) {
-                this.lteTaskDetailsPics = lteTaskDetailsPics;
-            }
 
             public static class ParamsBeanX {
+            }
+        }
+
+        public static class PictureData {
+
+            /**
+             * searchValue : null
+             * createBy : null
+             * createTime : null
+             * updateBy : null
+             * updateTime : null
+             * remark : null
+             * params : {}
+             * id : 6
+             * taskNo : 1663312956800
+             * detailsId : 1570674516901326849
+             * url : http://192.168.8.26:9001/lte-gz/2022/09/16/Screenshot_20220726-104904_20220916152435A001.jpeg
+             * urlName : Screenshot_20220726-104904.jpeg
+             */
+
+            private Object searchValue;
+            private Object createBy;
+            private Object createTime;
+            private Object updateBy;
+            private Object updateTime;
+            private Object remark;
+            private ParamsBean params;
+            private int id;
+            private String taskNo;
+            private String detailsId;
+            private String url;
+            private String urlName;
+
+            public Object getSearchValue() {
+                return searchValue;
+            }
+
+            public void setSearchValue(Object searchValue) {
+                this.searchValue = searchValue;
+            }
+
+            public Object getCreateBy() {
+                return createBy;
+            }
+
+            public void setCreateBy(Object createBy) {
+                this.createBy = createBy;
+            }
+
+            public Object getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(Object createTime) {
+                this.createTime = createTime;
+            }
+
+            public Object getUpdateBy() {
+                return updateBy;
+            }
+
+            public void setUpdateBy(Object updateBy) {
+                this.updateBy = updateBy;
+            }
+
+            public Object getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(Object updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public Object getRemark() {
+                return remark;
+            }
+
+            public void setRemark(Object remark) {
+                this.remark = remark;
+            }
+
+            public ParamsBean getParams() {
+                return params;
+            }
+
+            public void setParams(ParamsBean params) {
+                this.params = params;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getTaskNo() {
+                return taskNo;
+            }
+
+            public void setTaskNo(String taskNo) {
+                this.taskNo = taskNo;
+            }
+
+            public String getDetailsId() {
+                return detailsId;
+            }
+
+            public void setDetailsId(String detailsId) {
+                this.detailsId = detailsId;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public String getUrlName() {
+                return urlName;
+            }
+
+            public void setUrlName(String urlName) {
+                this.urlName = urlName;
+            }
+
+            public static class ParamsBean {
             }
         }
     }
