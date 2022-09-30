@@ -22,5 +22,7 @@ public class SpUtilsKey {
     public static final String IS_TSZY = "is_tszy";
 
     public static final String USER_ID = "user_id";
+    //动态IP
+    public static final String IP = "ip";
 
 }

@@ -4,12 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -24,24 +26,18 @@ import com.leidi.lteapp.ui.DeviceFragment;
 import com.leidi.lteapp.ui.LoginActivity;
 import com.leidi.lteapp.ui.SelfFragment;
 import com.leidi.lteapp.ui.TaskFragment;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
-import com.nanchen.compresshelper.CompressHelper;
 import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
 import com.zhihu.matisse.Matisse;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.viewpager.widget.ViewPager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;

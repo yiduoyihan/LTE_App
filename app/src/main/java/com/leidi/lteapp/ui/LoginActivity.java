@@ -27,6 +27,7 @@ import rxhttp.RxHttp;
 public class LoginActivity extends BaseActivity {
 
     private EditText etAccount, etPassWord;
+    private EditText etIp;
 
     @Override
     protected int getLayoutId() {
@@ -44,6 +45,8 @@ public class LoginActivity extends BaseActivity {
         } else {
             etAccount = findViewById(R.id.et_account);
             etPassWord = findViewById(R.id.et_pwd);
+            etIp = findViewById(R.id.et_ip);
+            etIp.setText("http://192.168.8.60:7080");
             findViewById(R.id.btn_login).setOnClickListener(view -> {
                 if (verifyInputContent(etAccount) && verifyInputContent(etPassWord)) {
                     requestToLogin();
@@ -60,6 +63,8 @@ public class LoginActivity extends BaseActivity {
      */
     private void requestToLogin() {
         loadingDialog.show();
+        SPUtils.getInstance().put(SpUtilsKey.IP, etIp.getText().toString());
+        Url.baseUrl = etIp.getText().toString();
         RxHttp.postForm(Url.login)
                 .setAssemblyEnabled(false)
                 .add("username", etAccount.getText().toString().trim())

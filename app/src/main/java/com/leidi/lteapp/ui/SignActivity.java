@@ -104,10 +104,10 @@ public class SignActivity extends BaseActivity {
             }
         }, 1, 1000);
 
-        telephonyManagerEx = TelephonyManagerEx.getDefault();
-        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-        //获取小区位置信息
-        telephonyManagerEx.requestCellInfo();
+//        telephonyManagerEx = TelephonyManagerEx.getDefault();
+//        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+//        //获取小区位置信息
+//        telephonyManagerEx.requestCellInfo();
     }
 
     private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx(){

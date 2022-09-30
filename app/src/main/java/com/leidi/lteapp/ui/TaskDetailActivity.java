@@ -128,13 +128,12 @@ public class TaskDetailActivity extends BaseActivity {
         mLocationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
-
         LocationClientOption option = new LocationClientOption();
         option.setIsNeedAddress(true);
         //可选，是否需要地址信息，默认为不需要，即参数为false
         //如果开发者需要获得当前点的地址信息，此处必须为true
         option.setNeedNewVersionRgc(true);
-        option.setScanSpan(5000);
+        option.setScanSpan(1000);
         //可选，设置是否需要最新版本的地址信息。默认需要，即参数为true
         mLocationClient.setLocOption(option);
         //mLocationClient为第二步初始化过的LocationClient对象
@@ -147,7 +146,7 @@ public class TaskDetailActivity extends BaseActivity {
      */
     private void submitArrive() {
         RxHttp.postForm(Url.task_arrive + taskId)
-                .add("arrivePosition", address.length() > 0 ? address.replace("中国", "") : "位置未知")
+                .add("arrivePosition", address)
                 .add("taskNo", getIntent().getStringExtra("taskNo"))
                 .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -224,7 +223,7 @@ public class TaskDetailActivity extends BaseActivity {
                 //如果有图片，把图片显示出来
                 List<String> pathList = new ArrayList<>();
                 for (int i = 0; i < bean.getAppLteTaskDetails().getLteTaskDetailsPics().size(); i++) {
-                    pathList.add(bean.getAppLteTaskDetails().getLteTaskDetailsPics().get(0).getUrl());
+                    pathList.add(bean.getAppLteTaskDetails().getLteTaskDetailsPics().get(i).getUrl());
                 }
                 ShowPicAdapter mAdapter = new ShowPicAdapter(this);
                 GridView gridView = findViewById(R.id.gv_image_choose);
@@ -250,7 +249,8 @@ public class TaskDetailActivity extends BaseActivity {
         public void onReceiveLocation(BDLocation location) {
             //获取详细地址信息
             System.out.println("========" + address);
-            address = location.getAddrStr();
+            String str = location.getAddrStr();
+            address = null != str ? str.replace("中国", "") : "位置未知";
         }
     }
 

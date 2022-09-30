@@ -6,9 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.bean.DaoMaster;
 import com.leidi.lteapp.bean.DaoSession;
 import com.leidi.lteapp.util.SpUtilsKey;
+import com.leidi.lteapp.util.Url;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.lang.reflect.Constructor;
@@ -35,6 +37,9 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (SPUtils.getInstance().getString(SpUtilsKey.IP).trim().length() > 0) {
+            Url.baseUrl = SPUtils.getInstance().getString(SpUtilsKey.IP).trim();
+        }
         closeAndroidPDialog();
         CrashReport.initCrashReport(getApplicationContext(), "54a947a2bc", false);
         CrashReport.setDeviceId(getApplicationContext(), DeviceUtils.getUniqueDeviceId());

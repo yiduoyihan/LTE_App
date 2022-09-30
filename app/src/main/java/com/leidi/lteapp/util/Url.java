@@ -5,9 +5,9 @@ import rxhttp.wrapper.annotation.DefaultDomain;
 public class Url {
     @DefaultDomain() //设置为默认域名
 //    public static String baseUrl = "http://172.16.200.44:7080";
-//    public static String baseUrl = "http://192.168.4.150:7080";
+    public static String baseUrl = "http://192.168.4.229:7080";
 //    public static String baseUrl = "http://192.168.8.26:7080";
-    public static String baseUrl = "http://192.168.8.60:7080";
+//    public static String baseUrl = "http://192.168.8.60:7080";
 
     public static final String login = "/app/login";
     public static final String getInfo = "/app/getInfo";
