@@ -2,6 +2,7 @@ package com.leidi.lteapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import java.io.File;
 import java.util.List;
 
 /**
- *
  * @author Administrator
  * @date 2017/6/6 0006
  */
@@ -61,17 +61,24 @@ public class ChoosePicAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.itemImage = (ImageView) view.findViewById(R.id.item_grid_image);
+        holder.itemImage = view.findViewById(R.id.item_grid_image);
         if ("占位图".equals(mPaths.get(position).trim())) {
             Picasso.with(context).load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
         } else {
             File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
-            Picasso.with(context).load(newFile).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
+            //防止有些图加载不出来显示白块
+            Picasso.with(context)
+                    .load(newFile)
+                    .fit()
+                    .centerCrop()
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .config(Bitmap.Config.RGB_565)
+                    .into(holder.itemImage);
         }
         return view;
     }
 
-    public class ViewHolder {
+    public static class ViewHolder {
         ImageView itemImage;
     }
 

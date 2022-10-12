@@ -66,6 +66,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     protected void onStart() {
+        if (SPUtils.getInstance().getString(SpUtilsKey.IP).trim().length() > 0) {
+            Url.baseUrl = SPUtils.getInstance().getString(SpUtilsKey.IP).trim();
+        }
         super.onStart();
     }
 

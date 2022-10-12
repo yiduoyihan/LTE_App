@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -51,7 +50,7 @@ public class SignActivity extends BaseActivity {
     View tvSignStart, tvSignEnd;
     public LocationClient mLocationClient = null;
     private final MyLocationListener myListener = new MyLocationListener();
-    String address;
+    String address = "";
     TextView tvTest;
     private TelephonyManagerEx telephonyManagerEx;
 
@@ -104,13 +103,26 @@ public class SignActivity extends BaseActivity {
             }
         }, 1, 1000);
 
-//        telephonyManagerEx = TelephonyManagerEx.getDefault();
-//        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-//        //获取小区位置信息
-//        telephonyManagerEx.requestCellInfo();
+
+        PermissionX.init(this)
+                .permissions("lte.trunk.permission.READ_PHONE_STATE"
+                )
+                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
+                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
+                .request((allGranted, grantedList, deniedList) -> {
+                    if (allGranted) {
+                        telephonyManagerEx = TelephonyManagerEx.getDefault();
+                        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+                        //获取小区位置信息
+                        telephonyManagerEx.requestCellInfo();
+                    } else {
+                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
+                    }
+                });
+
     }
 
-    private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx(){
+    private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
         @Override
         public void onCellInfoChanged(CellEx cellEx) {
             super.onCellInfoChanged(cellEx);
@@ -135,7 +147,7 @@ public class SignActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    if (bean.getCode() == Constant.SUCCESS_CODE){
+                    if (bean.getCode() == Constant.SUCCESS_CODE) {
                         if (null != bean.getData()) {
                             //没有数据 证明是一次新的打卡流程
                             tvStart.setText(bean.getData().getWorkStartTime()); //更新时间
@@ -255,7 +267,7 @@ public class SignActivity extends BaseActivity {
         //可选，是否需要地址信息，默认为不需要，即参数为false
         //如果开发者需要获得当前点的地址信息，此处必须为true
         option.setNeedNewVersionRgc(true);
-        option.setScanSpan(5000);
+        option.setScanSpan(1000);
         //可选，设置是否需要最新版本的地址信息。默认需要，即参数为true
         mLocationClient.setLocOption(option);
         //mLocationClient为第二步初始化过的LocationClient对象
@@ -267,8 +279,10 @@ public class SignActivity extends BaseActivity {
         @Override
         public void onReceiveLocation(BDLocation location) {
             //获取详细地址信息
-            address = location.getAddrStr().replace("中国", "");
-            System.out.println("========" + address);
+            if (null != location.getAddrStr()) {
+                address = location.getAddrStr().replace("中国", "");
+                System.out.println("========" + address);
+            }
         }
     }
 

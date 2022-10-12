@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -25,6 +26,7 @@ import com.leidi.lteapp.event.RefreshTaskOverEvent;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
+import com.leidi.lteapp.util.GridViewUtil;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.nanchen.compresshelper.CompressHelper;
@@ -81,6 +83,8 @@ public class ArriveSiteActivity extends BaseActivity {
     private EditText et1, et2, et3;
     TextView tvAddress;
 
+    GridView gridView;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_arrive_site;
@@ -122,11 +126,11 @@ public class ArriveSiteActivity extends BaseActivity {
      */
     private void initGridView() {
         pathList.add("占位图");
-        GridView gridView = findViewById(R.id.gv_image_choose);
+        gridView = findViewById(R.id.gv_image_choose);
         mAdapter = new ChoosePicAdapter(this);
         mAdapter.setData(pathList);
         gridView.setAdapter(mAdapter);
-        //点击gridview的item的事件的时候，先请求camera和存储权限
+         //点击gridview的item的事件的时候，先请求camera和存储权限
         gridView.setOnItemClickListener((parent, view, position, id) -> requestPermission());
     }
 
@@ -281,8 +285,8 @@ public class ArriveSiteActivity extends BaseActivity {
             }
             System.out.println("======选择之后的图：" + pathList.get(0));
             mAdapter.setData(pathList);
+            //gridview 嵌套在scrollview中，动态计算gridview高度
+            gridView.setLayoutParams(GridViewUtil.setGridViewHeightBasedOnChildren(gridView, 4));
         }
     }
-
-
 }
