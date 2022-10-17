@@ -1,7 +1,6 @@
 package com.leidi.lteapp.ui;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
@@ -9,10 +8,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -49,10 +45,9 @@ public class SignActivity extends BaseActivity {
     TextView tvStart, tvEnd, tvTimeStart, tvTimeEnd;
     View tvSignStart, tvSignEnd;
     public LocationClient mLocationClient = null;
-    private final MyLocationListener myListener = new MyLocationListener();
-    String address = "";
     TextView tvTest;
     private TelephonyManagerEx telephonyManagerEx;
+    private String signId = "";
 
     //在主线程里面处理消息并更新UI界面
     @SuppressLint("HandlerLeak")
@@ -80,8 +75,6 @@ public class SignActivity extends BaseActivity {
     @Override
     protected void initView() {
         setToolbar("签到");
-        initBdLocation();
-        requestLocationPermission();
         getLastSignTime();
         tvStart = findViewById(R.id.tv_sign_time_start);
         tvEnd = findViewById(R.id.tv_sign_time_end);
@@ -105,8 +98,7 @@ public class SignActivity extends BaseActivity {
 
 
         PermissionX.init(this)
-                .permissions("lte.trunk.permission.READ_PHONE_STATE"
-                )
+                .permissions("lte.trunk.permission.READ_PHONE_STATE")
                 .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
                 .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
                 .request((allGranted, grantedList, deniedList) -> {
@@ -122,10 +114,11 @@ public class SignActivity extends BaseActivity {
 
     }
 
-    private TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
+    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
         @Override
         public void onCellInfoChanged(CellEx cellEx) {
             super.onCellInfoChanged(cellEx);
+            signId = String.valueOf(cellEx.getCellId());
             tvTest.setText("CellId: " + cellEx.getCellId() +
                     " Freq: " + cellEx.getFreq() +
                     " Rsrp: " + cellEx.getRsrp() +
@@ -160,8 +153,8 @@ public class SignActivity extends BaseActivity {
      * 上班签到
      */
     private void requestSignStart() {
-        if (address.isEmpty()) {
-            ToastUtils.showShort("没有获取到位置信息，不能签到");
+        if (signId.isEmpty()) {
+            ToastUtils.showShort("没有获取到小区信息，不能签到");
             return;
         }
         RxHttp.postBody(Url.sign_start)
@@ -187,8 +180,8 @@ public class SignActivity extends BaseActivity {
      * 下班签到
      */
     private void requestSignEnd() {
-        if (address.isEmpty()) {
-            ToastUtils.showShort("没有获取到位置信息，不能签到");
+        if (signId.isEmpty()) {
+            ToastUtils.showShort("没有获取到小区信息，不能签到");
             return;
         }
         RxHttp.putBody(Url.sign_end)
@@ -210,8 +203,8 @@ public class SignActivity extends BaseActivity {
     private JsonElement getStartElement() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("inAreaName", address);
-            jsonObject.put("intAreaNo", "");
+            jsonObject.put("inAreaName", "");
+            jsonObject.put("inAreaNo", signId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -223,8 +216,8 @@ public class SignActivity extends BaseActivity {
     private JsonElement getEndElement() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("outAreaName", address);
-            jsonObject.put("outAreaNo", "");
+            jsonObject.put("outAreaName", "");
+            jsonObject.put("outAreaNo", signId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -233,64 +226,10 @@ public class SignActivity extends BaseActivity {
         return gson.fromJson(String.valueOf(jsonObject), JsonElement.class);
     }
 
-    /**
-     * 请求定位相关的权限
-     */
-    private void requestLocationPermission() {
-        PermissionX.init(this)
-                .permissions(Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-                .request((allGranted, grantedList, deniedList) -> {
-                    if (allGranted) {
-                        mLocationClient.start();
-                    } else {
-                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-                    }
-                });
-
-    }
-
-    /**
-     * 百度定位
-     */
-    private void initBdLocation() {
-        mLocationClient = new LocationClient(getApplicationContext());
-        //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
-
-        LocationClientOption option = new LocationClientOption();
-        option.setIsNeedAddress(true);
-        //可选，是否需要地址信息，默认为不需要，即参数为false
-        //如果开发者需要获得当前点的地址信息，此处必须为true
-        option.setNeedNewVersionRgc(true);
-        option.setScanSpan(1000);
-        //可选，设置是否需要最新版本的地址信息。默认需要，即参数为true
-        mLocationClient.setLocOption(option);
-        //mLocationClient为第二步初始化过的LocationClient对象
-        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-        //更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
-    }
-
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            //获取详细地址信息
-            if (null != location.getAddrStr()) {
-                address = location.getAddrStr().replace("中国", "");
-                System.out.println("========" + address);
-            }
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
-        mLocationClient.stop();
     }
 }
 

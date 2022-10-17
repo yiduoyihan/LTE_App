@@ -21,6 +21,7 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.MyApp;
 import com.leidi.lteapp.bean.SaveMsgDao;
 import com.leidi.lteapp.bean.SaveMsgDaoDao;
+import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.event.RefreshTaskOverEvent;
 import com.leidi.lteapp.util.Constant;
@@ -97,9 +98,7 @@ public class ArriveSiteActivity extends BaseActivity {
         controlKeyboard(R.id.arrive_site_page);
         initDefaultData();
         initGridView();
-
         findViewById(R.id.btn_task_over).setOnClickListener(v -> submitTaskProcess());
-
         taskNo = getIntent().getStringExtra("taskNo");
         greenDaoQuery();
     }
@@ -119,6 +118,28 @@ public class ArriveSiteActivity extends BaseActivity {
         CharSequence sysTimeStr = DateFormat.format("yyyy-dd-MM HH:mm:ss", sysTime);
         arriveTime.setText(sysTimeStr);
         tvTaskPerson.setText(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME));
+
+        if (tvAddress.getText().toString().trim().isEmpty()) {
+            //如果没有地址的时候获取一下地址[为什么呢，因为服务器在上一个页面传ID过去之后不给你返回地址，只能自己多请求一次咯]
+            initData();
+        }
+    }
+
+    /**
+     * 显示位置
+     */
+    private void initData() {
+        int taskId = getIntent().getIntExtra("taskId", 0);
+        RxHttp.get(Url.task_detail + taskId)
+                .asResponse(TaskDetailBean.DataBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                    tvAddress.setText(bean.getAppLteTaskDetails().getArrivePosition());
+                }, throwable -> {
+                    ToastUtils.showShort(ErrorUtils.whichError(
+                            Objects.requireNonNull(throwable.getMessage())));
+                });
     }
 
     /**
@@ -130,7 +151,7 @@ public class ArriveSiteActivity extends BaseActivity {
         mAdapter = new ChoosePicAdapter(this);
         mAdapter.setData(pathList);
         gridView.setAdapter(mAdapter);
-         //点击gridview的item的事件的时候，先请求camera和存储权限
+        //点击gridview的item的事件的时候，先请求camera和存储权限
         gridView.setOnItemClickListener((parent, view, position, id) -> requestPermission());
     }
 
@@ -141,8 +162,7 @@ public class ArriveSiteActivity extends BaseActivity {
         PermissionX.init(this)
                 .permissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                )
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
                 .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
                 .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
                 .request((allGranted, grantedList, deniedList) -> {
@@ -153,7 +173,6 @@ public class ArriveSiteActivity extends BaseActivity {
                     }
                 });
     }
-
 
     private void startChoosePic() {
         Matisse.from(this)
