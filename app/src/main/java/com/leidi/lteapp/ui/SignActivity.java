@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.baidu.location.LocationClient;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -18,6 +19,7 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.SignMsgBean;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
+import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
@@ -47,7 +49,7 @@ public class SignActivity extends BaseActivity {
     public LocationClient mLocationClient = null;
     TextView tvTest;
     private TelephonyManagerEx telephonyManagerEx;
-    private String signId = "";
+    private String signId = "111";
 
     //在主线程里面处理消息并更新UI界面
     @SuppressLint("HandlerLeak")
@@ -96,40 +98,39 @@ public class SignActivity extends BaseActivity {
             }
         }, 1, 1000);
 
-
-        PermissionX.init(this)
-                .permissions("lte.trunk.permission.READ_PHONE_STATE")
-                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-                .request((allGranted, grantedList, deniedList) -> {
-                    if (allGranted) {
-                        telephonyManagerEx = TelephonyManagerEx.getDefault();
-                        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-                        //获取小区位置信息
-                        telephonyManagerEx.requestCellInfo();
-                    } else {
-                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-                    }
-                });
+//            PermissionX.init(this)
+//                    .permissions("lte.trunk.permission.READ_PHONE_STATE")
+//                    .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
+//                    .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
+//                    .request((allGranted, grantedList, deniedList) -> {
+//                        if (allGranted) {
+//                            telephonyManagerEx = TelephonyManagerEx.getDefault();
+//                            telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+//                            //获取小区位置信息
+//                            telephonyManagerEx.requestCellInfo();
+//                        } else {
+//                            ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
+//                        }
+//                    });
 
     }
 
-    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
-        @Override
-        public void onCellInfoChanged(CellEx cellEx) {
-            super.onCellInfoChanged(cellEx);
-            signId = String.valueOf(cellEx.getCellId());
-            tvTest.setText("CellId: " + cellEx.getCellId() +
-                    " Freq: " + cellEx.getFreq() +
-                    " Rsrp: " + cellEx.getRsrp() +
-                    " GpcchBler: " + cellEx.getGpcchBler() +
-                    " GtchBler: " + cellEx.getGtchBler() +
-                    " Rsrq: " + cellEx.getRsrq() +
-                    " Rssi: " + cellEx.getRssi() +
-                    " Sinr: " + cellEx.getSinr()
-            );
-        }
-    };
+//    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
+//        @Override
+//        public void onCellInfoChanged(CellEx cellEx) {
+//            super.onCellInfoChanged(cellEx);
+//            signId = String.valueOf(cellEx.getCellId());
+//            tvTest.setText("CellId: " + cellEx.getCellId() +
+//                    " Freq: " + cellEx.getFreq() +
+//                    " Rsrp: " + cellEx.getRsrp() +
+//                    " GpcchBler: " + cellEx.getGpcchBler() +
+//                    " GtchBler: " + cellEx.getGtchBler() +
+//                    " Rsrq: " + cellEx.getRsrq() +
+//                    " Rssi: " + cellEx.getRssi() +
+//                    " Sinr: " + cellEx.getSinr()
+//            );
+//        }
+//    };
 
     /**
      * 获取最后一次签到

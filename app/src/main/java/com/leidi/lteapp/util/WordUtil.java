@@ -400,8 +400,8 @@ public class WordUtil {
         String[] bb = newUrl.split("/");
         //得到最后一个分隔符后的名字
         String fileName = bb[bb.length - 1];
-        //保存到本地的路径
-        String filePath=Environment.getExternalStorageDirectory()+"/Download/html/"+fileName;
+        //保存到本地的路径Android/data/com.leidi.lteapp/html
+        String filePath=Environment.getExternalStorageDirectory()+"/Android/data/com.leidi.lteapp/html/"+fileName;
         Log.d("TAG", "path=" + filePath);
         File file = null;
 

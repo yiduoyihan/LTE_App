@@ -66,7 +66,8 @@ public class ShowPicAdapter extends BaseAdapter {
 //            Picasso.with(context).load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
 //        } else {
 //            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
-            Picasso.with(context).load(mPaths.get(position)).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
+            Picasso.get().load(mPaths.get(position))
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
 //        }
         return view;
     }

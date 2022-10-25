@@ -70,7 +70,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         EventBus.getDefault().register(this);
         ivHead = view.findViewById(R.id.iv_head_pic);
         if (SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC).length() > 0) {
-            Picasso.with(getActivity())
+            Picasso.get()
                     .load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC))
                     .transform(new CircleTransform())
                     .into(ivHead);
@@ -219,7 +219,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     if (bean.getCode() == 200) {
                         ToastUtils.showShort("上传成功");
                         SPUtils.getInstance().put(SpUtilsKey.HEAD_PIC, bean.getImgUrl());
-                        Picasso.with(getActivity()).load(newFile).transform(new CircleTransform()).into(ivHead);
+                        Picasso.get().load(newFile).transform(new CircleTransform()).into(ivHead);
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }

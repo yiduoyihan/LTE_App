@@ -28,6 +28,7 @@ import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
 import com.leidi.lteapp.util.GridViewUtil;
+import com.leidi.lteapp.util.SelfEngine;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.nanchen.compresshelper.CompressHelper;
@@ -187,7 +188,7 @@ public class ArriveSiteActivity extends BaseActivity {
                         getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .thumbnailScale(0.85f)
-                .imageEngine(new PicassoEngine())
+                .imageEngine(new SelfEngine())
                 .showSingleMediaType(true)
                 .originalEnable(true)
                 .maxOriginalSize(10)
@@ -302,7 +303,8 @@ public class ArriveSiteActivity extends BaseActivity {
             if (pathList.size() < CAN_CHOOSE_PIC_NUM) {
                 pathList.add("占位图");
             }
-            System.out.println("======选择之后的图：" + pathList.get(0));
+            System.out.println("======选择几个图：" + pathList.size());
+            System.out.println("======选择之后的图：" + pathList.toString());
             mAdapter.setData(pathList);
             //gridview 嵌套在scrollview中，动态计算gridview高度
             gridView.setLayoutParams(GridViewUtil.setGridViewHeightBasedOnChildren(gridView, 4));

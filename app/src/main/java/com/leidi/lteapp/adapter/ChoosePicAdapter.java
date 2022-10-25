@@ -63,12 +63,12 @@ public class ChoosePicAdapter extends BaseAdapter {
         }
         holder.itemImage = view.findViewById(R.id.item_grid_image);
         if ("占位图".equals(mPaths.get(position).trim())) {
-            Picasso.with(context).load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
+            Picasso.get().load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
         } else {
-            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
-            //防止有些图加载不出来显示白块
-            Picasso.with(context)
-                    .load(newFile)
+//            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
+            //防止有些图加载不出来显示白块[用上面的代码压缩之后再用框架加载file会有几率导致第一张图显示白块]
+            Picasso.get()
+                    .load("file://"+mPaths.get(position))
                     .fit()
                     .centerCrop()
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)

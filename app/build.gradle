@@ -67,7 +67,7 @@ dependencies {
     //知乎开源图片选择框架
     implementation 'com.zhihu.android:matisse:0.5.3-beta3'
     //picasso
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     //dialog
     implementation 'com.github.ForgetAll:LoadingDialog:v1.1.2'
     //组件之间消息传递

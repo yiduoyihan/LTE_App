@@ -42,12 +42,12 @@ public class TaskDetailActivity extends BaseActivity {
 
     private int taskId;
     private TextView tvCreateTime, tvOverTime, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
-//    String address = "";
+    //    String address = "";
     private String taskNo;
     private Button btnComplete;
     private Button btnArrive;
     int type;//1表示从未完成页面而来，2标示从已完成页面来。
-    private String signId = "";//小区编号
+    private String signId = "111";//小区编号
     private TelephonyManagerEx telephonyManagerEx;
 
     @Override
@@ -79,33 +79,33 @@ public class TaskDetailActivity extends BaseActivity {
         }
         btnArrive.setOnClickListener(v -> submitArrive());
         initData();
-        getAreaId();
+//        getAreaId();
     }
 
-    private void getAreaId() {
-        PermissionX.init(this)
-                .permissions("lte.trunk.permission.READ_PHONE_STATE")
-                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-                .request((allGranted, grantedList, deniedList) -> {
-                    if (allGranted) {
-                        telephonyManagerEx = TelephonyManagerEx.getDefault();
-                        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-                        //获取小区位置信息
-                        telephonyManagerEx.requestCellInfo();
-                    } else {
-                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-                    }
-                });
-    }
+//    private void getAreaId() {
+//        PermissionX.init(this)
+//                .permissions("lte.trunk.permission.READ_PHONE_STATE")
+//                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
+//                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
+//                .request((allGranted, grantedList, deniedList) -> {
+//                    if (allGranted) {
+//                        telephonyManagerEx = TelephonyManagerEx.getDefault();
+//                        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+//                        //获取小区位置信息
+//                        telephonyManagerEx.requestCellInfo();
+//                    } else {
+//                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
+//                    }
+//                });
+//    }
 
-    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
-        @Override
-        public void onCellInfoChanged(CellEx cellEx) {
-            super.onCellInfoChanged(cellEx);
-            signId = String.valueOf(cellEx.getCellId());
-        }
-    };
+//    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
+//        @Override
+//        public void onCellInfoChanged(CellEx cellEx) {
+//            super.onCellInfoChanged(cellEx);
+//            signId = String.valueOf(cellEx.getCellId());
+//        }
+//    };
 
     private void completeTask() {
         RxHttp.postForm(Url.task_end + taskId)

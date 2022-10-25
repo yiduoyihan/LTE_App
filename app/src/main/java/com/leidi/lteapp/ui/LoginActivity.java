@@ -46,7 +46,11 @@ public class LoginActivity extends BaseActivity {
             etAccount = findViewById(R.id.et_account);
             etPassWord = findViewById(R.id.et_pwd);
             etIp = findViewById(R.id.et_ip);
-            etIp.setText("http://192.168.8.60:7080");
+            if (SPUtils.getInstance().getString(SpUtilsKey.IP).trim().length()==0) {
+                etIp.setText("http://192.168.8.60:7080");
+            }else {
+                etIp.setText(SPUtils.getInstance().getString(SpUtilsKey.IP).trim());
+            }
             findViewById(R.id.btn_login).setOnClickListener(view -> {
                 if (verifyInputContent(etAccount) && verifyInputContent(etPassWord)) {
                     requestToLogin();

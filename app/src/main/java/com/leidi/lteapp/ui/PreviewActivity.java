@@ -86,7 +86,7 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
         @Override
         public View instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            Picasso.with(context).load(picUrl.get(position)).into(photoView);
+            Picasso.get().load(picUrl.get(position)).into(photoView);
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             return photoView;
         }
