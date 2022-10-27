@@ -19,6 +19,8 @@ import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -60,8 +62,13 @@ public class KnowledgeLibActivity extends BaseActivity {
         btnSearch.setOnClickListener(v -> {
             requestToSearch(etInput.getText().toString().trim());
         });
-        adapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(KnowledgeLibActivity.this, KnowledgeDetailActivity.class)
-                .putExtra("url", ((KnowledgeLibBean.RowsBean) adapter.getData().get(position)).getFileUrl())));
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            String url = ((KnowledgeLibBean.RowsBean) adapter.getData().get(position)).getFileUrl();
+            //pdf和word 分别去不同的页面查看
+            Class <?> cla = url.endsWith(".pdf") ? RemotePDFActivity.class : KnowledgeDetailActivity.class;
+            startActivity(new Intent(KnowledgeLibActivity.this, cla)
+                    .putExtra("url", url));
+        });
     }
 
     /**

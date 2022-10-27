@@ -43,6 +43,7 @@ public abstract class BaseActivity extends FragmentActivity {
                 .setSuccessText("加载成功")//显示加载成功时的文字
                 .setFailedText("加载失败");
         setContentView(getLayoutId());
+        toolbar = findViewById(R.id.layout_toolbar);
         tvTitleLeftButton = findViewById(R.id.tv_title_left);
         tvTitleCenter = findViewById(R.id.tv_title_center);
         tvTitleRightButton = findViewById(R.id.tv_title_right);

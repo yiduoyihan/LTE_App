@@ -63,6 +63,7 @@
         <activity android:name=".ui.ArriveSiteActivity" />
         <activity android:name=".ui.KnowledgeDetailActivity" />
         <activity android:name=".ui.PreviewActivity" />
+        <activity android:name=".ui.RemotePDFActivity" />
 
 
         <provider
