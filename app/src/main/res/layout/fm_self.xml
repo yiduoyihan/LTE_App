@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/self_fm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,6 +26,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/self_head_pic"
                 android:src="@mipmap/ic_launcher_round" />
 
             <ImageView
@@ -33,6 +36,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/circle_button_bg"
+                android:contentDescription="@string/open_camera"
                 android:padding="5dp"
                 android:src="@mipmap/camera_icon" />
 
@@ -52,132 +56,105 @@
 
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/fm_self_item1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="50dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@mipmap/self_icon_left_1"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="0dp"
-        android:text="签到"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="240dp"
+        android:divider="@drawable/shape_divider_linear"
+        android:orientation="vertical"
+        android:showDividers="middle|end">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/self_page_divider" />
+        <TextView
+            android:id="@+id/fm_self_item1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/self_icon_left_1"
+            android:drawablePadding="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:text="@string/sign_"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fm_self_item2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/self_icon_left_2"
+            android:drawablePadding="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:text="@string/setting"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
-    <TextView
-        android:id="@+id/fm_self_item2"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@mipmap/self_icon_left_2"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="0dp"
-        android:text="设置"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/fm_self_item3"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/self_icon_left_3"
+            android:drawablePadding="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:text="@string/konwledge_lib"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/self_page_divider" />
+        <TextView
+            android:id="@+id/fm_self_item4"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/self_icon_left_4"
+            android:drawablePadding="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:text="@string/check_update"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/fm_self_item3"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@mipmap/self_icon_left_3"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="0dp"
-        android:text="知识库"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/fm_self_item5"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/self_icon_left_5"
+            android:drawablePadding="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:text="@string/about_self"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/self_page_divider" />
+        <TextView
+            android:id="@+id/fm_self_item6"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:drawableLeft="@mipmap/self_icon_left_6"
+            android:drawablePadding="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="0dp"
+            android:text="@string/login_out"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/fm_self_item4"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@mipmap/self_icon_left_4"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="0dp"
-        android:text="检查更新"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/self_page_divider" />
-
-    <TextView
-        android:id="@+id/fm_self_item5"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@mipmap/self_icon_left_5"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="0dp"
-        android:text="关于"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/self_page_divider" />
-
-    <TextView
-        android:id="@+id/fm_self_item6"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@mipmap/self_icon_left_6"
-        android:drawablePadding="16dp"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="0dp"
-        android:text="退出登录"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/self_page_divider" />
-</LinearLayout>
+</RelativeLayout>

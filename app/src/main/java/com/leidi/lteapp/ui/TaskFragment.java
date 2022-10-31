@@ -38,7 +38,7 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
         radioGroup = view.findViewById(R.id.task_rg);
         viewPager.addOnPageChangeListener(this);
         radioGroup.setOnCheckedChangeListener(this);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(2);
 
         setupViewPager();
 
@@ -53,6 +53,7 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
         adapter = new MainPagerAdapter(requireActivity().getSupportFragmentManager());
         adapter.addFragment(TaskDoingFragment.getInstance());
         adapter.addFragment(TaskOverFragment.getInstance());
+        adapter.addFragment(TaskOverTimeFragment.getInstance());
         viewPager.setAdapter(adapter);
     }
 
@@ -74,6 +75,9 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
                 break;
             case 1:
                 radioGroup.check(R.id.rb_task_bottom2);
+                break;
+            case 2:
+                radioGroup.check(R.id.rb_task_bottom3);
                 break;
             default:
                 break;
@@ -98,6 +102,11 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
                 //设备
                 viewPager.setCurrentItem(1);
                 radioGroup.check(R.id.rb_task_bottom2);
+                break;
+            case R.id.rb_task_bottom3:
+                //设备
+                viewPager.setCurrentItem(2);
+                radioGroup.check(R.id.rb_task_bottom3);
                 break;
             default:
                 break;

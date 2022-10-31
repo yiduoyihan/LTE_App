@@ -180,6 +180,7 @@ public class TaskDetailActivity extends BaseActivity {
             if (bean.getAppLteTaskDetails().getStatus().equals("1")) {
                 startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
                         .putExtra("address", bean.getAppLteTaskDetails().getArrivePosition())
+                        .putExtra("time", bean.getCreateTime())
                         .putExtra("taskId", taskId)
                         .putExtra("taskNo", taskNo));
                 finish();

@@ -115,9 +115,13 @@ public class ArriveSiteActivity extends BaseActivity {
         et2 = findViewById(R.id.et_work_description);
         et3 = findViewById(R.id.et_tool_description);
 
-        long sysTime = System.currentTimeMillis();
-        CharSequence sysTimeStr = DateFormat.format("yyyy-dd-MM HH:mm:ss", sysTime);
-        arriveTime.setText(sysTimeStr);
+        if (getIntent().getStringExtra("time").isEmpty()) {
+            long sysTime = System.currentTimeMillis();
+            CharSequence sysTimeStr = DateFormat.format("yyyy-dd-MM HH:mm:ss", sysTime);
+            arriveTime.setText(sysTimeStr);
+        } else {
+            arriveTime.setText(getIntent().getStringExtra("time"));
+        }
         tvTaskPerson.setText(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME));
 
         if (tvAddress.getText().toString().trim().isEmpty()) {

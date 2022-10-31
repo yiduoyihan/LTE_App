@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -52,6 +53,7 @@ public class DeviceFragment extends BaseFragment {
         adapter = new DeviceListAdapter();
         recyclerView = view.findViewById(R.id.rv_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         //下拉刷新控件
         swipeRefreshLayout = view.findViewById(R.id.swipeLayout);

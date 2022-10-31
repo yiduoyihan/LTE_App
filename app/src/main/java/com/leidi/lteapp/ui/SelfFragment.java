@@ -104,6 +104,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), KnowledgeLibActivity.class));
                 break;
             case R.id.fm_self_item4:
+                //合并功能到关于我们中去
                 startActivity(new Intent(getActivity(), CheckUpdateActivity.class));
                 break;
             case R.id.fm_self_item5:

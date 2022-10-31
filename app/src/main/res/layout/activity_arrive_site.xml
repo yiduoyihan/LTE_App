@@ -38,7 +38,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="到达现场时间："
+                        android:text="到达时间："
                         android:textStyle="bold" />
 
                     <TextView
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="现场故障描述："
+                        android:text="故障描述："
                         android:textStyle="bold" />
 
                     <EditText
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="故障处理过程："
+                        android:text="处理过程："
                         android:textStyle="bold" />
 
                     <EditText
@@ -147,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="使用工具及备件："
+                        android:text="备注："
                         android:textStyle="bold" />
 
                     <EditText

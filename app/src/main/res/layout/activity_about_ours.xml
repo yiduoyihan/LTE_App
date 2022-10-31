@@ -52,7 +52,27 @@
             android:layout_margin="10dp"
             android:background="#7a777777" />
 
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_update_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/btn_update_now"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/create_btn_bg"
+        android:gravity="center"
+        android:text="检查更新"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+       />
 
 </LinearLayout>
