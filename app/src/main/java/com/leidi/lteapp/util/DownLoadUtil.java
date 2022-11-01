@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.leidi.lteapp.ui.CheckUpdateActivity;
+import com.leidi.lteapp.view.DownloadEnd;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
 import java.io.File;
@@ -23,9 +24,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class DownLoadUtil {
-   public static String TAG = "downloadUtil";
-   public static String destPath = Environment.getExternalStorageDirectory() + "/Download/html/lte_gz.apk";
-    public static void sendRequestWithOkHttp(Activity context , String url, LoadingDialog loadingDialog) {
+    public static String TAG = "downloadUtil";
+    public static String destPath;
+    public static DownloadEnd downloadListen;
+
+    public static void sendRequestWithOkHttp(Activity context, String url, String savePath, LoadingDialog loadingDialog, DownloadEnd downloadEnd) {
+        downloadListen = downloadEnd;
+        destPath = savePath;
         loadingDialog.setLoadingText("下载中").show();
         new Thread(() -> {
             try {
@@ -58,7 +63,7 @@ public class DownLoadUtil {
                 response.body().close();
                 randomAccessFile.close();
                 context.runOnUiThread(() -> loadingDialog.closeSuccessAnim().loadSuccess());
-                AppUtils.installApp(destPath);
+                downloadListen.downloadResult(destPath);
             } catch (Exception e) {
                 e.printStackTrace();
             }

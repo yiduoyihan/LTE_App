@@ -1,5 +1,7 @@
 package com.leidi.lteapp;
 
+import static com.leidi.lteapp.util.Constant.SAVE_PATH;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -30,6 +32,7 @@ import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
+import com.leidi.lteapp.view.DownloadEnd;
 import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
 import com.zhihu.matisse.Matisse;
@@ -43,7 +46,7 @@ import java.util.Objects;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, DownloadEnd {
     private ViewPager viewPager;
     private RadioGroup radioGroup;
     MainPagerAdapter adapter;
@@ -200,7 +203,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         tvDwonloadNum = dialogView.findViewById(R.id.tv_download_num);
         tvButton = dialogView.findViewById(R.id.tv_start_download);
         tvButton.setVisibility(View.VISIBLE);
-        tvButton.setOnClickListener(v -> DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, loadingDialog));
+        tvButton.setOnClickListener(v -> DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, SAVE_PATH, loadingDialog,this));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
     }
@@ -257,4 +260,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     }
 
+    @Override
+    public void downloadResult(String path) {
+        AppUtils.installApp(path);
+    }
 }

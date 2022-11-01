@@ -90,7 +90,7 @@ public class CheckUpdateActivity extends BaseActivity {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void downLoadNewApk() {
         //开始下载的时候弹出对话框禁止操作并展示下载进度#24
-        DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, loadingDialog);
+//        DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl,Constant.SAVE_PATH, loadingDialog);
     }
 
 

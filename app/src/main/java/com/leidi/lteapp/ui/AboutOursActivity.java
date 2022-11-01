@@ -2,6 +2,7 @@ package com.leidi.lteapp.ui;
 
 
 import android.annotation.SuppressLint;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,9 +12,11 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.UpdataBean;
+import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
+import com.leidi.lteapp.view.DownloadEnd;
 import com.rxjava.rxlife.RxLife;
 
 import java.util.Objects;
@@ -24,7 +27,7 @@ import rxhttp.RxHttp;
 /**
  * @author caiwu
  */
-public class AboutOursActivity extends BaseActivity {
+public class AboutOursActivity extends BaseActivity implements DownloadEnd {
 
     //更新按钮
     Button updateBtn;
@@ -51,7 +54,7 @@ public class AboutOursActivity extends BaseActivity {
                 checkUpdate();
             } else if (updateBtn.getText().toString().trim().equals("立即更新")) {
                 downLoadNewApk();
-            }else {
+            } else {
                 ToastUtils.showShort("已经是最新版本了");
             }
         });
@@ -89,6 +92,11 @@ public class AboutOursActivity extends BaseActivity {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void downLoadNewApk() {
         //开始下载的时候弹出对话框禁止操作并展示下载进度#24
-        DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, loadingDialog);
+        DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, Constant.SAVE_PATH, loadingDialog,this);
+    }
+
+    @Override
+    public void downloadResult(String path) {
+        AppUtils.installApp(path);
     }
 }
