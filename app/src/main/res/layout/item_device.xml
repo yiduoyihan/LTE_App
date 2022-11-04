@@ -7,32 +7,32 @@
 
     <TextView
         android:id="@+id/tv_device_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:text="集群短号" />
+        android:layout_marginStart="10dp"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/tv_device_ip"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:text="IP" />
+        android:layout_marginStart="10dp"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/tv_device_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="设备位置" />
 
     <ImageView
         android:id="@+id/iv_device_state"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

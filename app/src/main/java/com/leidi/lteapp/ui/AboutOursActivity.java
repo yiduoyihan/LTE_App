@@ -2,7 +2,6 @@ package com.leidi.lteapp.ui;
 
 
 import android.annotation.SuppressLint;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,6 +33,8 @@ public class AboutOursActivity extends BaseActivity implements DownloadEnd {
     //新版本的url
     private String newApkUrl;
 
+    TextView tvNewVersion;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_about_ours;
@@ -42,14 +43,13 @@ public class AboutOursActivity extends BaseActivity implements DownloadEnd {
     @SuppressLint("DefaultLocale")
     @Override
     protected void initView() {
-        setToolbar("关于");
+        setToolbar("检查更新");
         TextView tvVersion = findViewById(R.id.tv_version);
         tvVersion.setText(String.format("%s%s", "V.", AppUtils.getAppVersionName()));
-
+        tvNewVersion = findViewById(R.id.tv_update_detail);
         updateBtn = findViewById(R.id.btn_update_now);
 
         updateBtn.setOnClickListener(view -> {
-
             if (updateBtn.getText().toString().trim().equals("检查更新")) {
                 checkUpdate();
             } else if (updateBtn.getText().toString().trim().equals("立即更新")) {
@@ -78,6 +78,8 @@ public class AboutOursActivity extends BaseActivity implements DownloadEnd {
                         updateBtn.setText("暂无更新");
                         ToastUtils.showShort("已经是最新版本了");
                     } else {
+                        tvNewVersion.setVisibility(View.VISIBLE);
+                        tvNewVersion.setText("检测到新版本，版本号为:"+bean.getData().getVersion());
                         updateBtn.setText("立即更新");
                         newApkUrl = bean.getData().getUrl();
                     }
@@ -87,9 +89,7 @@ public class AboutOursActivity extends BaseActivity implements DownloadEnd {
                 });
     }
 
-
     @SuppressLint("SetTextI18n")
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void downLoadNewApk() {
         //开始下载的时候弹出对话框禁止操作并展示下载进度#24
         DownLoadUtil.sendRequestWithOkHttp(this, newApkUrl, Constant.SAVE_PATH, loadingDialog,this);

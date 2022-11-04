@@ -163,6 +163,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
+                        android:maxLines="3"
                         android:background="@drawable/stroke_line"
                         android:gravity="left|top"
                         android:padding="5dp" />
@@ -186,8 +187,11 @@
                     <EditText
                         android:id="@+id/et_create_task_content"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:hint="内容最多输入150字"
+                        android:maxLength="160"
+                        android:minHeight="200dp"
                         android:background="@drawable/stroke_line"
                         android:gravity="left|top"
                         android:padding="5dp" />

@@ -2,22 +2,19 @@ package com.leidi.lteapp.util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.leidi.lteapp.ui.CheckUpdateActivity;
 import com.leidi.lteapp.view.DownloadEnd;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -49,18 +46,18 @@ public class DownLoadUtil {
                     Log.d(TAG, "file exist");
                 }
                 InputStream inputStream;
-                inputStream = response.body().byteStream();
+                inputStream = Objects.requireNonNull(response.body()).byteStream();
                 Log.d(TAG, "write start2 ");
                 RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
                 randomAccessFile.seek(0);
                 byte[] buf = new byte[1024];
-                int len = 0;
+                int len;
                 Log.d(TAG, "write start ");
                 while ((len = inputStream.read(buf)) != -1) {
                     Log.d(TAG, "write len " + len);
                     randomAccessFile.write(buf, 0, len);
                 }
-                response.body().close();
+                Objects.requireNonNull(response.body()).close();
                 randomAccessFile.close();
                 context.runOnUiThread(() -> loadingDialog.closeSuccessAnim().loadSuccess());
                 downloadListen.downloadResult(destPath);

@@ -92,9 +92,8 @@ public class KnowledgeLibActivity extends BaseActivity implements DownloadEnd {
         String[] bb = newUrl.split("/");
         //得到最后一个分隔符后的名字
         String fileName = bb[bb.length - 1];
-        //保存到本地的路径Android/data/com.leidi.lteapp/html
-        String filePath = Environment.getExternalStorageDirectory() + "/Android/data/com.leidi.lteapp/html/" + fileName;
-        return filePath;
+        //保存到本地的路径Android/data/com.leidi.lteapp/files
+        return Constant.SAVE_KNOWLEDGE + fileName;
     }
 
     /**

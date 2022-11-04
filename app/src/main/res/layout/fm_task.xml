@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_color"
-  >
+    android:background="@color/page_bg_color">
 
     <TextView
         android:id="@+id/tv_title"
@@ -13,15 +12,25 @@
         android:gravity="center"
         android:paddingTop="24dp"
         android:text="通信设备维护管理系统"
-        android:textSize="20sp"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
+
+    <ImageView
+        android:id="@+id/tv_task_create_form"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:padding="10dp"
+        android:src="@mipmap/add" />
 
     <RadioGroup
         android:id="@+id/task_rg"
         android:layout_width="200dp"
-        android:layout_below="@id/tv_title"
         android:layout_height="40dp"
+        android:layout_below="@id/tv_title"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal">
 
@@ -71,7 +80,6 @@
         android:layout_below="@id/task_rg" />
 
     <TextView
-        android:id="@+id/tv_task_create_form"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_alignParentRight="true"
@@ -83,6 +91,7 @@
         android:gravity="center"
         android:paddingStart="15dp"
         android:paddingEnd="10dp"
+        android:visibility="gone"
         android:text="创建故障单"
         android:textColor="@color/white" />
 

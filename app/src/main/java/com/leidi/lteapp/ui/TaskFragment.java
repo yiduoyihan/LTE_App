@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
     private ViewPager viewPager;
     private RadioGroup radioGroup;
     MainPagerAdapter adapter;
+    private RadioButton rb1, rb2, rb3;
 
     @Override
     protected int getLayoutId() {
@@ -40,8 +42,13 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
         radioGroup.setOnCheckedChangeListener(this);
         viewPager.setOffscreenPageLimit(2);
 
-        setupViewPager();
+        rb1 = view.findViewById(R.id.rb_task_bottom1);
+        rb2 = view.findViewById(R.id.rb_task_bottom2);
+        rb3 = view.findViewById(R.id.rb_task_bottom3);
+        rb3.setVisibility(View.GONE);
 
+        getEveryTaskCount();
+        setupViewPager();
         view.findViewById(R.id.tv_task_create_form).setOnClickListener(view1 -> {
                     System.out.println("======head===" + "Bearer " + SPUtils.getInstance().getString(SpUtilsKey.TOKEN));
                     startActivity(new Intent(getActivity(), CreateTaskActivity.class));
@@ -49,11 +56,28 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
         );
     }
 
+    //获取每种任务的数量
+    private void getEveryTaskCount() {
+//        RxHttp.postForm(Url.)
+//                .add("", "")
+//                .asClass(BaseBean.class)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .to(RxLife.to(this))
+//                .subscribe(bean -> {
+//                    if (bean.getCode() == 200) {
+//                    } else {
+//                        ToastUtils.showShort(bean.getMsg());
+//                    }
+//
+//                }, throwable -> {
+//                });
+    }
+
     private void setupViewPager() {
         adapter = new MainPagerAdapter(requireActivity().getSupportFragmentManager());
         adapter.addFragment(TaskDoingFragment.getInstance());
         adapter.addFragment(TaskOverFragment.getInstance());
-        adapter.addFragment(TaskOverTimeFragment.getInstance());
+//        adapter.addFragment(TaskOverTimeFragment.getInstance());
         viewPager.setAdapter(adapter);
     }
 

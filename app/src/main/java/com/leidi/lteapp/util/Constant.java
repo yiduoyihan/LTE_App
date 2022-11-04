@@ -7,5 +7,7 @@ public class Constant {
     //未完成
     public static final int REQUEST_DOING = 1;
 
-    public static final String SAVE_PATH = Environment.getExternalStorageDirectory() + "/Download/html/lte_gz.apk";
+    public static final String SAVE_KNOWLEDGE= Environment.getExternalStorageDirectory() +"/Android/data/com.leidi.lteapp/files/";
+
+    public static final String SAVE_PATH = Environment.getExternalStorageDirectory() + "/Android/data/com.leidi.lteapp/files/lte_gz.apk";
 }

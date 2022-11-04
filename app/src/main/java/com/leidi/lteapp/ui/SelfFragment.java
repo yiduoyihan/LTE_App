@@ -15,14 +15,12 @@ import androidx.annotation.Nullable;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.base.UploadHeadPicBean;
 import com.leidi.lteapp.event.ChangeHeadPicEvent;
 import com.leidi.lteapp.event.TokenInvalidEvent;
 import com.leidi.lteapp.util.CircleTransform;
 import com.leidi.lteapp.util.CommonDialog;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
 import com.leidi.lteapp.util.SpUtilsKey;
@@ -70,8 +68,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         EventBus.getDefault().register(this);
         ivHead = view.findViewById(R.id.iv_head_pic);
         if (SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC).length() > 0) {
-            Picasso.get()
-                    .load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC))
+            Picasso.get().load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC))
                     .transform(new CircleTransform())
                     .into(ivHead);
         }
@@ -84,6 +81,11 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         view.findViewById(R.id.iv_open_camera).setOnClickListener(this);
         TextView tvNickName = view.findViewById(R.id.tv_nickname);
         tvNickName.setText(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME));
+        TextView tvContent = view.findViewById(R.id.tv_content);
+        String strZY = SPUtils.getInstance().getString(SpUtilsKey.USER_ZY);
+        String strDW = SPUtils.getInstance().getString(SpUtilsKey.USER_DW);
+        String strBZ = SPUtils.getInstance().getString(SpUtilsKey.USER_BZ);
+        tvContent.setText("专业："+strZY + "  单位：" + strDW + "  班组：" + strBZ);
     }
 
     public static SelfFragment getInstance() {
@@ -105,7 +107,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.fm_self_item4:
                 //合并功能到 关于我们 中去
-                startActivity(new Intent(getActivity(), CheckUpdateActivity.class));
+//                startActivity(new Intent(getActivity(), CheckUpdateActivity.class));
                 break;
             case R.id.fm_self_item5:
                 startActivity(new Intent(getActivity(), AboutOursActivity.class));

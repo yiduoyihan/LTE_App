@@ -27,10 +27,12 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
         holder.setText(R.id.tv_task_content_4, bean.getDeptName());
         holder.setText(R.id.tv_task_content_5, bean.getDwName());
         holder.setText(R.id.tv_task_content_6, bean.getTaskName());
+        holder.setText(R.id.tv_task_content_7, "待补充");
+        holder.setText(R.id.tv_task_content_8, "待补充");
 
         holder.getView(R.id.tv_flag_pic).setBackgroundResource(bean.getTaskStatus().equals("0") ? R.mipmap.doing_pic : R.mipmap.over_pic);
-        if (bean.getTaskStatus().equals("1")){
-            holder.getView(R.id.iv_delete_item).setVisibility(View.GONE);
+        if (!bean.getTaskStatus().equals("1")){
+            holder.getView(R.id.iv_delete_item).setVisibility(View.VISIBLE);
         }
     }
 }
