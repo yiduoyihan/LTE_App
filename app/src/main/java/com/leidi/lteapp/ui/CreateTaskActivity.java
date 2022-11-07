@@ -1,10 +1,17 @@
 package com.leidi.lteapp.ui;
 
+import android.annotation.SuppressLint;
 import android.text.format.DateFormat;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
@@ -21,6 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -33,6 +41,11 @@ import rxhttp.RxHttp;
  */
 public class CreateTaskActivity extends BaseActivity {
     EditText et1, et2;
+    TextView tvStartTime, tvEndTime;
+    String flag;
+    TimePickerView pvTime;
+    LinearLayout layoutShowTimeView;
+    RadioGroup radioGroup;
 
     @Override
     protected int getLayoutId() {
@@ -41,9 +54,9 @@ public class CreateTaskActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        setToolbar("创建故障单");
         long sysTime = System.currentTimeMillis();
         CharSequence sysTimeStr = DateFormat.format("yyyy-MM-dd HH:mm:ss", sysTime);
-        setToolbar("创建故障单");
         TextView tv1 = findViewById(R.id.tv_create_task_start_time);
         TextView tv2 = findViewById(R.id.tv_create_task_person);
         TextView tv3 = findViewById(R.id.tv_create_task_group);
@@ -63,13 +76,96 @@ public class CreateTaskActivity extends BaseActivity {
 
         et1.setText(getIntent().getStringExtra("title"));
         et2.setText(getIntent().getStringExtra("content"));
+
+        layoutShowTimeView = findViewById(R.id.layout_show_time_view);
+
+        tvStartTime = findViewById(R.id.tv_plan_start_time);
+        tvEndTime = findViewById(R.id.tv_plan_end_time);
+
+        initTimePick();
+        initChooseTime();
+        initRadioGroup();
+        //区分是不是从告警页面的创建故障单而来
+        if (null != getIntent().getStringExtra("type") && getIntent().getStringExtra("type").equals("alarm")) {
+            radioGroup.check(R.id.rbtn_1);
+        }
+    }
+
+    private void initChooseTime() {
+        tvStartTime.setOnClickListener(v -> {
+            flag = "start";
+            pvTime.show();
+        });
+
+        tvEndTime.setOnClickListener(v -> {
+            flag = "end";
+            pvTime.show();
+        });
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private void initRadioGroup() {
+        radioGroup = findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.rbtn_1:
+                    layoutShowTimeView.setVisibility(View.VISIBLE);
+                    radioGroup.check(R.id.rbtn_1);
+                    break;
+                case R.id.rbtn_2:
+                    layoutShowTimeView.setVisibility(View.VISIBLE);
+                    radioGroup.check(R.id.rbtn_2);
+                    break;
+                case R.id.rbtn_3:
+                    layoutShowTimeView.setVisibility(View.GONE);
+                    radioGroup.check(R.id.rbtn_3);
+                    break;
+                case R.id.rbtn_4:
+                    layoutShowTimeView.setVisibility(View.GONE);
+                    radioGroup.check(R.id.rbtn_4);
+                    break;
+                case R.id.rbtn_5:
+                    layoutShowTimeView.setVisibility(View.GONE);
+                    radioGroup.check(R.id.rbtn_5);
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void initTimePick() {
+        //时间选择器
+        pvTime = new TimePickerBuilder(CreateTaskActivity.this, (date, v) -> {
+            CharSequence str = DateFormat.format("yyyy-MM-dd HH:mm:ss", date.getTime());
+            if (flag.equals("start")) {
+                tvStartTime.setText(str);
+            } else {
+                tvEndTime.setText(str);
+            }
+
+        }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
+                .build();
     }
 
     /**
      * 新增故障单
      */
     private void createWorkForm() {
-        if( et1.getText().toString().trim().length()==0 || et2.getText().toString().trim().length() ==0){
+        //创建任务 故障和应急必须填写时间才行，其他的不用限制
+        if (radioGroup.getCheckedRadioButtonId() == R.id.rbtn_1 || radioGroup.getCheckedRadioButtonId() == R.id.rbtn_2){
+            //判断开始时间和结束时间是否选择
+            if (tvStartTime.getText().toString().equals("请选择")||tvEndTime.getText().toString().equals("请选择")){
+               //提示需要选择之后才能提交
+               ToastUtils.showShort("需要选择计划时间之后才能提交");
+               return;
+            }
+        }else if (radioGroup.getCheckedRadioButtonId() == -1){
+            ToastUtils.showShort("请选择任务类型");
+            return;
+        }
+
+        if (et1.getText().toString().trim().length() == 0 || et2.getText().toString().trim().length() == 0) {
             ToastUtils.showShort("请填写完名称和内容再尝试提交");
             return;
         }

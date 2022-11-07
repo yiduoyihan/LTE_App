@@ -71,6 +71,15 @@ public class AlarmListBean {
         private String restoreTime;
         private String alarmConfirm;
         private String confirmTime;
+        private String alarmCode;
+
+        public String getAlarmCode() {
+            return alarmCode;
+        }
+
+        public void setAlarmCode(String alarmCode) {
+            this.alarmCode = alarmCode;
+        }
 
         public String getOccurTime() {
             return occurTime;

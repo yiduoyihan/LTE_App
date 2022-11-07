@@ -35,6 +35,7 @@ public class AlarmListAdapter extends BaseQuickAdapter<AlarmListBean.RowsBean, B
         holder.setText(R.id.tv_alarm_content_2, bean.getDeviceName());
         holder.setText(R.id.tv_alarm_content_3, bean.getDevLocation());
         holder.setText(R.id.tv_alarm_content_4, bean.getAlarmCause());
+        holder.setText(R.id.tv_alarm_content_5, bean.getAlarmCode());
         View view = holder.getView(R.id.color_layout);
         int color;
         if (bean.getAlarmLevel().equals("1")) {

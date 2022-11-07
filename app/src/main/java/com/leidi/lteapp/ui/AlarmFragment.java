@@ -88,7 +88,7 @@ public class AlarmFragment extends BaseFragment {
         //item 后面的按钮点击事件
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.tv_alarm_btn_1) {
-                String alarmCause = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getAlarmCause();
+                String alarmCause = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getAlarmCode();
                 startActivity(new Intent(getActivity(), KnowledgeLibActivity.class)
                         .putExtra("一键诊断", alarmCause));
             } else {
@@ -98,7 +98,9 @@ public class AlarmFragment extends BaseFragment {
                 strTaskName = deviceName + "  " + devLocation + " 级别：" + alarmLv;
                 String alarmCause = ((AlarmListBean.RowsBean) adapter.getData().get(position)).getAlarmCause();
                 startActivity(new Intent(getActivity(), CreateTaskActivity.class)
-                        .putExtra("title", strTaskName).putExtra("content", alarmCause)
+                        .putExtra("title", strTaskName)
+                        .putExtra("type","alarm")
+                        .putExtra("content", alarmCause)
                 );
             }
         });

@@ -89,7 +89,9 @@ dependencies {
     implementation 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2' //管理RxJava3生命周期，页面销毁，关闭请求
     //pdf库
     implementation 'es.voghdev.pdfviewpager:library:1.1.2'
-
+    //时间选择器、省市区三级联动
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    //pDF选页码指示器
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
 }
