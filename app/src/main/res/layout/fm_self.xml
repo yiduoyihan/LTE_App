@@ -8,18 +8,21 @@
     android:background="@color/page_bg_color"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="30dp">
 
         <RelativeLayout
             android:id="@+id/layout_head_pic"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="50dp">
 
             <ImageView
                 android:id="@+id/iv_head_pic"
@@ -42,30 +45,17 @@
 
         </RelativeLayout>
 
-
-        <TextView
-            android:id="@+id/tv_nickname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:lineSpacingExtra="5dp"
             android:textStyle="bold" />
 
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -125,7 +115,6 @@
             android:id="@+id/fm_self_item4"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:visibility="gone"
             android:background="@android:color/transparent"
             android:drawableLeft="@mipmap/self_icon_left_4"
             android:drawablePadding="16dp"
@@ -135,7 +124,8 @@
             android:paddingEnd="0dp"
             android:text="@string/check_update"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/fm_self_item5"

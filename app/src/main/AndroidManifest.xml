@@ -35,11 +35,11 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.LTEApp"
         android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
         <activity
             android:name=".ui.LoginActivity"
@@ -50,15 +50,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ui.CreateTaskActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.CreateTaskActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.AboutOursActivity" />
         <activity android:name=".ui.CheckUpdateActivity" />
         <activity android:name=".ui.SignActivity" />
-        <activity android:name=".ui.KnowledgeLibActivity" />
+        <activity
+            android:name=".ui.KnowledgeLibActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.TaskDetailActivity" />
         <activity android:name=".ui.AnalyzeResultActivity" />
         <activity android:name=".ui.AlarmDetailActivity" />
@@ -81,17 +85,17 @@
         <!--    authorities：一个标识，在当前系统内必须是唯一值，一般用包名。
                 exported：表示该 FileProvider 是否需要公开出去。
                 granUriPermissions：是否允许授权文件的临时访问权限。这里需要，所以是 true。-->
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="com.example.wpsstudy.fileProvider"-->
-<!--            tools:replace="android:authorities"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
-<!--            &lt;!&ndash;指定Uri的共享路径&ndash;&gt;-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths_public" />-->
-<!--        </provider>-->
+        <!--        <provider-->
+        <!--            android:name="androidx.core.content.FileProvider"-->
+        <!--            android:authorities="com.example.wpsstudy.fileProvider"-->
+        <!--            tools:replace="android:authorities"-->
+        <!--            android:exported="false"-->
+        <!--            android:grantUriPermissions="true">-->
+        <!--            &lt;!&ndash;指定Uri的共享路径&ndash;&gt;-->
+        <!--            <meta-data-->
+        <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--                android:resource="@xml/file_paths_public" />-->
+        <!--        </provider>-->
 
         <service
             android:name="com.baidu.location.f"

@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     protected void initView() {
-        requestLocationPermission();
+//        requestLocationPermission();
         stateBarTransparent();
         viewPager = findViewById(R.id.vp_main);
         radioGroup = findViewById(R.id.rg_main_bottom);
@@ -230,7 +230,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onExitApp(TokenInvalidEvent event) {
         //token过期，退出登录
-//        ToastUtils.showShort(event.getMsg());
         SPUtils.getInstance().clear();
         startActivity(new Intent(this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -241,24 +240,28 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     /**
      * 请求定位相关的权限
      */
-    private void requestLocationPermission() {
-        PermissionX.init(this)
-                .permissions(Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        "lte.trunk.permission.READ_PHONE_STATE"
-                )
-                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-                .request((allGranted, grantedList, deniedList) -> {
-                    if (allGranted) {
-
-                    } else {
-                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-                    }
-                });
-
-    }
+//    private void requestLocationPermission() {
+//        PermissionX.init(this)
+//                .permissions(Manifest.permission.ACCESS_FINE_LOCATION,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        "lte.trunk.permission.READ_PHONE_STATE"
+//                )
+//                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
+//                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
+//                .request((allGranted, grantedList, deniedList) -> {
+//                    if (allGranted) {
+//                        startGetSignId();
+//                    } else {
+//                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
+//                    }
+//                });
+//
+//    }
+//
+//    private void startGetSignId() {
+//        String str = "111";
+//    }
 
     @Override
     public void downloadResult(String path) {

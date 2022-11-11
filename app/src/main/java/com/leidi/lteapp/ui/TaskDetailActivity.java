@@ -3,34 +3,29 @@ package com.leidi.lteapp.ui;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
-import com.leidi.lteapp.adapter.ShowPicAdapter;
+import com.leidi.lteapp.adapter.TaskDetailAdapter;
 import com.leidi.lteapp.base.BaseActivity;
+import com.leidi.lteapp.bean.ArriveBean;
 import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.util.ErrorUtils;
-import com.leidi.lteapp.util.GridViewUtil;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
-import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import lte.trunk.telephony.CellEx;
-import lte.trunk.telephony.TelephonyManagerEx;
-import lte.trunk.telephony.TmoPhoneStateListenerEx;
 import rxhttp.RxHttp;
 
 /**
@@ -40,15 +35,15 @@ import rxhttp.RxHttp;
  */
 public class TaskDetailActivity extends BaseActivity {
 
+    String[] strType = {"任务类型", "应急", "故障", "打卡", "巡检", "演练"};
     private int taskId;
-    private TextView tvCreateTime, tvOverTime, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
-    //    String address = "";
+    private View layoutStart, layoutEnd;
+    private TextView tvCreateTime, tvOverTime, tvStartTime, tvTaskType, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
     private String taskNo;
-    private Button btnComplete;
     private Button btnArrive;
     int type;//1表示从未完成页面而来，2标示从已完成页面来。
-    private String signId = "111";//小区编号
-    private TelephonyManagerEx telephonyManagerEx;
+    RecyclerView recyclerView;
+    TaskDetailAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -61,54 +56,79 @@ public class TaskDetailActivity extends BaseActivity {
         type = getIntent().getIntExtra("type", 0);
         taskId = getIntent().getIntExtra("taskId", 0);
 
-        tvCreateTime = findViewById(R.id.tv_create_time);
-        tvOverTime = findViewById(R.id.tv_over_time);
-        tvTaskName = findViewById(R.id.tv_task_name);
-        tvTaskContent = findViewById(R.id.tv_task_content);
-        tvCreateBy = findViewById(R.id.tv_task_person);
-        tvZy = findViewById(R.id.tv_task_specialized);
-        tvBz = findViewById(R.id.tv_task_group);
-        tvDw = findViewById(R.id.tv_task_company);
         btnArrive = findViewById(R.id.btn_arrive_site);
-        btnComplete = findViewById(R.id.btn_complete_task);
+        Button btnComplete = findViewById(R.id.btn_complete_task);
         btnComplete.setOnClickListener(v -> completeTask());
         if (type == 1) {
             btnArrive.setVisibility(View.VISIBLE);
+
         } else {
             btnArrive.setVisibility(View.GONE);
+            btnComplete.setVisibility(View.GONE);
         }
         btnArrive.setOnClickListener(v -> submitArrive());
+
+        initRecyclerView();
         initData();
-//        getAreaId();
     }
 
-//    private void getAreaId() {
-//        PermissionX.init(this)
-//                .permissions("lte.trunk.permission.READ_PHONE_STATE")
-//                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-//                .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-//                .request((allGranted, grantedList, deniedList) -> {
-//                    if (allGranted) {
-//                        telephonyManagerEx = TelephonyManagerEx.getDefault();
-//                        telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-//                        //获取小区位置信息
-//                        telephonyManagerEx.requestCellInfo();
-//                    } else {
-//                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-//                    }
-//                });
-//    }
+    private void initRecyclerView() {
+        //数据适配器
+        adapter = new TaskDetailAdapter(this);
+        adapter.setAnimationEnable(true);
+        //列表
+        recyclerView = findViewById(R.id.rv_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        // 头部控件
+        View headView = View.inflate(this, R.layout.task_detail_head, null);
+        initHead(headView);
+        adapter.addHeaderView(headView);
+        // 尾部占位控件
+        View footerView = View.inflate(this, R.layout.task_detail_footer, null);
+        adapter.addFooterView(footerView);
 
-//    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
-//        @Override
-//        public void onCellInfoChanged(CellEx cellEx) {
-//            super.onCellInfoChanged(cellEx);
-//            signId = String.valueOf(cellEx.getCellId());
-//        }
-//    };
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            TaskDetailBean.DataBean.AppLteTaskDetailsBean bean = (TaskDetailBean.DataBean.AppLteTaskDetailsBean) adapter.getData().get(position);
+            if (bean.getStatus().equals("2")) {
+                //已完成的任务不跳转
+                return;
+            } else if (!bean.getUserName().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))) {
+                //不是自己执行的任务不跳转
+                return;
+            }
+            startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
+                    .putExtra("address", bean.getArrivePosition())
+                    .putExtra("time", bean.getArriveTime())
+                    .putExtra("taskId", taskId)
+                    .putExtra("detailsId", bean.getId())
+                    .putExtra("signId", getSignId())
+                    .putExtra("taskNo", taskNo));
+        });
+    }
 
+    private void initHead(View headView) {
+        tvCreateTime = headView.findViewById(R.id.tv_create_time);
+        tvOverTime = headView.findViewById(R.id.tv_over_time);
+        tvStartTime = headView.findViewById(R.id.tv_start_time);
+        tvTaskType = headView.findViewById(R.id.tv_task_type);
+        tvTaskName = headView.findViewById(R.id.tv_task_name);
+        tvTaskContent = headView.findViewById(R.id.tv_task_content);
+        tvCreateBy = headView.findViewById(R.id.tv_task_person);
+        tvZy = headView.findViewById(R.id.tv_task_specialized);
+        tvBz = headView.findViewById(R.id.tv_task_group);
+        tvDw = headView.findViewById(R.id.tv_task_company);
+        layoutStart = headView.findViewById(R.id.layout_start_time);
+        layoutEnd = headView.findViewById(R.id.layout_end_time);
+    }
+
+    /**
+     * 完成任务
+     */
     private void completeTask() {
         RxHttp.postForm(Url.task_end + taskId)
+                .add("endPositionNo", getSignId())
+                .add("endPosition", "")
                 .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -123,21 +143,25 @@ public class TaskDetailActivity extends BaseActivity {
      * 到达现场
      */
     private void submitArrive() {
-        if (signId.isEmpty()) {
+        if (getSignId().isEmpty()) {
             ToastUtils.showShort("获取不到位置信息，不能提交");
             return;
         }
         RxHttp.postForm(Url.task_arrive + taskId)
                 .add("arrivePosition", "")
-                .add("arrivePositionNo", signId)
+                .add("arrivePositionNo", getSignId())
                 .add("taskNo", getIntent().getStringExtra("taskNo"))
-                .asResponse(String.class)
+                .asResponse(ArriveBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     //请求成功
                     startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
+                            .putExtra("address", bean.getArrivePosition())
+                            .putExtra("time", bean.getArriveTime())
                             .putExtra("taskId", taskId)
+                            .putExtra("detailsId", bean.getId())
+                            .putExtra("signId", getSignId())
                             .putExtra("taskNo", taskNo));
                     finish();
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
@@ -158,8 +182,17 @@ public class TaskDetailActivity extends BaseActivity {
      * 将数据放到页面中
      */
     private void upDatePageContent(TaskDetailBean.DataBean bean) {
+        if (Integer.parseInt(bean.getTaskType()) < 3) {
+            //应急+故障，需要显示开始时间  结束时间
+            layoutStart.setVisibility(View.VISIBLE);
+            layoutEnd.setVisibility(View.VISIBLE);
+            tvStartTime.setText(bean.getPlanCompleteStartTime());
+            tvOverTime.setText(bean.getPlanCompleteEndTime());
+            tvTaskType.setText(strType[Integer.parseInt(bean.getTaskType())]);
+        } else {
+            tvOverTime.setText(bean.getEndTime());
+        }
         tvCreateTime.setText(bean.getCreateTime());
-        tvOverTime.setText(bean.getEndTime());
         tvTaskName.setText(bean.getTaskName());
         tvTaskContent.setText(bean.getTaskContent());
         tvCreateBy.setText(bean.getCreateBy());
@@ -168,59 +201,19 @@ public class TaskDetailActivity extends BaseActivity {
         tvDw.setText(bean.getDwName());
         taskNo = bean.getTaskNo();
 
-        if (bean.getCreateUserId().equals(String.valueOf(SPUtils.getInstance().getString(SpUtilsKey.USER_ID)))
-                && type == 1) {
-            btnComplete.setVisibility(View.VISIBLE);
-        } else {
-            btnComplete.setVisibility(View.GONE);
-        }
-
-        //如果状态为1，标示此任务已经被点过了到达现场
-        if (null != bean.getAppLteTaskDetails() && null != bean.getAppLteTaskDetails().getStatus()) {
-            if (bean.getAppLteTaskDetails().getStatus().equals("1")) {
-                startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
-                        .putExtra("address", bean.getAppLteTaskDetails().getArrivePosition())
-                        .putExtra("time", bean.getCreateTime())
-                        .putExtra("taskId", taskId)
-                        .putExtra("taskNo", taskNo));
-                finish();
-            } else {
-                btnArrive.setVisibility(View.GONE);
-            }
-        }
-        if (null != bean.getAppLteTaskDetails()) {
-            //不为空，有数据标示这个任务有人完成过。将完成的内容显示出来
-            findViewById(R.id.layout_submit_content).setVisibility(View.VISIBLE);
-            TextView text1 = findViewById(R.id.tv_arrive_time);
-            text1.setText(bean.getAppLteTaskDetails().getArriveTime());
-            TextView text2 = findViewById(R.id.tv_address);
-            text2.setText(bean.getAppLteTaskDetails().getArrivePosition());
-            TextView text3 = findViewById(R.id.tv_complete_person);
-            text3.setText(bean.getAppLteTaskDetails().getUserName());
-            TextView text4 = findViewById(R.id.tv_question_description);
-            text4.setText(bean.getAppLteTaskDetails().getFaultDes());
-            TextView text5 = findViewById(R.id.tv_gc);
-            text5.setText(bean.getAppLteTaskDetails().getProcessDes());
-            TextView text6 = findViewById(R.id.tv_use_tools);
-            text6.setText(bean.getAppLteTaskDetails().getDeviceDes());
-
-            if (null != bean.getAppLteTaskDetails().getLteTaskDetailsPics()) {
-                //如果有图片，把图片显示出来
-                List<String> pathList = new ArrayList<>();
-                for (int i = 0; i < bean.getAppLteTaskDetails().getLteTaskDetailsPics().size(); i++) {
-                    pathList.add(bean.getAppLteTaskDetails().getLteTaskDetailsPics().get(i).getUrl());
+        //循环判断任务里面是否有未完成，如果有，ID是否和自己相同
+        if (null != bean.getAppLteTaskDetails() && bean.getAppLteTaskDetails().size() > 0) {
+            for (int i = 0; i < bean.getAppLteTaskDetails().size(); i++) {
+                if (bean.getAppLteTaskDetails().get(i).getStatus().equals("1")) {
+                    if (bean.getAppLteTaskDetails().get(i).getUserName().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))) {
+                        btnArrive.setVisibility(View.GONE);
+                    }
                 }
-                ShowPicAdapter mAdapter = new ShowPicAdapter(this);
-                GridView gridView = findViewById(R.id.gv_image_choose);
-                mAdapter.setData(pathList);
-                gridView.setAdapter(mAdapter);
-                gridView.setLayoutParams(GridViewUtil.setGridViewHeightBasedOnChildren(gridView, 4));
-
-                gridView.setOnItemClickListener((parent, view, position, id) ->
-                        startActivity(new Intent(TaskDetailActivity.this, PreviewActivity.class)
-                                .putExtra("position", position)
-                                .putExtra("data", (Serializable) pathList)));
             }
+        }
+
+        if (null != bean.getAppLteTaskDetails()) {
+            adapter.setList(bean.getAppLteTaskDetails());
         }
     }
 

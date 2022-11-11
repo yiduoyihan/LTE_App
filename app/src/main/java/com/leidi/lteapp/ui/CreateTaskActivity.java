@@ -7,10 +7,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -28,7 +26,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -46,6 +43,7 @@ public class CreateTaskActivity extends BaseActivity {
     TimePickerView pvTime;
     LinearLayout layoutShowTimeView;
     RadioGroup radioGroup;
+    int checkId = 1;
 
     @Override
     protected int getLayoutId() {
@@ -109,22 +107,27 @@ public class CreateTaskActivity extends BaseActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.rbtn_1:
+                    checkId = 1;
                     layoutShowTimeView.setVisibility(View.VISIBLE);
                     radioGroup.check(R.id.rbtn_1);
                     break;
                 case R.id.rbtn_2:
+                    checkId = 2;
                     layoutShowTimeView.setVisibility(View.VISIBLE);
                     radioGroup.check(R.id.rbtn_2);
                     break;
                 case R.id.rbtn_3:
+                    checkId = 3;
                     layoutShowTimeView.setVisibility(View.GONE);
                     radioGroup.check(R.id.rbtn_3);
                     break;
                 case R.id.rbtn_4:
+                    checkId = 4;
                     layoutShowTimeView.setVisibility(View.GONE);
                     radioGroup.check(R.id.rbtn_4);
                     break;
                 case R.id.rbtn_5:
+                    checkId = 5;
                     layoutShowTimeView.setVisibility(View.GONE);
                     radioGroup.check(R.id.rbtn_5);
                     break;
@@ -153,14 +156,14 @@ public class CreateTaskActivity extends BaseActivity {
      */
     private void createWorkForm() {
         //创建任务 故障和应急必须填写时间才行，其他的不用限制
-        if (radioGroup.getCheckedRadioButtonId() == R.id.rbtn_1 || radioGroup.getCheckedRadioButtonId() == R.id.rbtn_2){
+        if (radioGroup.getCheckedRadioButtonId() == R.id.rbtn_1 || radioGroup.getCheckedRadioButtonId() == R.id.rbtn_2) {
             //判断开始时间和结束时间是否选择
-            if (tvStartTime.getText().toString().equals("请选择")||tvEndTime.getText().toString().equals("请选择")){
-               //提示需要选择之后才能提交
-               ToastUtils.showShort("需要选择计划时间之后才能提交");
-               return;
+            if (tvStartTime.getText().toString().equals("请选择") || tvEndTime.getText().toString().equals("请选择")) {
+                //提示需要选择之后才能提交
+                ToastUtils.showShort("需要选择计划时间之后才能提交");
+                return;
             }
-        }else if (radioGroup.getCheckedRadioButtonId() == -1){
+        } else if (radioGroup.getCheckedRadioButtonId() == -1) {
             ToastUtils.showShort("请选择任务类型");
             return;
         }
@@ -173,6 +176,10 @@ public class CreateTaskActivity extends BaseActivity {
         try {
             jsonObject.put("taskName", et1.getText().toString().trim());
             jsonObject.put("taskContent", et2.getText().toString().trim());
+            jsonObject.put("taskType", checkId);
+            jsonObject.put("createPositionNo", getSignId());
+            jsonObject.put("planCompleteStartTime", tvStartTime.getText().toString().trim().replace("请选择", ""));
+            jsonObject.put("planCompleteEndTime", tvEndTime.getText().toString().trim().replace("请选择", ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }

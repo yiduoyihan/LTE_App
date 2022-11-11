@@ -11,5 +11,6 @@
         android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        tools:listitem="@layout/item_task"
         android:layout_marginEnd="16dp" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

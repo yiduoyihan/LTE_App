@@ -5,9 +5,9 @@ import java.util.List;
 public class TaskDetailBean {
 
     /**
-     * msg : 操作成功
+     * msg : 鎿嶄綔鎴愬姛
      * code : 200
-     * data : {"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 15:20:39","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":6,"taskNo":"1661498438676","taskName":"555555","taskContent":"66666","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}}
+     * data : {"searchValue":null,"createBy":"a","createTime":"2022-11-10 13:44:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":74,"taskNo":"DX1_221110001","taskName":"fhhb","taskContent":"gghhh","deptId":"240","deptName":"电信1","dwId":"241","dwName":"LD","bzId":"242","bzName":"TEST","createUserId":"139","taskStatus":"0","taskLimited":null,"responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"taskType":"4","planCompleteStartTime":null,"planCompleteEndTime":null,"createPosition":null,"createPositionNo":null,"endPosition":null,"delFlag":"0","appLteTaskDetails":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1590582575656177666,"taskNo":"DX1_221110001","arrivePosition":"番禺广场至南村万博区间左线rru-A08","arriveTime":"2022-11-10 12:50:12","responseTimes":5,"completeTime":"2022-11-10 14:24:49","handleTimes":10,"userId":"139","userName":"a","faultDes":"1","processDes":"1","deviceDes":"1","status":"2","lteTaskDetailsPics":[]},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1590582575656177999,"taskNo":"DX1_221110001","arrivePosition":"番禺广场至南村万博区间左线rru-A08","arriveTime":"2022-11-10 13:50:12","responseTimes":5,"completeTime":null,"handleTimes":null,"userId":"139","userName":"a","faultDes":null,"processDes":null,"deviceDes":null,"status":"1","lteTaskDetailsPics":null}]}
      */
 
     private String msg;
@@ -41,31 +41,38 @@ public class TaskDetailBean {
     public static class DataBean {
         /**
          * searchValue : null
-         * createBy : zyuser
-         * createTime : 2022-08-26 15:20:39
+         * createBy : a
+         * createTime : 2022-11-10 13:44:19
          * updateBy : null
          * updateTime : null
          * remark : null
          * params : {}
-         * taskId : 6
-         * taskNo : 1661498438676
-         * taskName : 555555
-         * taskContent : 66666
-         * deptId : 207
-         * deptName : 电信
-         * dwId : 209
-         * dwName : 电信-单位1
-         * bzId : 210
-         * bzName : 电信-单位1-班组1
-         * createUserId : 110
+         * taskId : 74
+         * taskNo : DX1_221110001
+         * taskName : fhhb
+         * taskContent : gghhh
+         * deptId : 240
+         * deptName : 电信1
+         * dwId : 241
+         * dwName : LD
+         * bzId : 242
+         * bzName : TEST
+         * createUserId : 139
          * taskStatus : 0
+         * taskLimited : null
          * responseTimes : null
          * handleTimes : null
          * arriveTime : null
          * completeTime : null
          * endTime : null
+         * taskType : 4
+         * planCompleteStartTime : null
+         * planCompleteEndTime : null
+         * createPosition : null
+         * createPositionNo : null
+         * endPosition : null
          * delFlag : 0
-         * appLteTaskDetails : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}
+         * appLteTaskDetails : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1590582575656177666,"taskNo":"DX1_221110001","arrivePosition":"番禺广场至南村万博区间左线rru-A08","arriveTime":"2022-11-10 12:50:12","responseTimes":5,"completeTime":"2022-11-10 14:24:49","handleTimes":10,"userId":"139","userName":"a","faultDes":"1","processDes":"1","deviceDes":"1","status":"2","lteTaskDetailsPics":[]},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":1590582575656177999,"taskNo":"DX1_221110001","arrivePosition":"番禺广场至南村万博区间左线rru-A08","arriveTime":"2022-11-10 13:50:12","responseTimes":5,"completeTime":null,"handleTimes":null,"userId":"139","userName":"a","faultDes":null,"processDes":null,"deviceDes":null,"status":"1","lteTaskDetailsPics":null}]
          */
 
         private String searchValue;
@@ -87,13 +94,20 @@ public class TaskDetailBean {
         private String bzName;
         private String createUserId;
         private String taskStatus;
+        private String taskLimited;
         private String responseTimes;
         private String handleTimes;
         private String arriveTime;
         private String completeTime;
         private String endTime;
+        private String taskType;
+        private String planCompleteStartTime;
+        private String planCompleteEndTime;
+        private String createPosition;
+        private String createPositionNo;
+        private String endPosition;
         private String delFlag;
-        private AppLteTaskDetailsBean appLteTaskDetails;
+        private List<AppLteTaskDetailsBean> appLteTaskDetails;
 
         public String getSearchValue() {
             return searchValue;
@@ -247,6 +261,14 @@ public class TaskDetailBean {
             this.taskStatus = taskStatus;
         }
 
+        public String getTaskLimited() {
+            return taskLimited;
+        }
+
+        public void setTaskLimited(String taskLimited) {
+            this.taskLimited = taskLimited;
+        }
+
         public String getResponseTimes() {
             return responseTimes;
         }
@@ -287,6 +309,54 @@ public class TaskDetailBean {
             this.endTime = endTime;
         }
 
+        public String getTaskType() {
+            return taskType;
+        }
+
+        public void setTaskType(String taskType) {
+            this.taskType = taskType;
+        }
+
+        public String getPlanCompleteStartTime() {
+            return planCompleteStartTime;
+        }
+
+        public void setPlanCompleteStartTime(String planCompleteStartTime) {
+            this.planCompleteStartTime = planCompleteStartTime;
+        }
+
+        public String getPlanCompleteEndTime() {
+            return planCompleteEndTime;
+        }
+
+        public void setPlanCompleteEndTime(String planCompleteEndTime) {
+            this.planCompleteEndTime = planCompleteEndTime;
+        }
+
+        public String getCreatePosition() {
+            return createPosition;
+        }
+
+        public void setCreatePosition(String createPosition) {
+            this.createPosition = createPosition;
+        }
+
+        public String getCreatePositionNo() {
+            return createPositionNo;
+        }
+
+        public void setCreatePositionNo(String createPositionNo) {
+            this.createPositionNo = createPositionNo;
+        }
+
+        public String getEndPosition() {
+            return endPosition;
+        }
+
+        public void setEndPosition(String endPosition) {
+            this.endPosition = endPosition;
+        }
+
         public String getDelFlag() {
             return delFlag;
         }
@@ -295,11 +365,11 @@ public class TaskDetailBean {
             this.delFlag = delFlag;
         }
 
-        public AppLteTaskDetailsBean getAppLteTaskDetails() {
+        public List<AppLteTaskDetailsBean> getAppLteTaskDetails() {
             return appLteTaskDetails;
         }
 
-        public void setAppLteTaskDetails(AppLteTaskDetailsBean appLteTaskDetails) {
+        public void setAppLteTaskDetails(List<AppLteTaskDetailsBean> appLteTaskDetails) {
             this.appLteTaskDetails = appLteTaskDetails;
         }
 
@@ -315,20 +385,20 @@ public class TaskDetailBean {
              * updateTime : null
              * remark : null
              * params : {}
-             * id : null
-             * taskNo : 1661498438676
-             * arrivePosition : null
-             * arriveTime : null
-             * responseTimes : null
-             * completeTime : null
-             * handleTimes : null
-             * userId : null
-             * userName : null
-             * faultDes : null
-             * processDes : null
-             * deviceDes : null
-             * status : null
-             * lteTaskDetailsPics : null
+             * id : 1590582575656177666
+             * taskNo : DX1_221110001
+             * arrivePosition : 番禺广场至南村万博区间左线rru-A08
+             * arriveTime : 2022-11-10 12:50:12
+             * responseTimes : 5
+             * completeTime : 2022-11-10 14:24:49
+             * handleTimes : 10
+             * userId : 139
+             * userName : a
+             * faultDes : 1
+             * processDes : 1
+             * deviceDes : 1
+             * status : 2
+             * lteTaskDetailsPics : []
              */
 
             private String searchValue;
@@ -338,29 +408,20 @@ public class TaskDetailBean {
             private String updateTime;
             private String remark;
             private ParamsBeanX params;
-            private String id;
+            private long id;
             private String taskNo;
             private String arrivePosition;
             private String arriveTime;
-            private String responseTimes;
+            private int responseTimes;
             private String completeTime;
-            private String handleTimes;
+            private int handleTimes;
             private String userId;
             private String userName;
             private String faultDes;
             private String processDes;
             private String deviceDes;
-            // status 1标示点过了到达现场
             private String status;
-            private List<PictureData> lteTaskDetailsPics;
-
-            public List<PictureData> getLteTaskDetailsPics() {
-                return lteTaskDetailsPics;
-            }
-
-            public void setLteTaskDetailsPics(List<PictureData> lteTaskDetailsPics) {
-                this.lteTaskDetailsPics = lteTaskDetailsPics;
-            }
+            private List<LteTaskDetailsPicsBean> lteTaskDetailsPics;
 
             public String getSearchValue() {
                 return searchValue;
@@ -418,11 +479,11 @@ public class TaskDetailBean {
                 this.params = params;
             }
 
-            public String getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(String id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -450,11 +511,11 @@ public class TaskDetailBean {
                 this.arriveTime = arriveTime;
             }
 
-            public String getResponseTimes() {
+            public int getResponseTimes() {
                 return responseTimes;
             }
 
-            public void setResponseTimes(String responseTimes) {
+            public void setResponseTimes(int responseTimes) {
                 this.responseTimes = responseTimes;
             }
 
@@ -466,11 +527,11 @@ public class TaskDetailBean {
                 this.completeTime = completeTime;
             }
 
-            public String getHandleTimes() {
+            public int getHandleTimes() {
                 return handleTimes;
             }
 
-            public void setHandleTimes(String handleTimes) {
+            public void setHandleTimes(int handleTimes) {
                 this.handleTimes = handleTimes;
             }
 
@@ -522,12 +583,18 @@ public class TaskDetailBean {
                 this.status = status;
             }
 
+            public List<LteTaskDetailsPicsBean> getLteTaskDetailsPics() {
+                return lteTaskDetailsPics;
+            }
+
+            public void setLteTaskDetailsPics(List<LteTaskDetailsPicsBean> lteTaskDetailsPics) {
+                this.lteTaskDetailsPics = lteTaskDetailsPics;
+            }
 
             public static class ParamsBeanX {
             }
         }
-
-        public static class PictureData {
+        public static class LteTaskDetailsPicsBean{
 
             /**
              * searchValue : null
@@ -537,19 +604,19 @@ public class TaskDetailBean {
              * updateTime : null
              * remark : null
              * params : {}
-             * id : 6
-             * taskNo : 1663312956800
-             * detailsId : 1570674516901326849
-             * url : http://192.168.8.26:9001/lte-gz/2022/09/16/Screenshot_20220726-104904_20220916152435A001.jpeg
-             * urlName : Screenshot_20220726-104904.jpeg
+             * id : 19
+             * taskNo : DX1_221110001
+             * detailsId : 1590582575656177999
+             * url : http://192.168.8.26:9001/lte-gz/2022/11/10/JPEG_20211122_143622_20221110165835A001.jpeg
+             * urlName : JPEG_20211122_143622.jpeg
              */
 
-            private Object searchValue;
-            private Object createBy;
-            private Object createTime;
-            private Object updateBy;
-            private Object updateTime;
-            private Object remark;
+            private String searchValue;
+            private String createBy;
+            private String createTime;
+            private String updateBy;
+            private String updateTime;
+            private String remark;
             private ParamsBean params;
             private int id;
             private String taskNo;
@@ -557,51 +624,51 @@ public class TaskDetailBean {
             private String url;
             private String urlName;
 
-            public Object getSearchValue() {
+            public String getSearchValue() {
                 return searchValue;
             }
 
-            public void setSearchValue(Object searchValue) {
+            public void setSearchValue(String searchValue) {
                 this.searchValue = searchValue;
             }
 
-            public Object getCreateBy() {
+            public String getCreateBy() {
                 return createBy;
             }
 
-            public void setCreateBy(Object createBy) {
+            public void setCreateBy(String createBy) {
                 this.createBy = createBy;
             }
 
-            public Object getCreateTime() {
+            public String getCreateTime() {
                 return createTime;
             }
 
-            public void setCreateTime(Object createTime) {
+            public void setCreateTime(String createTime) {
                 this.createTime = createTime;
             }
 
-            public Object getUpdateBy() {
+            public String getUpdateBy() {
                 return updateBy;
             }
 
-            public void setUpdateBy(Object updateBy) {
+            public void setUpdateBy(String updateBy) {
                 this.updateBy = updateBy;
             }
 
-            public Object getUpdateTime() {
+            public String getUpdateTime() {
                 return updateTime;
             }
 
-            public void setUpdateTime(Object updateTime) {
+            public void setUpdateTime(String updateTime) {
                 this.updateTime = updateTime;
             }
 
-            public Object getRemark() {
+            public String getRemark() {
                 return remark;
             }
 
-            public void setRemark(Object remark) {
+            public void setRemark(String remark) {
                 this.remark = remark;
             }
 

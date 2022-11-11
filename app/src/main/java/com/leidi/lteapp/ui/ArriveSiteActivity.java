@@ -115,7 +115,7 @@ public class ArriveSiteActivity extends BaseActivity {
         et2 = findViewById(R.id.et_work_description);
         et3 = findViewById(R.id.et_tool_description);
 
-        if (getIntent().getStringExtra("time").isEmpty()) {
+        if (null == getIntent().getStringExtra("time")) {
             long sysTime = System.currentTimeMillis();
             CharSequence sysTimeStr = DateFormat.format("yyyy-dd-MM HH:mm:ss", sysTime);
             arriveTime.setText(sysTimeStr);
@@ -140,7 +140,7 @@ public class ArriveSiteActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
-                    tvAddress.setText(bean.getAppLteTaskDetails().getArrivePosition());
+//                    tvAddress.setText(bean.getAppLteTaskDetails().get);
                 }, throwable -> {
                     ToastUtils.showShort(ErrorUtils.whichError(
                             Objects.requireNonNull(throwable.getMessage())));
@@ -225,6 +225,9 @@ public class ArriveSiteActivity extends BaseActivity {
                 .add("processDes", et2.getText().toString())
                 .add("deviceDes", et3.getText().toString())
                 .add("taskNo", taskNo)
+                .add("completePosition", "")
+                .add("completePositionNo", getIntent().getStringExtra("signId"))
+                .add("detailsId",getIntent().getLongExtra("detailsId",0))
                 .addFiles("files", files)
                 .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())

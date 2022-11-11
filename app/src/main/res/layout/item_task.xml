@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
@@ -11,148 +12,150 @@
     <LinearLayout
         android:id="@+id/left_layout"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:text="创建时间："
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
             android:gravity="end"
-            android:layout_height="wrap_content"/>
+            android:text="创建时间："
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
             android:text="班组："
             android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:gravity="end"
-            android:visibility="gone"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
             android:text="创建人："
-            android:textStyle="bold"
-            android:gravity="end"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
             android:text="专业："
             android:textStyle="bold"
-            android:gravity="end"
-            android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
             android:text="单位："
             android:textStyle="bold"
-            android:gravity="end"
-            android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
             android:text="任务名称："
-            android:textStyle="bold"
-            android:gravity="end"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
             android:text="任务编码："
-            android:textStyle="bold"
-            android:gravity="end"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
-            android:text="任务类型："
-            android:textStyle="bold"
-            android:gravity="end"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:gravity="end"
+            android:text="任务类型："
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_toRightOf="@id/left_layout"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/left_layout"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_task_content_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/tv_task_content_2"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:visibility="gone"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_task_content_3"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/tv_task_content_4"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:visibility="gone"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_task_content_5"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:visibility="gone"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_task_content_6"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/tv_task_content_7"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/tv_task_content_8"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
     </LinearLayout>
-
 
     <ImageView
         android:id="@+id/iv_delete_item"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:padding="8dp"
+        android:padding="5dp"
+        android:src="@mipmap/delete_pic"
         android:visibility="gone"
-        android:src="@mipmap/delete_pic" />
+        tools:visibility="visible" />
 
-    <TextView
+    <ImageView
         android:id="@+id/tv_flag_pic"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="40dp"
-        android:background="@mipmap/doing_pic" />
+        />
 </RelativeLayout>

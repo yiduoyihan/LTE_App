@@ -16,6 +16,7 @@ import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
+import com.leidi.lteapp.event.TaskSearchEvent;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.PageInfoUtil;
 import com.leidi.lteapp.util.Url;
@@ -32,7 +33,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
 /**
- * 任务已完成页面
+ * 任务已超时页面
  *
  * @author yan
  */
@@ -123,11 +124,11 @@ public class TaskOverTimeFragment extends BaseFragment {
      * 请求故障单列表
      */
     private void requestTaskList() {
-        //taskStatus 0 进行中，1已完成
         RxHttp.get(Url.task_list)
                 .add("pageNum", pageInfoUtil.page)
                 .add("pageSize", PAGE_SIZE)
-                .add("taskStatus", 1)
+                .add("timeout", 1)
+                .add("taskLimited", 1)
                 .asResponseList(TaskListBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -192,5 +193,12 @@ public class TaskOverTimeFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListShouldRefresh(RefreshTaskDoingEvent event) {
         refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchRefresh(TaskSearchEvent event) {
+        if (event.getFlag() ==2){
+            ToastUtils.showShort("搜索页面2");
+        }
     }
 }

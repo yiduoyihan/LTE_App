@@ -66,12 +66,29 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
         EventBus.getDefault().register(this);
+        //图像和个人信息
+        initHeadPicture(view);
+        //item点击事件监听
+        initOnClickListener(view);
+     }
+
+    private void initHeadPicture(View view) {
         ivHead = view.findViewById(R.id.iv_head_pic);
         if (SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC).length() > 0) {
             Picasso.get().load(SPUtils.getInstance().getString(SpUtilsKey.HEAD_PIC))
                     .transform(new CircleTransform())
                     .into(ivHead);
         }
+        //个人信息的显示
+        TextView tvContent = view.findViewById(R.id.tv_content);
+        String strZY = SPUtils.getInstance().getString(SpUtilsKey.USER_ZY);
+        String strDW = SPUtils.getInstance().getString(SpUtilsKey.USER_DW);
+        String strBZ = SPUtils.getInstance().getString(SpUtilsKey.USER_BZ);
+        String strName = SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME);
+        tvContent.setText(String.format("昵称：%s\n专业：%s\n单位：%s\n班组：%s", strName, strZY, strDW, strBZ));
+    }
+
+    private void initOnClickListener(View view) {
         view.findViewById(R.id.fm_self_item1).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item2).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item3).setOnClickListener(this);
@@ -79,13 +96,6 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         view.findViewById(R.id.fm_self_item5).setOnClickListener(this);
         view.findViewById(R.id.fm_self_item6).setOnClickListener(this);
         view.findViewById(R.id.iv_open_camera).setOnClickListener(this);
-        TextView tvNickName = view.findViewById(R.id.tv_nickname);
-        tvNickName.setText(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME));
-        TextView tvContent = view.findViewById(R.id.tv_content);
-        String strZY = SPUtils.getInstance().getString(SpUtilsKey.USER_ZY);
-        String strDW = SPUtils.getInstance().getString(SpUtilsKey.USER_DW);
-        String strBZ = SPUtils.getInstance().getString(SpUtilsKey.USER_BZ);
-        tvContent.setText("专业："+strZY + "  单位：" + strDW + "  班组：" + strBZ);
     }
 
     public static SelfFragment getInstance() {

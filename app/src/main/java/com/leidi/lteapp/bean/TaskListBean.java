@@ -5,9 +5,9 @@ import java.util.List;
 public class TaskListBean {
 
     /**
-     * msg : 操作成功
+     * msg : 鎿嶄綔鎴愬姛
      * code : 200
-     * data : [{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 15:20:39","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":6,"taskNo":"1661498438676","taskName":"555555","taskContent":"66666","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}},{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 16:42:10","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":7,"taskNo":"1661503330363","taskName":"1213","taskContent":"222222","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661503330363","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}},{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 16:48:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":8,"taskNo":"1661503691708","taskName":"666666","taskContent":"888888","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661503691708","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}},{"searchValue":null,"createBy":"zyuser","createTime":"2022-08-26 16:49:56","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":9,"taskNo":"1661503796053","taskName":"iioooo","taskContent":"pppppp","deptId":"207","deptName":"电信","dwId":"209","dwName":"电信-单位1","bzId":"210","bzName":"电信-单位1-班组1","createUserId":"110","taskStatus":"0","responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"delFlag":"0","appLteTaskDetails":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661503796053","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}}]
+     * data : [{"searchValue":null,"createBy":"a","createTime":"2022-11-10 13:44:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"taskId":74,"taskNo":"DX1_221110001","taskName":"fhhb","taskContent":"gghhh","deptId":"240","deptName":"电信1","dwId":"241","dwName":"LD","bzId":"242","bzName":"TEST","createUserId":"139","taskStatus":"0","taskLimited":null,"responseTimes":null,"handleTimes":null,"arriveTime":null,"completeTime":null,"endTime":null,"taskType":"4","planCompleteStartTime":null,"planCompleteEndTime":null,"createPosition":null,"createPositionNo":null,"endPosition":null,"delFlag":"0","appLteTaskDetails":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"DX1_221110001","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}]}]
      */
 
     private String msg;
@@ -41,31 +41,38 @@ public class TaskListBean {
     public static class DataBean {
         /**
          * searchValue : null
-         * createBy : zyuser
-         * createTime : 2022-08-26 15:20:39
+         * createBy : a
+         * createTime : 2022-11-10 13:44:19
          * updateBy : null
          * updateTime : null
          * remark : null
          * params : {}
-         * taskId : 6
-         * taskNo : 1661498438676
-         * taskName : 555555
-         * taskContent : 66666
-         * deptId : 207
-         * deptName : 电信
-         * dwId : 209
-         * dwName : 电信-单位1
-         * bzId : 210
-         * bzName : 电信-单位1-班组1
-         * createUserId : 110
+         * taskId : 74
+         * taskNo : DX1_221110001
+         * taskName : fhhb
+         * taskContent : gghhh
+         * deptId : 240
+         * deptName : 电信1
+         * dwId : 241
+         * dwName : LD
+         * bzId : 242
+         * bzName : TEST
+         * createUserId : 139
          * taskStatus : 0
+         * taskLimited : null
          * responseTimes : null
          * handleTimes : null
          * arriveTime : null
          * completeTime : null
          * endTime : null
+         * taskType : 4
+         * planCompleteStartTime : null
+         * planCompleteEndTime : null
+         * createPosition : null
+         * createPositionNo : null
+         * endPosition : null
          * delFlag : 0
-         * appLteTaskDetails : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"1661498438676","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}
+         * appLteTaskDetails : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"id":null,"taskNo":"DX1_221110001","arrivePosition":null,"arriveTime":null,"responseTimes":null,"completeTime":null,"handleTimes":null,"userId":null,"userName":null,"faultDes":null,"processDes":null,"deviceDes":null,"status":null,"lteTaskDetailsPics":null}]
          */
 
         private Object searchValue;
@@ -87,13 +94,29 @@ public class TaskListBean {
         private String bzName;
         private String createUserId;
         private String taskStatus;
+        private Object taskLimited;
         private Object responseTimes;
         private Object handleTimes;
         private Object arriveTime;
         private Object completeTime;
         private Object endTime;
+        private String taskType;
+        private Object planCompleteStartTime;
+        private Object planCompleteEndTime;
+        private Object createPosition;
+        private Object createPositionNo;
+        private Object endPosition;
         private String delFlag;
-        private AppLteTaskDetailsBean appLteTaskDetails;
+        private String timeout;
+
+        public String getTimeout() {
+            return timeout;
+        }
+
+        public void setTimeout(String timeout) {
+            this.timeout = timeout;
+        }
+        //        private List<AppLteTaskDetailsBean> appLteTaskDetails;
 
         public Object getSearchValue() {
             return searchValue;
@@ -247,6 +270,14 @@ public class TaskListBean {
             this.taskStatus = taskStatus;
         }
 
+        public Object getTaskLimited() {
+            return taskLimited;
+        }
+
+        public void setTaskLimited(Object taskLimited) {
+            this.taskLimited = taskLimited;
+        }
+
         public Object getResponseTimes() {
             return responseTimes;
         }
@@ -287,6 +318,54 @@ public class TaskListBean {
             this.endTime = endTime;
         }
 
+        public String getTaskType() {
+            return taskType;
+        }
+
+        public void setTaskType(String taskType) {
+            this.taskType = taskType;
+        }
+
+        public Object getPlanCompleteStartTime() {
+            return planCompleteStartTime;
+        }
+
+        public void setPlanCompleteStartTime(Object planCompleteStartTime) {
+            this.planCompleteStartTime = planCompleteStartTime;
+        }
+
+        public Object getPlanCompleteEndTime() {
+            return planCompleteEndTime;
+        }
+
+        public void setPlanCompleteEndTime(Object planCompleteEndTime) {
+            this.planCompleteEndTime = planCompleteEndTime;
+        }
+
+        public Object getCreatePosition() {
+            return createPosition;
+        }
+
+        public void setCreatePosition(Object createPosition) {
+            this.createPosition = createPosition;
+        }
+
+        public Object getCreatePositionNo() {
+            return createPositionNo;
+        }
+
+        public void setCreatePositionNo(Object createPositionNo) {
+            this.createPositionNo = createPositionNo;
+        }
+
+        public Object getEndPosition() {
+            return endPosition;
+        }
+
+        public void setEndPosition(Object endPosition) {
+            this.endPosition = endPosition;
+        }
+
         public String getDelFlag() {
             return delFlag;
         }
@@ -295,13 +374,13 @@ public class TaskListBean {
             this.delFlag = delFlag;
         }
 
-        public AppLteTaskDetailsBean getAppLteTaskDetails() {
-            return appLteTaskDetails;
-        }
-
-        public void setAppLteTaskDetails(AppLteTaskDetailsBean appLteTaskDetails) {
-            this.appLteTaskDetails = appLteTaskDetails;
-        }
+//        public List<AppLteTaskDetailsBean> getAppLteTaskDetails() {
+//            return appLteTaskDetails;
+//        }
+//
+//        public void setAppLteTaskDetails(List<AppLteTaskDetailsBean> appLteTaskDetails) {
+//            this.appLteTaskDetails = appLteTaskDetails;
+//        }
 
         public static class ParamsBean {
         }
@@ -316,7 +395,7 @@ public class TaskListBean {
              * remark : null
              * params : {}
              * id : null
-             * taskNo : 1661498438676
+             * taskNo : DX1_221110001
              * arrivePosition : null
              * arriveTime : null
              * responseTimes : null

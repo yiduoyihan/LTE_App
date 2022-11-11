@@ -17,6 +17,8 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import com.leidi.lteapp.R;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
+import lte.trunk.telephony.TelephonyManagerEx;
+
 
 /**
  * @author yan
@@ -31,6 +33,8 @@ public abstract class BaseActivity extends FragmentActivity {
     TextView tvNetDisconnection;
     public LinearLayout toolbar;
     protected LoadingDialog loadingDialog;
+    private TelephonyManagerEx telephonyManagerEx;
+    private String signId = "111";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,46 @@ public abstract class BaseActivity extends FragmentActivity {
         tvTitleRightButton = findViewById(R.id.tv_title_right);
         tvTitleLeftButton.setOnClickListener(view -> onBackClick());
         initView();
+        initSignSDK();
+    }
+
+    protected void initSignSDK() {
+        //            PermissionX.init(this)
+//                    .permissions("lte.trunk.permission.READ_PHONE_STATE")
+//                    .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
+//                    .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
+//                    .request((allGranted, grantedList, deniedList) -> {
+//                        if (allGranted) {
+//                            telephonyManagerEx = TelephonyManagerEx.getDefault();
+//                            telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
+//                            //获取小区位置信息
+//                            telephonyManagerEx.requestCellInfo();
+//                        } else {
+//                            ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
+//                        }
+//                    });
+
+    }
+
+    //    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
+//        @Override
+//        public void onCellInfoChanged(CellEx cellEx) {
+//            super.onCellInfoChanged(cellEx);
+//            signId = String.valueOf(cellEx.getCellId());
+//            tvTest.setText("CellId: " + cellEx.getCellId() +
+//                    " Freq: " + cellEx.getFreq() +
+//                    " Rsrp: " + cellEx.getRsrp() +
+//                    " GpcchBler: " + cellEx.getGpcchBler() +
+//                    " GtchBler: " + cellEx.getGtchBler() +
+//                    " Rsrq: " + cellEx.getRsrq() +
+//                    " Rssi: " + cellEx.getRssi() +
+//                    " Sinr: " + cellEx.getSinr()
+//            );
+//        }
+//    };
+
+    protected String getSignId() {
+        return signId;
     }
 
     /**

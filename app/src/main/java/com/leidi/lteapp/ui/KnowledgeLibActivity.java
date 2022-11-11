@@ -63,6 +63,11 @@ public class KnowledgeLibActivity extends BaseActivity implements DownloadEnd {
         String str = getIntent().getStringExtra("一键诊断");
         etInput = findViewById(R.id.et_knowledge_search);
         etInput.setText(str);
+        //获取输入框焦点并设置光标到内容尾部
+        if (null != str) {
+            etInput.requestFocus();
+            etInput.setSelection(str.length());
+        }
         btnSearch = findViewById(R.id.btn_knowledge_search);
         recyclerView = findViewById(R.id.rv_knowledge);
         //数据适配器
@@ -70,13 +75,11 @@ public class KnowledgeLibActivity extends BaseActivity implements DownloadEnd {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         requestToSearch(str);
-        btnSearch.setOnClickListener(v -> {
-            requestToSearch(etInput.getText().toString().trim());
-        });
+        btnSearch.setOnClickListener(v -> requestToSearch(etInput.getText().toString().trim()));
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            loadingDialog.show();
             String url = ((KnowledgeLibBean.RowsBean) adapter.getData().get(position)).getFileUrl();
             //开始下载的时候弹出对话框禁止操作并展示下载进度#24
+            loadingDialog.show();
             DownLoadUtil.sendRequestWithOkHttp(this, url, getLocalPath(url), loadingDialog, this);
             //pdf和word 分别去不同的页面查看
 //            Class <?> cla = url.endsWith(".pdf") ? RemotePDFActivity.class : KnowledgeDetailActivity.class;

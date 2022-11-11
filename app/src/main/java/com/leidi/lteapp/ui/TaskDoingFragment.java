@@ -16,6 +16,7 @@ import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
+import com.leidi.lteapp.event.TaskSearchEvent;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.PageInfoUtil;
 import com.leidi.lteapp.util.Url;
@@ -109,14 +110,14 @@ public class TaskDoingFragment extends BaseFragment {
         adapter.getLoadMoreModule().setEnableLoadMore(false);
         // 下拉刷新，需要重置页数
         pageInfoUtil.reset();
-        requestTaskList();
+        requestTaskList("");
     }
 
     /**
      * 加载更多
      */
     private void loadMore() {
-        requestTaskList();
+        requestTaskList("");
     }
 
     /**
@@ -137,12 +138,13 @@ public class TaskDoingFragment extends BaseFragment {
     /**
      * 请求故障单列表
      */
-    private void requestTaskList() {
+    private void requestTaskList(String searchValue) {
         //taskStatus 0 进行中，1已完成
         RxHttp.get(Url.task_list)
                 .add("pageNum", pageInfoUtil.page)
                 .add("pageSize", PAGE_SIZE)
                 .add("taskStatus", 0)
+                .add("searchValue", searchValue)
                 .asResponseList(TaskListBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -190,5 +192,13 @@ public class TaskDoingFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListShouldRefresh(RefreshTaskDoingEvent event) {
         refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchRefresh(TaskSearchEvent event) {
+        if (event.getFlag() == 0) {
+            pageInfoUtil.reset();
+            requestTaskList(event.getContent());
+        }
     }
 }

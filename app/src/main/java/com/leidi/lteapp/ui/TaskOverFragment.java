@@ -17,6 +17,7 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
+import com.leidi.lteapp.event.TaskSearchEvent;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.PageInfoUtil;
@@ -194,5 +195,12 @@ public class TaskOverFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListShouldRefresh(RefreshTaskDoingEvent event) {
         refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchRefresh(TaskSearchEvent event) {
+        if (event.getFlag() ==1){
+            ToastUtils.showShort("搜索页面1");
+        }
     }
 }

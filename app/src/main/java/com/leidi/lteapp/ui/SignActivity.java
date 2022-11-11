@@ -6,10 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.baidu.location.LocationClient;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -19,9 +18,7 @@ import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.SignMsgBean;
 import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
-import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
-import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
 
 import org.json.JSONException;
@@ -32,9 +29,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import lte.trunk.telephony.CellEx;
-import lte.trunk.telephony.TelephonyManagerEx;
-import lte.trunk.telephony.TmoPhoneStateListenerEx;
 import rxhttp.RxHttp;
 
 /**
@@ -46,11 +40,8 @@ public class SignActivity extends BaseActivity {
 
     TextView tvStart, tvEnd, tvTimeStart, tvTimeEnd;
     View tvSignStart, tvSignEnd;
-    public LocationClient mLocationClient = null;
     TextView tvTest;
-    private TelephonyManagerEx telephonyManagerEx;
-    private String signId = "111";
-
+    EditText etBz;//备注
     //在主线程里面处理消息并更新UI界面
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
@@ -86,6 +77,7 @@ public class SignActivity extends BaseActivity {
         tvTimeEnd = findViewById(R.id.tv_show_end_time);
         tvSignStart.setOnClickListener(v -> requestSignStart());
         tvTest = findViewById(R.id.tvTest);
+        etBz = findViewById(R.id.et_bz);
 
         tvSignEnd.setOnClickListener(v -> requestSignEnd());
 
@@ -98,39 +90,7 @@ public class SignActivity extends BaseActivity {
             }
         }, 1, 1000);
 
-//            PermissionX.init(this)
-//                    .permissions("lte.trunk.permission.READ_PHONE_STATE")
-//                    .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
-//                    .onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白"))
-//                    .request((allGranted, grantedList, deniedList) -> {
-//                        if (allGranted) {
-//                            telephonyManagerEx = TelephonyManagerEx.getDefault();
-//                            telephonyManagerEx.listen(tmoPhoneStateListenerEx, TmoPhoneStateListenerEx.LISTEN_CELL_INFO);
-//                            //获取小区位置信息
-//                            telephonyManagerEx.requestCellInfo();
-//                        } else {
-//                            ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
-//                        }
-//                    });
-
     }
-
-//    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
-//        @Override
-//        public void onCellInfoChanged(CellEx cellEx) {
-//            super.onCellInfoChanged(cellEx);
-//            signId = String.valueOf(cellEx.getCellId());
-//            tvTest.setText("CellId: " + cellEx.getCellId() +
-//                    " Freq: " + cellEx.getFreq() +
-//                    " Rsrp: " + cellEx.getRsrp() +
-//                    " GpcchBler: " + cellEx.getGpcchBler() +
-//                    " GtchBler: " + cellEx.getGtchBler() +
-//                    " Rsrq: " + cellEx.getRsrq() +
-//                    " Rssi: " + cellEx.getRssi() +
-//                    " Sinr: " + cellEx.getSinr()
-//            );
-//        }
-//    };
 
     /**
      * 获取最后一次签到
@@ -144,7 +104,7 @@ public class SignActivity extends BaseActivity {
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         if (null != bean.getData()) {
                             //没有数据 证明是一次新的打卡流程
-                            tvStart.setText(bean.getData().getWorkStartTime()); //更新时间
+                            tvStart.setText(String.format("%s\n%s", bean.getData().getWorkStartTime(), bean.getData().getRemark())); //更新时间
                         }
                     }
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
@@ -154,7 +114,7 @@ public class SignActivity extends BaseActivity {
      * 上班签到
      */
     private void requestSignStart() {
-        if (signId.isEmpty()) {
+        if (getSignId().isEmpty()) {
             ToastUtils.showShort("没有获取到小区信息，不能签到");
             return;
         }
@@ -166,8 +126,8 @@ public class SignActivity extends BaseActivity {
                 .subscribe(bean -> {
                     if (bean.getCode() == Constant.SUCCESS_CODE) {
                         long sysTime = System.currentTimeMillis();
-                        CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
-                        tvStart.setText(sysTimeStr); //更新时间
+                        CharSequence sysTimeStr = DateFormat.format("yyyy:MM:dd HH:mm:ss", sysTime);
+                        tvStart.setText(String.format("%s\n%s", sysTimeStr, etBz.getText().toString().trim())); //更新时间
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
@@ -181,7 +141,7 @@ public class SignActivity extends BaseActivity {
      * 下班签到
      */
     private void requestSignEnd() {
-        if (signId.isEmpty()) {
+        if (getSignId().isEmpty()) {
             ToastUtils.showShort("没有获取到小区信息，不能签到");
             return;
         }
@@ -192,8 +152,8 @@ public class SignActivity extends BaseActivity {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     long sysTime = System.currentTimeMillis();
-                    CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
-                    tvEnd.setText(sysTimeStr); //更新时间
+                    CharSequence sysTimeStr = DateFormat.format("yyyy:MM:dd HH:mm:ss", sysTime);
+                    tvEnd.setText(String.format("%s\n%s", sysTimeStr, etBz.getText().toString().trim())); //更新时间
                 }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
@@ -205,7 +165,8 @@ public class SignActivity extends BaseActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("inAreaName", "");
-            jsonObject.put("inAreaNo", signId);
+            jsonObject.put("inAreaNo", getSignId());
+            jsonObject.put("remark", etBz.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -218,7 +179,8 @@ public class SignActivity extends BaseActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("outAreaName", "");
-            jsonObject.put("outAreaNo", signId);
+            jsonObject.put("outAreaNo", getSignId());
+            jsonObject.put("remark", etBz.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }

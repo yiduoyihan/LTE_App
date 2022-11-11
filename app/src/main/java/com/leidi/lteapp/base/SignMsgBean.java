@@ -44,7 +44,7 @@ public class SignMsgBean {
          * createTime : 2022-09-01 11:23:05
          * updateBy :
          * updateTime : null
-         * remark : null
+         * remark :备注
          * params : {}
          * id : 2
          * userId : 110
