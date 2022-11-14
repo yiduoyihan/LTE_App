@@ -39,16 +39,18 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
         holder.setText(R.id.tv_task_content_5, bean.getDwName());
         holder.setText(R.id.tv_task_content_6, bean.getTaskName());
         holder.setText(R.id.tv_task_content_7, bean.getTaskNo());
-        holder.setText(R.id.tv_task_content_8, strType[Integer.parseInt(bean.getTaskType())]);
+        if (null != bean.getTaskType()) {
+            holder.setText(R.id.tv_task_content_8, strType[Integer.parseInt(bean.getTaskType())]);
+        }
         //taskStatus 0 未完成  1 已完成
         if (!bean.getTaskStatus().equals("1")) {
             holder.getView(R.id.iv_delete_item).setVisibility(View.VISIBLE);
         }
         ImageView imageView = holder.getView(R.id.tv_flag_pic);
         imageView.setBackgroundResource(bean.getTaskStatus().equals("0") ? R.mipmap.doing_pic : R.mipmap.over_pic);
-        if (Integer.parseInt(bean.getTaskType()) < 3) {
+        if (null !=bean.getTaskType() && Integer.parseInt(bean.getTaskType()) < 3) {
             //限时任务
-//            timeout taskstatus 0 1
+//            timeout taskstatus 0(未完成、未超时) 1（已完成、已超时）
             if (bean.getTaskStatus().equals("0") && bean.getTimeout().equals("0")) {
                 //未完成 未超时
                 imageView.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_gray));
@@ -62,8 +64,12 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
                 //已完成 已超时
                 imageView.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_orange));
             }
-
+        }else {
+            if (bean.getTaskStatus().equals("0")){
+                imageView.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_blue));
+            }else{
+                imageView.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_green));
+            }
         }
-
     }
 }

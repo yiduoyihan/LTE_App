@@ -14,6 +14,7 @@ public class Url {
     public static final String login_out = "logout";
     public static final String task_list = "/app/task/list";
     public static final String task_detail = "/app/task/details/";
+    public static final String task_sum = "/app/task/sumTotal";
     public static final String task_delete = "/app/task/";
     public static final String task_create = "/app/task";
     public static final String task_arrive = "/app/task/arrive/";

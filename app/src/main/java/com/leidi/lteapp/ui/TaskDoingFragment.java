@@ -15,6 +15,7 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.TaskListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
+import com.leidi.lteapp.event.RefreshMarkerNumEvent;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.event.TaskSearchEvent;
 import com.leidi.lteapp.util.ErrorUtils;
@@ -111,6 +112,8 @@ public class TaskDoingFragment extends BaseFragment {
         // 下拉刷新，需要重置页数
         pageInfoUtil.reset();
         requestTaskList("");
+        //同时也刷新标签的数量
+        EventBus.getDefault().post(new RefreshMarkerNumEvent());
     }
 
     /**

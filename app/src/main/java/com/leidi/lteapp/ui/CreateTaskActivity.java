@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
@@ -44,6 +45,7 @@ public class CreateTaskActivity extends BaseActivity {
     LinearLayout layoutShowTimeView;
     RadioGroup radioGroup;
     int checkId = 1;
+    Long startTime ,endTime;
 
     @Override
     protected int getLayoutId() {
@@ -93,11 +95,13 @@ public class CreateTaskActivity extends BaseActivity {
         tvStartTime.setOnClickListener(v -> {
             flag = "start";
             pvTime.show();
+            KeyboardUtils.hideSoftInput(this);
         });
 
         tvEndTime.setOnClickListener(v -> {
             flag = "end";
             pvTime.show();
+            KeyboardUtils.hideSoftInput(this);
         });
     }
 
@@ -143,8 +147,10 @@ public class CreateTaskActivity extends BaseActivity {
             CharSequence str = DateFormat.format("yyyy-MM-dd HH:mm:ss", date.getTime());
             if (flag.equals("start")) {
                 tvStartTime.setText(str);
+                startTime= date.getTime();
             } else {
                 tvEndTime.setText(str);
+                endTime= date.getTime();
             }
 
         }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
@@ -161,6 +167,9 @@ public class CreateTaskActivity extends BaseActivity {
             if (tvStartTime.getText().toString().equals("请选择") || tvEndTime.getText().toString().equals("请选择")) {
                 //提示需要选择之后才能提交
                 ToastUtils.showShort("需要选择计划时间之后才能提交");
+                return;
+            }else if (startTime>endTime){
+                ToastUtils.showShort("结束时间不能小于开始时间");
                 return;
             }
         } else if (radioGroup.getCheckedRadioButtonId() == -1) {

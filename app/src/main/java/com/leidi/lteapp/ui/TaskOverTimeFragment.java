@@ -94,14 +94,14 @@ public class TaskOverTimeFragment extends BaseFragment {
         adapter.getLoadMoreModule().setEnableLoadMore(false);
         // 下拉刷新，需要重置页数
         pageInfoUtil.reset();
-        requestTaskList();
+        requestTaskList("");
     }
 
     /**
      * 加载更多
      */
     private void loadMore() {
-        requestTaskList();
+        requestTaskList("");
     }
 
     private void initItemChildClick() {
@@ -117,18 +117,20 @@ public class TaskOverTimeFragment extends BaseFragment {
         adapter.setOnItemClickListener((adapter1, view1, position) ->
                 startActivity(new Intent(getActivity(), TaskDetailActivity.class)
                         .putExtra("taskId", ((TaskListBean.DataBean) adapter.getData().get(position)).getTaskId())
-                        .putExtra("type", 2)));
+                        .putExtra("type", 3)));
     }
 
     /**
      * 请求故障单列表
      */
-    private void requestTaskList() {
+    private void requestTaskList(String searchValue) {
         RxHttp.get(Url.task_list)
                 .add("pageNum", pageInfoUtil.page)
                 .add("pageSize", PAGE_SIZE)
                 .add("timeout", 1)
+                .add("taskStatus", 0)
                 .add("taskLimited", 1)
+                .add("searchValue", searchValue)
                 .asResponseList(TaskListBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -197,8 +199,9 @@ public class TaskOverTimeFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSearchRefresh(TaskSearchEvent event) {
-        if (event.getFlag() ==2){
-            ToastUtils.showShort("搜索页面2");
+        if (event.getFlag() == 2) {
+            pageInfoUtil.reset();
+            requestTaskList(event.getContent());
         }
     }
 }

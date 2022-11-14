@@ -18,10 +18,19 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.MainPagerAdapter;
 import com.leidi.lteapp.base.BaseFragment;
+import com.leidi.lteapp.bean.TaskNumBean;
+import com.leidi.lteapp.event.RefreshMarkerNumEvent;
 import com.leidi.lteapp.event.TaskSearchEvent;
 import com.leidi.lteapp.util.SpUtilsKey;
+import com.leidi.lteapp.util.Url;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import rxhttp.RxHttp;
 
 /**
  * 我的任务
@@ -44,6 +53,7 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     protected void initView(@Nullable Bundle savedInstanceState, View view) {
+        EventBus.getDefault().register(this);
         viewPager = view.findViewById(R.id.task_viewpager);
         radioGroup = view.findViewById(R.id.task_rg);
         viewPager.addOnPageChangeListener(this);
@@ -80,24 +90,19 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
 
     //获取每种任务的数量
     private void getEveryTaskCount() {
+        RxHttp.get(Url.task_sum)
+                .asClass(TaskNumBean.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(RxLife.to(this))
+                .subscribe(bean -> {
+                   if (bean.getCode() == 200){
+                       rb1.setText(String.format("未完成(%d)", bean.getData().getN()));
+                       rb2.setText(String.format("已结束(%d)", bean.getData().getC()));
+                       rb3.setText(String.format("已超时(%d)", bean.getData().getT()));
+                   }
+                }, throwable -> {
+                });
 
-//        RxHttp.postForm(Url.)
-//                .add("", "")
-//                .asClass(BaseBean.class)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .to(RxLife.to(this))
-//                .subscribe(bean -> {
-//                    if (bean.getCode() == 200) {
-//                    } else {
-//                        ToastUtils.showShort(bean.getMsg());
-//                    }
-//
-//                }, throwable -> {
-//                });
-
-//        rb1.setText("未完成(25)");
-//        rb2.setText("已结束(39)");
-//        rb3.setText("已超时(11)");
     }
 
     private void setupViewPager() {
@@ -167,4 +172,14 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchRefresh(RefreshMarkerNumEvent event) {
+        getEveryTaskCount();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

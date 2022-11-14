@@ -23,6 +23,7 @@ import com.leidi.lteapp.util.CircleTransform;
 import com.leidi.lteapp.util.CommonDialog;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
+import com.leidi.lteapp.util.SelfEngine;
 import com.leidi.lteapp.util.SpUtilsKey;
 import com.leidi.lteapp.util.Url;
 import com.nanchen.compresshelper.CompressHelper;
@@ -164,7 +165,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .thumbnailScale(0.85f)
-                .imageEngine(new PicassoEngine())
+                .imageEngine(new SelfEngine())
                 .showSingleMediaType(true)
                 .originalEnable(true)
                 .maxOriginalSize(10)

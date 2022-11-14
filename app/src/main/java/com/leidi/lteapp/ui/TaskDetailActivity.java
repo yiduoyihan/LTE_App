@@ -38,7 +38,7 @@ public class TaskDetailActivity extends BaseActivity {
     String[] strType = {"任务类型", "应急", "故障", "打卡", "巡检", "演练"};
     private int taskId;
     private View layoutStart, layoutEnd;
-    private TextView tvCreateTime, tvOverTime, tvStartTime, tvTaskType, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
+    private TextView tvCreateTime, tvOverTime, tvPlanStartTime, tvPlanOverTime, tvTaskType, tvTaskName, tvTaskContent, tvCreateBy, tvZy, tvBz, tvDw;
     private String taskNo;
     private Button btnArrive;
     int type;//1表示从未完成页面而来，2标示从已完成页面来。
@@ -59,12 +59,11 @@ public class TaskDetailActivity extends BaseActivity {
         btnArrive = findViewById(R.id.btn_arrive_site);
         Button btnComplete = findViewById(R.id.btn_complete_task);
         btnComplete.setOnClickListener(v -> completeTask());
-        if (type == 1) {
-            btnArrive.setVisibility(View.VISIBLE);
-
-        } else {
+        if (type == 2) {
             btnArrive.setVisibility(View.GONE);
             btnComplete.setVisibility(View.GONE);
+        } else {
+            btnArrive.setVisibility(View.VISIBLE);
         }
         btnArrive.setOnClickListener(v -> submitArrive());
 
@@ -96,7 +95,11 @@ public class TaskDetailActivity extends BaseActivity {
             } else if (!bean.getUserName().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))) {
                 //不是自己执行的任务不跳转
                 return;
+            } else if (type == 2) {
+                //从已结束页面过来的不执行跳转操作
+                return;
             }
+
             startActivity(new Intent(TaskDetailActivity.this, ArriveSiteActivity.class)
                     .putExtra("address", bean.getArrivePosition())
                     .putExtra("time", bean.getArriveTime())
@@ -110,7 +113,8 @@ public class TaskDetailActivity extends BaseActivity {
     private void initHead(View headView) {
         tvCreateTime = headView.findViewById(R.id.tv_create_time);
         tvOverTime = headView.findViewById(R.id.tv_over_time);
-        tvStartTime = headView.findViewById(R.id.tv_start_time);
+        tvPlanStartTime = headView.findViewById(R.id.tv_detail_plan_start_time);
+        tvPlanOverTime = headView.findViewById(R.id.tv_detail_plan_over_time);
         tvTaskType = headView.findViewById(R.id.tv_task_type);
         tvTaskName = headView.findViewById(R.id.tv_task_name);
         tvTaskContent = headView.findViewById(R.id.tv_task_content);
@@ -182,16 +186,15 @@ public class TaskDetailActivity extends BaseActivity {
      * 将数据放到页面中
      */
     private void upDatePageContent(TaskDetailBean.DataBean bean) {
-        if (Integer.parseInt(bean.getTaskType()) < 3) {
+        if (null != bean.getTaskType() && Integer.parseInt(bean.getTaskType()) < 3) {
             //应急+故障，需要显示开始时间  结束时间
             layoutStart.setVisibility(View.VISIBLE);
             layoutEnd.setVisibility(View.VISIBLE);
-            tvStartTime.setText(bean.getPlanCompleteStartTime());
-            tvOverTime.setText(bean.getPlanCompleteEndTime());
+            tvPlanStartTime.setText(bean.getPlanCompleteStartTime());
+            tvPlanOverTime.setText(bean.getPlanCompleteEndTime());
             tvTaskType.setText(strType[Integer.parseInt(bean.getTaskType())]);
-        } else {
-            tvOverTime.setText(bean.getEndTime());
         }
+        tvOverTime.setText(bean.getEndTime());
         tvCreateTime.setText(bean.getCreateTime());
         tvTaskName.setText(bean.getTaskName());
         tvTaskContent.setText(bean.getTaskContent());

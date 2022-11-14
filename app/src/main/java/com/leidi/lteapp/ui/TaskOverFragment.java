@@ -96,14 +96,14 @@ public class TaskOverFragment extends BaseFragment {
         adapter.getLoadMoreModule().setEnableLoadMore(false);
         // 下拉刷新，需要重置页数
         pageInfoUtil.reset();
-        requestTaskList();
+        requestTaskList("");
     }
 
     /**
      * 加载更多
      */
     private void loadMore() {
-        requestTaskList();
+        requestTaskList("");
     }
 
     private void initItemChildClick() {
@@ -116,21 +116,24 @@ public class TaskOverFragment extends BaseFragment {
     }
 
     private void initItemClick() {
-        adapter.setOnItemClickListener((adapter1, view1, position) ->
-                startActivity(new Intent(getActivity(), TaskDetailActivity.class)
-                        .putExtra("taskId", ((TaskListBean.DataBean) adapter.getData().get(position)).getTaskId())
-                        .putExtra("type", 2)));
+        adapter.setOnItemClickListener((adapter1, view1, position) -> {
+            TaskListBean.DataBean bean = ((TaskListBean.DataBean) adapter.getData().get(position));
+            startActivity(new Intent(getActivity(), TaskDetailActivity.class)
+                    .putExtra("taskId", bean.getTaskId())
+                    .putExtra("type", 2));
+        });
     }
 
     /**
      * 请求故障单列表
      */
-    private void requestTaskList() {
+    private void requestTaskList(String searchValue) {
         //taskStatus 0 进行中，1已完成
         RxHttp.get(Url.task_list)
                 .add("pageNum", pageInfoUtil.page)
                 .add("pageSize", PAGE_SIZE)
                 .add("taskStatus", 1)
+                .add("searchValue", searchValue)
                 .asResponseList(TaskListBean.DataBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
@@ -199,8 +202,9 @@ public class TaskOverFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSearchRefresh(TaskSearchEvent event) {
-        if (event.getFlag() ==1){
-            ToastUtils.showShort("搜索页面1");
+        if (event.getFlag() == 1) {
+            pageInfoUtil.reset();
+            requestTaskList(event.getContent());
         }
     }
 }
