@@ -219,7 +219,7 @@ public class ArriveSiteActivity extends BaseActivity {
             ToastUtils.showShort("各项描述不能为空");
             return;
         }
-
+        //还需要添加上传中的dialog
         RxHttp.postForm(Url.task_complete)
                 .add("faultDes", et1.getText().toString())
                 .add("processDes", et2.getText().toString())
@@ -227,7 +227,7 @@ public class ArriveSiteActivity extends BaseActivity {
                 .add("taskNo", taskNo)
                 .add("completePosition", "")
                 .add("completePositionNo", getIntent().getStringExtra("signId"))
-                .add("detailsId",getIntent().getLongExtra("detailsId",0))
+                .add("detailsId", getIntent().getLongExtra("detailsId", 0))
                 .addFiles("files", files)
                 .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())

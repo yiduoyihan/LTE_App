@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.ui.PreviewActivity;
+import com.leidi.lteapp.ui.VideoPlayActivity;
 import com.leidi.lteapp.util.GridViewUtil;
 
 import java.io.Serializable;
@@ -49,10 +50,15 @@ public class TaskDetailAdapter extends BaseQuickAdapter<TaskDetailBean.DataBean.
             gridView.setAdapter(mAdapter);
             gridView.setLayoutParams(GridViewUtil.setGridViewHeightBasedOnChildren(gridView, 4));
 
-            gridView.setOnItemClickListener((parent, view, position, id) ->
+            gridView.setOnItemClickListener((parent, view, position, id) -> {
+                if (pathList.get(position).endsWith(".mp4")) {
+                    context.startActivity(new Intent(context, VideoPlayActivity.class)
+                            .putExtra("data", pathList.get(position)));
+                } else {
                     context.startActivity(new Intent(context, PreviewActivity.class)
-                            .putExtra("position", position)
-                            .putExtra("data", (Serializable) pathList)));
+                            .putExtra("data", pathList.get(position)));
+                }
+            });
         }
     }
 }
