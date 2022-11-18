@@ -181,7 +181,7 @@ public class ArriveSiteActivity extends BaseActivity {
 
     private void startChoosePic() {
         Matisse.from(this)
-                .choose(MimeType.ofImage(), false)
+                .choose(MimeType.ofAll(), false)
                 .countable(true)
                 .capture(true)
                 .captureStrategy(
@@ -310,7 +310,6 @@ public class ArriveSiteActivity extends BaseActivity {
             if (pathList.size() < CAN_CHOOSE_PIC_NUM) {
                 pathList.add("占位图");
             }
-            System.out.println("======选择几个图：" + pathList.size());
             System.out.println("======选择之后的图：" + pathList.toString());
             mAdapter.setData(pathList);
             //gridview 嵌套在scrollview中，动态计算gridview高度

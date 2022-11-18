@@ -2,18 +2,14 @@ package com.leidi.lteapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.bean.TaskDetailBean;
-import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.ui.PreviewActivity;
-import com.leidi.lteapp.ui.TaskDetailActivity;
 import com.leidi.lteapp.util.GridViewUtil;
 
 import java.io.Serializable;

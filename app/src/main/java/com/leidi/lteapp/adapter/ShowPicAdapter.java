@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.leidi.lteapp.R;
 import com.nanchen.compresshelper.CompressHelper;
 import com.squareup.picasso.MemoryPolicy;
@@ -17,7 +18,6 @@ import java.io.File;
 import java.util.List;
 
 /**
- *
  * @author Administrator
  * @date 2017/6/6 0006
  */
@@ -62,18 +62,19 @@ public class ShowPicAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.itemImage = (ImageView) view.findViewById(R.id.item_grid_image);
-//        if ("占位图".equals(mPaths.get(position).trim())) {
-//            Picasso.with(context).load(R.mipmap.act_send_detail_add_last).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
-//        } else {
-//            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
-            Picasso.get().load(mPaths.get(position))
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(holder.itemImage);
-//        }
+        holder.ivPlayBtn = (ImageView) view.findViewById(R.id.iv_play_btn);
+        if (mPaths.get(position).endsWith(".mp4")) {
+            holder.ivPlayBtn.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivPlayBtn.setVisibility(View.GONE);
+        }
+        Glide.with(context).load(mPaths.get(position)).into(holder.itemImage);
         return view;
     }
 
     public class ViewHolder {
         ImageView itemImage;
+        ImageView ivPlayBtn;
     }
 
 }

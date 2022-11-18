@@ -12,6 +12,7 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.KnowledgeListAdapter;
@@ -123,17 +124,21 @@ public class KnowledgeLibActivity extends BaseActivity implements DownloadEnd {
 
     @Override
     public void downloadResult(String path) {
-        System.out.println("下载成功：" + path);
-        File file = new File(path);
-        Bundle bundle = new Bundle();
-        bundle.putString(WpsModel.OPEN_MODE, WpsModel.OpenMode.NORMAL); // 打开模式
+        //先判断是否安装WPS
+        if (AppUtils.isAppInstalled(WpsModel.PackageName.NORMAL)) {
+            File file = new File(path);
+            Bundle bundle = new Bundle();
+            bundle.putString(WpsModel.OPEN_MODE, WpsModel.OpenMode.NORMAL); // 打开模式
 //        bundle.putBoolean(WpsModel.ENTER_REVISE_MODE, true); // 以修订模式打开文档
 //        bundle.putBoolean(WpsModel.SEND_CLOSE_BROAD, true); // 文件关闭时是否发送广播
 //        bundle.putBoolean(WpsModel.SEND_SAVE_BROAD, true); // 文件保存时是否发送广播
 //        bundle.putBoolean(WpsModel.HOMEKEY_DOWN, true); // 单机home键是否发送广播
 //        bundle.putBoolean(WpsModel.BACKKEY_DOWN, true); // 单机back键是否发送广播
 //        bundle.putBoolean(WpsModel.SAVE_PATH, true); // 文件这次保存的路径
-        bundle.putString(WpsModel.THIRD_PACKAGE, WpsModel.PackageName.NORMAL); // 第三方应用的包名，用于对改应用合法性的验证
-        FileOpen.openFile(this, file);
+            bundle.putString(WpsModel.THIRD_PACKAGE, WpsModel.PackageName.NORMAL); // 第三方应用的包名，用于对改应用合法性的验证
+            FileOpen.openFile(this, file);
+        }else {
+            ToastUtils.showShort("请自行安装WPS之后再进行知识库查看");
+        }
     }
 }

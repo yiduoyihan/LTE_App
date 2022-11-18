@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.leidi.lteapp.R;
 import com.nanchen.compresshelper.CompressHelper;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
 import java.util.List;
@@ -67,13 +70,18 @@ public class ChoosePicAdapter extends BaseAdapter {
         } else {
 //            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
             //防止有些图加载不出来显示白块[用上面的代码压缩之后再用框架加载file会有几率导致第一张图显示白块]
-            Picasso.get()
-                    .load("file://"+mPaths.get(position))
-                    .fit()
-                    .centerCrop()
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .config(Bitmap.Config.RGB_565)
-                    .into(holder.itemImage);
+            if (mPaths.get(position).trim().endsWith(".mp4")) {
+                Glide.with(context).load(mPaths.get(position)).into(holder.itemImage);
+            } else {
+                Picasso.get()
+                        .load("file://" + mPaths.get(position))
+                        .fit()
+                        .centerCrop()
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .config(Bitmap.Config.RGB_565)
+                        .into(holder.itemImage);
+
+            }
         }
         return view;
     }

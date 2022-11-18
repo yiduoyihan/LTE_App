@@ -128,6 +128,8 @@ public class SignActivity extends BaseActivity {
                         long sysTime = System.currentTimeMillis();
                         CharSequence sysTimeStr = DateFormat.format("yyyy:MM:dd HH:mm:ss", sysTime);
                         tvStart.setText(String.format("%s\n%s", sysTimeStr, etBz.getText().toString().trim())); //更新时间
+                        ToastUtils.showShort("上班签到成功");
+                        finish();
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }

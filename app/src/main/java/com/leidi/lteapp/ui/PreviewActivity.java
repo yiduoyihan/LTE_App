@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
@@ -86,7 +87,7 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
         @Override
         public View instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            Picasso.get().load(picUrl.get(position)).into(photoView);
+            Glide.with(context).load(picUrl.get(position)).into(photoView);
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             return photoView;
         }
@@ -102,8 +103,6 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
         }
 
     }
-
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

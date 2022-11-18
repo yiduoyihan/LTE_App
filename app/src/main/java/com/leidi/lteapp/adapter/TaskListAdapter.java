@@ -1,19 +1,19 @@
 package com.leidi.lteapp.adapter;
 
-import android.graphics.Color;
 import android.os.Build;
-import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.bean.TaskListBean;
+import com.leidi.lteapp.util.SpUtilsKey;
 
 /**
  * @author yan
@@ -43,8 +43,13 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
             holder.setText(R.id.tv_task_content_8, strType[Integer.parseInt(bean.getTaskType())]);
         }
         //taskStatus 0 未完成  1 已完成
-        if (!bean.getTaskStatus().equals("1")) {
+        if (bean.getTaskStatus().equals("1")) {
+            holder.getView(R.id.iv_delete_item).setVisibility(View.GONE);
+            //未完成的话，判断是否是自己创建的任务，只有自己创建的任务才能删除
+        }else if (bean.getCreateBy().equals(SPUtils.getInstance().getString(SpUtilsKey.NICK_NAME))){
             holder.getView(R.id.iv_delete_item).setVisibility(View.VISIBLE);
+        }else {
+            holder.getView(R.id.iv_delete_item).setVisibility(View.GONE);
         }
         ImageView imageView = holder.getView(R.id.tv_flag_pic);
         imageView.setBackgroundResource(bean.getTaskStatus().equals("0") ? R.mipmap.doing_pic : R.mipmap.over_pic);
@@ -65,6 +70,7 @@ public class TaskListAdapter extends BaseQuickAdapter<TaskListBean.DataBean, Bas
                 imageView.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_orange));
             }
         }else {
+            //非限时任务，区分是否完成就行
             if (bean.getTaskStatus().equals("0")){
                 imageView.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_blue));
             }else{
