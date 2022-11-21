@@ -8,8 +8,8 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
-    
-    
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,6 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 
             <LinearLayout
                 android:id="@+id/layout_body"
@@ -45,8 +46,7 @@
                         android:id="@+id/tv_arrive_time"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        />
+                        android:gravity="center_vertical" />
 
                 </LinearLayout>
 
@@ -65,8 +65,7 @@
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        />
+                        android:gravity="center_vertical" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -84,8 +83,7 @@
                         android:id="@+id/tv_task_person"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        />
+                        android:gravity="center_vertical" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,8 +104,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
-                        android:gravity="top|start"
                         android:background="@drawable/stroke_line"
+                        android:gravity="top|start"
                         android:padding="5dp" />
 
                 </LinearLayout>
@@ -130,8 +128,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
-                        android:gravity="top|start"
                         android:background="@drawable/stroke_line"
+                        android:gravity="top|start"
                         android:padding="5dp" />
 
                 </LinearLayout>
@@ -155,8 +153,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
-                        android:gravity="top|start"
                         android:background="@drawable/stroke_line"
+                        android:gravity="top|start"
                         android:padding="5dp" />
 
                 </LinearLayout>
@@ -171,9 +169,9 @@
 
                 <GridView
                     android:id="@+id/gv_image_choose"
-                    android:horizontalSpacing="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:horizontalSpacing="10dp"
                     android:numColumns="4" />
 
             </LinearLayout>
@@ -182,16 +180,42 @@
                 android:id="@+id/btn_task_over"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_below="@id/layout_body"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/create_btn_bg"
                 android:gravity="center"
-                android:layout_below="@id/layout_body"
                 android:text="任务完成"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/progress_upload"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:background="#eeeeee"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ProgressBar
+                    style="@android:style/Widget.ProgressBar.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="上传中，清稍等"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 

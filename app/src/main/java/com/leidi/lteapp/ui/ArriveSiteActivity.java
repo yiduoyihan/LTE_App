@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
@@ -85,6 +87,7 @@ public class ArriveSiteActivity extends BaseActivity {
     private EditText et1, et2, et3;
     TextView tvAddress;
 
+    private View progressBar;
     GridView gridView;
 
     @Override
@@ -114,6 +117,7 @@ public class ArriveSiteActivity extends BaseActivity {
         et1 = findViewById(R.id.et_question_description);
         et2 = findViewById(R.id.et_work_description);
         et3 = findViewById(R.id.et_tool_description);
+        progressBar = findViewById(R.id.progress_upload);
 
         if (null == getIntent().getStringExtra("time")) {
             long sysTime = System.currentTimeMillis();
@@ -220,6 +224,7 @@ public class ArriveSiteActivity extends BaseActivity {
             return;
         }
         //还需要添加上传中的dialog
+        progressBar.setVisibility(View.VISIBLE);
         RxHttp.postForm(Url.task_complete)
                 .add("faultDes", et1.getText().toString())
                 .add("processDes", et2.getText().toString())
@@ -234,6 +239,7 @@ public class ArriveSiteActivity extends BaseActivity {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                     ToastUtils.showShort("任务完成");
+                    progressBar.setVisibility(View.GONE);
                     //如果本地数据库有数据，则删除那一条，没有就不处理
                     if (datas.size() > 0) {
                         MyApp.getmDaoSession().getSaveMsgDaoDao().delete(datas.get(0));
@@ -243,6 +249,7 @@ public class ArriveSiteActivity extends BaseActivity {
                     EventBus.getDefault().post(new RefreshTaskOverEvent());
                     finish();
                 }, throwable -> {
+                    progressBar.setVisibility(View.GONE);
                     //如果提交失败，保存提交数据到本地数据库
                     saveData(et1.getText().toString(), et2.getText().toString(),
                             et3.getText().toString(), taskNo, pathList);
