@@ -71,12 +71,13 @@ public class ChoosePicAdapter extends BaseAdapter {
 //            File newFile = CompressHelper.getDefault(context).compressToFile(new File(mPaths.get(position).trim()));
             //防止有些图加载不出来显示白块[用上面的代码压缩之后再用框架加载file会有几率导致第一张图显示白块]
             if (mPaths.get(position).trim().endsWith(".mp4")) {
-                Glide.with(context).load(mPaths.get(position)).into(holder.itemImage);
+                Glide.with(context).load(mPaths.get(position)).placeholder(R.mipmap.act_send_detail_add_last).into(holder.itemImage);
             } else {
                 Picasso.get()
                         .load("file://" + mPaths.get(position))
                         .fit()
                         .centerCrop()
+                        .placeholder(R.mipmap.act_send_detail_add_last)
                         .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .config(Bitmap.Config.RGB_565)
                         .into(holder.itemImage);

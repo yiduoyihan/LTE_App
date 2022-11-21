@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -210,15 +211,24 @@ public class ArriveSiteActivity extends BaseActivity {
      * 提交任务处理流程
      */
     private void submitTaskProcess() {
+        double videoSize = 0;
         //将选中的几个图片的真实路径转为file 添加到list中,从1开始跳过占位的+图片
         for (int i = 0; i < pathList.size() - 1; i++) {
             if (pathList.get(i).endsWith(".mp4")) {
-                files.add(new File(pathList.get(i)));
+                File video = new File(pathList.get(i));
+                files.add(video);
+                videoSize = Double.parseDouble(FileUtils.getSize(video).replace("MB", "").trim());
             } else {
                 File newFile = CompressHelper.getDefault(this).compressToFile(new File(pathList.get(i).trim()));
                 files.add(newFile);
             }
         }
+
+        if (videoSize > 50) {
+            ToastUtils.showShort("上传的视频不能超过50MB");
+            return;
+        }
+
         if (et1.getText().toString().isEmpty() || et2.getText().toString().isEmpty() || et3.getText().toString().isEmpty()) {
             ToastUtils.showShort("各项描述不能为空");
             return;
