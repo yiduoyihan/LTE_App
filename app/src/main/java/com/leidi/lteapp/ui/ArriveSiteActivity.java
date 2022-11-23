@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -20,14 +18,12 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.ChoosePicAdapter;
 import com.leidi.lteapp.base.BaseActivity;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.MyApp;
 import com.leidi.lteapp.bean.SaveMsgDao;
 import com.leidi.lteapp.bean.SaveMsgDaoDao;
 import com.leidi.lteapp.bean.TaskDetailBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.event.RefreshTaskOverEvent;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.GifSizeFilter;
 import com.leidi.lteapp.util.GridViewUtil;
@@ -39,7 +35,6 @@ import com.permissionx.guolindev.PermissionX;
 import com.rxjava.rxlife.RxLife;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
@@ -48,10 +43,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Properties;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
@@ -146,10 +139,8 @@ public class ArriveSiteActivity extends BaseActivity {
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
 //                    tvAddress.setText(bean.getAppLteTaskDetails().get);
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(
-                            Objects.requireNonNull(throwable.getMessage())));
-                });
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(
+                        Objects.requireNonNull(throwable.getMessage()))));
     }
 
     /**

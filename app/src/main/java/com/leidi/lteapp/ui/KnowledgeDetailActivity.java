@@ -1,11 +1,8 @@
 package com.leidi.lteapp.ui;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.os.Handler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.leidi.lteapp.R;
@@ -13,10 +10,6 @@ import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.util.WordUtil;
 
 import java.io.File;
-
-import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
-import es.voghdev.pdfviewpager.library.remote.DownloadFile;
 
 /**
  * 查看word的页面

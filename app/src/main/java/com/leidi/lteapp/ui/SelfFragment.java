@@ -32,7 +32,6 @@ import com.rxjava.rxlife.RxLife;
 import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
@@ -237,8 +236,6 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     } else {
                         ToastUtils.showShort(bean.getMsg());
                     }
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
     }
 }

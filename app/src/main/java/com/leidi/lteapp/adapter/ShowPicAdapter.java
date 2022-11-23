@@ -10,11 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.leidi.lteapp.R;
-import com.nanchen.compresshelper.CompressHelper;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -61,8 +57,8 @@ public class ShowPicAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.itemImage = (ImageView) view.findViewById(R.id.item_grid_image);
-        holder.ivPlayBtn = (ImageView) view.findViewById(R.id.iv_play_btn);
+        holder.itemImage = view.findViewById(R.id.item_grid_image);
+        holder.ivPlayBtn = view.findViewById(R.id.iv_play_btn);
         if (mPaths.get(position).endsWith(".mp4")) {
             holder.ivPlayBtn.setVisibility(View.VISIBLE);
         } else {
@@ -72,7 +68,7 @@ public class ShowPicAdapter extends BaseAdapter {
         return view;
     }
 
-    public class ViewHolder {
+    public static class ViewHolder {
         ImageView itemImage;
         ImageView ivPlayBtn;
     }

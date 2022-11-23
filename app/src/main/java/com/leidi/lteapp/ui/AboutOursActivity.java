@@ -79,7 +79,7 @@ public class AboutOursActivity extends BaseActivity implements DownloadEnd {
                         ToastUtils.showShort("已经是最新版本了");
                     } else {
                         tvNewVersion.setVisibility(View.VISIBLE);
-                        tvNewVersion.setText("检测到新版本，版本号为:"+bean.getData().getVersion());
+                        tvNewVersion.setText(String.format("检测到新版本，版本号为:%s", bean.getData().getVersion()));
                         updateBtn.setText("立即更新");
                         newApkUrl = bean.getData().getUrl();
                     }

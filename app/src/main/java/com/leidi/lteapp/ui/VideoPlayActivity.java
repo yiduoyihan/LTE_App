@@ -19,7 +19,7 @@ public class VideoPlayActivity extends BaseActivity {
         setToolbar("视频播放");
         toolbar.setVisibility(View.GONE);
         System.out.println("======"+getIntent().getStringExtra("data"));
-        vvVideo = (VideoView) findViewById(R.id.vv_video);
+        vvVideo = findViewById(R.id.vv_video);
         vvVideo.setVideoPath(getIntent().getStringExtra("data"));
         vvVideo.start();
     }

@@ -1,9 +1,7 @@
 package com.leidi.lteapp.ui;
 
-import android.content.Intent;
 import android.widget.EditText;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
@@ -63,9 +61,7 @@ public class SettingActivity extends BaseActivity {
                 .asResponse(String.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .to(RxLife.to(this))
-                .subscribe(bean -> {
-                    EventBus.getDefault().post(new TokenInvalidEvent("密码修改成功，请重新登录"));
-                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
+                .subscribe(bean -> EventBus.getDefault().post(new TokenInvalidEvent("密码修改成功，请重新登录")), throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 

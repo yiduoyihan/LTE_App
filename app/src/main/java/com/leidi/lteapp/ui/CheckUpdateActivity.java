@@ -1,47 +1,26 @@
 package com.leidi.lteapp.ui;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.BaseActivity;
 import com.leidi.lteapp.bean.UpdataBean;
-import com.leidi.lteapp.util.Constant;
-import com.leidi.lteapp.util.DownLoadUtil;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import rxhttp.RxHttp;
 
 /**

@@ -2,10 +2,7 @@ package com.leidi.lteapp.ui;
 
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,14 +24,9 @@ import com.leidi.lteapp.wps.FileOpen;
 import com.leidi.lteapp.wps.WpsModel;
 import com.rxjava.rxlife.RxLife;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import java.io.File;
 import java.util.Objects;
 
-import es.voghdev.pdfviewpager.library.remote.DownloadFile;
-import es.voghdev.pdfviewpager.library.remote.DownloadFileUrlConnectionImpl;
-import es.voghdev.pdfviewpager.library.util.FileUtil;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import rxhttp.RxHttp;
 
@@ -116,9 +108,7 @@ public class KnowledgeLibActivity extends BaseActivity implements DownloadEnd {
                         adapter.setEmptyView(R.layout.empty_view);
                         ToastUtils.showShort("未查询到搜索的内容");
                     }
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 

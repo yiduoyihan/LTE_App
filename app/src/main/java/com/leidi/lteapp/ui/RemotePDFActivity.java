@@ -85,7 +85,7 @@ public class RemotePDFActivity extends BaseActivity implements DownloadFile.List
     }
 
     private void initMagicIndicator1(int count) {
-        magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator1);
+        magicIndicator = findViewById(R.id.magic_indicator1);
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -99,12 +99,7 @@ public class RemotePDFActivity extends BaseActivity implements DownloadFile.List
                 simplePagerTitleView.setText(String.valueOf(index + 1));
                 simplePagerTitleView.setNormalColor(Color.parseColor("#55555555"));
                 simplePagerTitleView.setSelectedColor(Color.RED);
-                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        remotePDFViewPager.setCurrentItem(index);
-                    }
-                });
+                simplePagerTitleView.setOnClickListener(v -> remotePDFViewPager.setCurrentItem(index));
                 return simplePagerTitleView;
             }
 

@@ -3,7 +3,6 @@ package com.leidi.lteapp.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.leidi.lteapp.R;
@@ -21,7 +20,6 @@ import org.greenrobot.eventbus.ThreadMode;
 public class AlarmDetailActivity extends BaseActivity {
 
     private TextView tvTime, tvAlarmLv, tvAddress, tvType, tvDeviceName;
-    private TextView tvBtn1, tvBtn2;
     private String alarmCause;
     private String alarmCode;
     @Override
@@ -39,8 +37,8 @@ public class AlarmDetailActivity extends BaseActivity {
         tvType = findViewById(R.id.tv_alarm_type);
         tvDeviceName = findViewById(R.id.tv_alarm_device_name);
         //新增2个按钮级事件
-        tvBtn1 = findViewById(R.id.tv_yjzd);
-        tvBtn2 = findViewById(R.id.tv_cjgzd);
+        TextView tvBtn1 = findViewById(R.id.tv_yjzd);
+        TextView tvBtn2 = findViewById(R.id.tv_cjgzd);
         //粘性事件注册后立即收到消息
         EventBus.getDefault().register(this);
 
@@ -60,7 +58,7 @@ public class AlarmDetailActivity extends BaseActivity {
     public void StickyEvent(AlarmListBean.RowsBean event) {
         tvTime.setText(event.getOccurTime());
         tvDeviceName.setText(event.getDeviceName());
-        tvAlarmLv.setText(event.getAlarmLevel() + "级");
+        tvAlarmLv.setText(String.format("%s级", event.getAlarmLevel()));
         tvAddress.setText(event.getDevLocation());
         tvType.setText(event.getAlarmCause());
         alarmCause = event.getAlarmCause();

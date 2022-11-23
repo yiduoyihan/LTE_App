@@ -4,7 +4,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.base.KnowledgeLibBean;
-import com.leidi.lteapp.bean.DeviceListBean;
 
 /**
  * @author yan

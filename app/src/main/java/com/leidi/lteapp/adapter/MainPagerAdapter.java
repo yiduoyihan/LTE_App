@@ -14,6 +14,7 @@ import java.util.List;
  * @date 2020/6/8
  * @description
  */
+@SuppressWarnings("deprecation")
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();

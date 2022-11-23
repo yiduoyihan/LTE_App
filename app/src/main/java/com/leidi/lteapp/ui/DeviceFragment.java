@@ -17,7 +17,6 @@ import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.DeviceListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.DeviceListBean;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.rxjava.rxlife.RxLife;

@@ -96,9 +96,9 @@ public class TaskFragment extends BaseFragment implements ViewPager.OnPageChange
                 .to(RxLife.to(this))
                 .subscribe(bean -> {
                    if (bean.getCode() == 200){
-                       rb1.setText(String.format("未完成(%d)", bean.getData().getN()));
-                       rb2.setText(String.format("已结束(%d)", bean.getData().getC()));
-                       rb3.setText(String.format("已超时(%d)", bean.getData().getT()));
+                       rb1.setText(String.format("未完成(%s)", bean.getData().getN()));
+                       rb2.setText(String.format("已结束(%s)", bean.getData().getC()));
+                       rb3.setText(String.format("已超时(%s)", bean.getData().getT()));
                    }
                 }, throwable -> {
                 });

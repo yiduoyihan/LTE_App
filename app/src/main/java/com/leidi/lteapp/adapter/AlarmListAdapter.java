@@ -2,20 +2,11 @@ package com.leidi.lteapp.adapter;
 
 import android.view.View;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.module.BaseLoadMoreModule;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.bean.AlarmListBean;
-import com.leidi.lteapp.bean.TaskListBean;
-import com.leidi.lteapp.view.CustomLoadMoreView;
-
-import java.util.List;
 
 /**
  * @author yan

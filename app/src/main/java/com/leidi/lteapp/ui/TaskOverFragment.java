@@ -13,12 +13,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.ToastUtils;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.TaskListAdapter;
-import com.leidi.lteapp.base.BaseBean;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.TaskListBean;
 import com.leidi.lteapp.event.RefreshTaskDoingEvent;
 import com.leidi.lteapp.event.TaskSearchEvent;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.PageInfoUtil;
 import com.leidi.lteapp.util.Url;
@@ -117,7 +115,7 @@ public class TaskOverFragment extends BaseFragment {
 
     private void initItemClick() {
         adapter.setOnItemClickListener((adapter1, view1, position) -> {
-            TaskListBean.DataBean bean = ((TaskListBean.DataBean) adapter.getData().get(position));
+            TaskListBean.DataBean bean = adapter.getData().get(position);
             startActivity(new Intent(getActivity(), TaskDetailActivity.class)
                     .putExtra("taskId", bean.getTaskId())
                     .putExtra("type", 2));
@@ -162,9 +160,7 @@ public class TaskOverFragment extends BaseFragment {
                     }
                     // page加一
                     pageInfoUtil.nextPage();
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 

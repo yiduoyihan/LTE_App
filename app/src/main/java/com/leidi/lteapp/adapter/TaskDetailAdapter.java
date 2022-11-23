@@ -13,7 +13,6 @@ import com.leidi.lteapp.ui.PreviewActivity;
 import com.leidi.lteapp.ui.VideoPlayActivity;
 import com.leidi.lteapp.util.GridViewUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import java.util.List;
  * @description 首页列表适配器
  */
 public class TaskDetailAdapter extends BaseQuickAdapter<TaskDetailBean.DataBean.AppLteTaskDetailsBean, BaseViewHolder> implements LoadMoreModule {
-    private Context context;
+    private final Context context;
 
     public TaskDetailAdapter(Context context) {
         super(R.layout.task_detail_item);

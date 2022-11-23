@@ -5,22 +5,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.leidi.lteapp.R;
 import com.leidi.lteapp.adapter.AlarmListAdapter;
 import com.leidi.lteapp.base.BaseFragment;
 import com.leidi.lteapp.bean.AlarmListBean;
-import com.leidi.lteapp.bean.TaskListBean;
-import com.leidi.lteapp.util.Constant;
 import com.leidi.lteapp.util.ErrorUtils;
 import com.leidi.lteapp.util.Url;
 import com.leidi.lteapp.view.CustomLoadMoreView;

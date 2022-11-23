@@ -116,7 +116,7 @@ public class TaskOverTimeFragment extends BaseFragment {
     private void initItemClick() {
         adapter.setOnItemClickListener((adapter1, view1, position) ->
                 startActivity(new Intent(getActivity(), TaskDetailActivity.class)
-                        .putExtra("taskId", ((TaskListBean.DataBean) adapter.getData().get(position)).getTaskId())
+                        .putExtra("taskId", adapter.getData().get(position).getTaskId())
                         .putExtra("type", 3)));
     }
 
@@ -159,9 +159,7 @@ public class TaskOverTimeFragment extends BaseFragment {
                     }
                     // page加一
                     pageInfoUtil.nextPage();
-                }, throwable -> {
-                    ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage())));
-                });
+                }, throwable -> ToastUtils.showShort(ErrorUtils.whichError(Objects.requireNonNull(throwable.getMessage()))));
 
     }
 
