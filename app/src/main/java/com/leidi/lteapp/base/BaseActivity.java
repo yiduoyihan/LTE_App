@@ -56,10 +56,10 @@ public abstract class BaseActivity extends FragmentActivity {
         tvTitleRightButton = findViewById(R.id.tv_title_right);
         tvTitleLeftButton.setOnClickListener(view -> onBackClick());
         initView();
-        initSignSDK();
+//        initSignSDK();
     }
 
-    protected void initSignSDK() {
+//    protected void initSignSDK() {
 //        PermissionX.init(this)
 //                .permissions("lte.trunk.permission.READ_PHONE_STATE")
 //                .onExplainRequestReason((scope, deniedList, beforeRequest) -> scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白"))
@@ -74,8 +74,8 @@ public abstract class BaseActivity extends FragmentActivity {
 //                        ToastUtils.showShort("您拒绝了如下权限：" + deniedList);
 //                    }
 //                });
-
-    }
+//
+//    }
 
 //    private final TmoPhoneStateListenerEx tmoPhoneStateListenerEx = new TmoPhoneStateListenerEx() {
 //        @Override
